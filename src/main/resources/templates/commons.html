@@ -1,0 +1,29 @@
+<div xmlns:th="http://www.thymeleaf.org">
+	<span id="css-id" th:remove="tag" th:fragment="common-css" xmlns:th="http://www.thymeleaf.org">
+		<link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen"/>
+		<link href="/webjars/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" media="screen"/>
+		<link href="/webjars/datatables/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" media="screen"/>
+		<link href="/common/css/common.css" rel="stylesheet" media="screen"/>
+		<link href="/webjars/jquery-ui/1.12.1/jquery-ui.css" rel="stylesheet" media="screen"/>
+	</span>
+
+	<span th:remove="tag" th:fragment="common-js" xmlns:th="http://www.thymeleaf.org">
+		<script src="/webjars/jquery/3.2.1/jquery.min.js"></script>
+		<script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="/webjars/datatables/1.10.16/js/jquery.dataTables.min.js"></script>
+		<script src="/webjars/datatables/1.10.16/js/dataTables.bootstrap.min.js"></script>
+		<script src="/webjars/jquery-validation/1.17.0/jquery.validate.min.js"></script>
+		<script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js"></script>
+		<script src="/common/js/app-boot.js"></script>
+	</span>
+
+	<div th:remove="tag" th:fragment="common-html">
+		<div id="loadingmask2" style="display: block;">
+			<div id="loadingdots">
+				<div id="loadingdots_1" class="loadingdots"></div>
+				<div id="loadingdots_2" class="loadingdots"></div>
+				<div id="loadingdots_3" class="loadingdots"></div>
+			</div>
+		</div>
+	</div>
+</div>

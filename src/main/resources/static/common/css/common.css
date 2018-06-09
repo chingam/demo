@@ -1,0 +1,265 @@
+body {
+	font-size: 12px !important;
+}
+
+.form-control {
+	font-size: 12px !important;
+	padding: 6px 8px !important;
+	height: 28px;
+	line-height: 1.42857;
+}
+
+label {
+	font-size: 12px !important;
+	font-weight: normal !important;
+	margin-bottom: 5px;
+	max-width: 100%;
+}
+
+.emphasis {
+	font-weight: bold;
+}
+.nowrap {
+	white-space: nowrap;
+}
+
+.prevselectedservice {
+    background-color: #f9f9f9;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    display: inline-block;
+    margin: 10px 2%;
+    /* width: 96%; */
+}
+
+.form-group {
+	margin-bottom: 5px !important;
+}
+
+.form-horizontal .control-label {
+	padding-right: 0 !important;
+}
+
+/* .btn {
+	padding: 4px 6px !important;
+	font-size: 12px !important;
+} */
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	padding: 5px !important;
+	font-size: 12px !important;
+}
+
+.pagination>li>a, .pagination>li>span {
+	padding: 3px 8px !important;
+}
+
+div.modal-footer {
+	padding: 7px;
+}
+
+.modal-footer {
+	background-color: #f5f5f5;
+	border-radius: 0 0 6px 6px;
+	border-top: 1px solid #ddd;
+	box-shadow: 0 1px 0 #fff inset;
+	margin-bottom: 0;
+	padding: 14px 15px 15px;
+	text-align: right;
+}
+
+.modal-header {
+	padding: 8px !important;
+}
+
+.modal-dialog {
+	width: 96% !important;
+}
+
+label.error {
+	color: red;
+}
+
+.input-group-addon {
+	font-size: 12px !important;
+	padding: 6px 9px;
+}
+
+.gly-spin {
+	-webkit-animation: spin 2s infinite linear;
+	-moz-animation: spin 2s infinite linear;
+	-o-animation: spin 2s infinite linear;
+	animation: spin 2s infinite linear;
+}
+
+.autocompletesearching {
+	animation: 1s linear 0s normal none infinite running fa-spin
+}
+
+.columnautocomplete .col, .columnautocomplete .heading {
+	display: table-cell;
+	padding: 2px 10px;
+}
+
+div.heading, div.addnew {
+	white-space: nowrap;
+}
+
+div.heading, div.addnew {
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+ul.ui-autocomplete.extend {
+	padding: 4px 17px 4px 0;
+}
+
+ul.ui-autocomplete {
+	z-index: 1100 !important;
+}
+
+.ui-autocomplete {
+	background-color: #fff;
+	border-color: rgba(0, 0, 0, 0.2);
+	border-radius: 5px;
+	border-style: solid;
+	border-width: 1px;
+}
+
+/* li.columnautocomplete {
+    display: table-row-group !important;
+} */
+li.columnautocomplete {
+	display: table-row-group;
+}
+
+ul.ui-autocomplete {
+	display: inline-block;
+	max-height: 335px;
+	overflow-y: auto;
+	width: auto !important;
+}
+
+ul.ui-autocomplete.extend {
+	padding: 4px 17px 4px 0;
+}
+
+.columnautocomplete a {
+	display: table-row !important;
+}
+
+.columnautocomplete .col {
+	display: table-cell;
+	padding: 2px 10px;
+}
+
+.columnautocomplete .col, .columnautocomplete .heading {
+	display: table-cell;
+	padding: 2px 10px;
+}
+
+li.ui-menu-item.disabled {
+	text-decoration: none;
+	cursor: default;
+}
+
+a:focus, a:hover {
+	text-decoration: none;
+}
+
+.ui-autocomplete li.odd {
+	background-color: #eee;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active,
+	a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover
+	{
+	border: 1px solid #003eff;
+	background: #3a95d6 !important;
+	font-weight: normal;
+	color: #ffffff;
+}
+
+.navbar-default {
+    background-image: linear-gradient(to bottom, #5bc0de, #3a95d6)
+    /* background-image: linear-gradient(to bottom, #5bc0de, #f8f8f8)3a95d6 */
+}
+
+/* select option */
+/* select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	Some browsers will not display the caret when using calc, so we put the fallback first
+	
+	background: url("/br_down.png") white no-repeat 98.5% !important;
+	!important used for overriding all other customisations
+	
+	background: url("/br_down.png") white no-repeat calc(100% - 10px) !important;
+	Better placement regardless of input width
+} */
+
+/* nav bar modification */
+.navbar {
+    height: 43px;
+}
+.navbar {
+    min-height: 43px;
+}
+
+/* modal body */
+.modal-body {
+    padding: 0px;
+}
+
+
+/* loading */
+/* #loadingmask2 {
+    background-color: rgba(255, 255, 255, 0.8);
+    display: none;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 99999;
+}
+#loadingdots {
+    height: 24px;
+    left: 50%;
+    position: relative;
+    top: 50%;
+    width: 200px;
+}
+#loadingdots_1 {
+    animation-delay: 0s;
+    left: 0;
+    -webkit-animation-delay: 0s;
+    left: 0;
+}
+#loadingdots_2 {
+    -webkit-animation-delay: .2s;
+    left: 30px;
+}
+#loadingdots_3 {
+    -webkit-animation-delay: .4s;
+    left: 60px;
+}
+.loadingdots {
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-name: bounce_loadingdots;
+    background-color: #3a95d6;
+    border-radius: 5px;
+    height: 18px;
+    position: absolute;
+    top: 0;
+    width: 18px;
+    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+} */
+
+select.input-sm {
+    height: 30px;
+    line-height: 15px;
+}

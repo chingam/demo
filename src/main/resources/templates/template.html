@@ -1,0 +1,226 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<title th:text="${brand}"></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+	<style>
+	#loadingmask2 {
+    background-color: rgba(255, 255, 255, 0.8);
+    display: none;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 99999;
+}
+
+#loadingdots {
+    height: 24px;
+    left: 46%;
+    position: relative;
+    top: 50%;
+    width: 200px;
+    
+}
+
+#loadingdots_1{
+    left:0;
+    -moz-animation-delay:0s;
+    -webkit-animation-delay:0s;
+    -ms-animation-delay:0s;
+    -o-animation-delay:0s;
+    animation-delay:0s;
+}
+
+#loadingdots_2{
+    left:30px;
+    -moz-animation-delay:0.2s;
+    -webkit-animation-delay:0.2s;
+    -ms-animation-delay:0.2s;
+    -o-animation-delay:0.2s;
+    animation-delay:0.2s;
+}
+
+#loadingdots_3{
+    left:60px;
+    -moz-animation-delay:0.4s;
+    -webkit-animation-delay:0.4s;
+    -ms-animation-delay:0.4s;
+    -o-animation-delay:0.4s;
+    animation-delay:0.4s;
+}
+
+@-moz-keyframes bounce_loadingdots{
+0%{
+    -moz-transform:scale(1);
+    opacity: 0.5; 
+}
+
+25%{
+    -moz-transform:scale(1.5);
+    opacity:1;
+}
+
+50%{
+    -moz-transform:scale(1);
+    opacity: 0.5;
+}
+
+100%{
+    -moz-transform:scale(1);
+    opacity: 0.5;
+}
+}
+
+@-webkit-keyframes bounce_loadingdots{
+    0%{
+    -webkit-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+25%{
+    -webkit-transform:scale(1.5);
+    opacity:1;
+}
+
+50%{
+    -webkit-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+100%{
+    -webkit-transform:scale(1);
+    opacity: 0.5;
+   
+}
+}
+
+@-ms-keyframes bounce_loadingdots{
+    0%{
+    -ms-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+25%{
+    -ms-transform:scale(1.5);
+    opacity:1;
+}
+
+50%{
+    -ms-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+100%{
+    -ms-transform:scale(1);
+    opacity: 0.5;
+   
+}
+}
+
+@-o-keyframes bounce_loadingdots{
+    0%{
+    -o-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+25%{
+    -o-transform:scale(1.5);
+    opacity:1;
+}
+
+50%{
+    -o-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+100%{
+    -o-transform:scale(1);
+    opacity: 0.5;
+   
+}
+}
+
+@keyframes bounce_loadingdots{
+    0%{
+    transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+25%{
+    transform:scale(1.5);
+    opacity:1;
+}
+
+50%{
+    transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+100%{
+    transform:scale(1);
+    opacity: 0.5;
+   
+}
+}
+
+.loadingdots {
+    -webkit-animation-duration: 1.5s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-name: bounce_loadingdots;
+
+    -moz-animation-duration: 1.5s;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-name: bounce_loadingdots;
+
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-name: bounce_loadingdots;
+    background-color: #FFC40D;
+    border-radius: 5px;
+    height: 18px;
+    position: absolute;
+    top: 0;
+    width: 18px;
+}
+	</style>
+	<body>
+		<span th:substituteby="commons :: common-html"></span>
+		<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<!-- <span class="sr-only">Toggle navigation</span> -->
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#" style="padding-top: 11px;">
+					<span style="padding-right: 5px;color:#fff" th:text="${brand}">
+						<!-- <img style="height: 40px; width: auto;" alt="Brand" src="mTrak.ico" /> -->
+					</span>
+				</a>
+			</div>
+		</div>
+	</nav>
+		<span th:substituteby="commons :: common-css"></span>
+		<span th:substituteby="commons :: common-js"></span>
+		<div class="container" style="padding-top: 60px;" >
+		<header id="overview" class="navbar-fixed-top" style="margin-top: 61px;">
+			</header>
+			<div th:replace="${page + '/' + page}"></div>
+		</div>
+		
+		
+	</body>
+</html>

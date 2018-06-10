@@ -11,14 +11,14 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.demo.model.Stock;
-import com.example.demo.repo.StockRepo;
+import com.example.demo.repo.StockRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class StockTest {
 
 	@Autowired
-	StockRepo rep;
+	StockRepository rep;
 
 	@Test
 	public void firstTest() {
@@ -37,5 +37,12 @@ public class StockTest {
 		sts.forEach(f -> {
 			System.out.println("cost price >> "+ f.getCostPrice());
 		});
+	}
+	
+	@Test
+	public void thirdTest() {
+		List<Object[]> sts = rep.findWithItemName();
+		
+		Assert.assertNotNull(sts);
 	}
 }

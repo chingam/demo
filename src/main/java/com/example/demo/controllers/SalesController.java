@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,34 +17,43 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.exception.DemoException;
-import com.example.demo.model.Item;
-import com.example.demo.repo.ItemRepository;
+import com.example.demo.model.Sales;
+import com.example.demo.model.Stock;
+import com.example.demo.repo.SalesRepository;
+import com.example.demo.repo.StockRepository;
 
 @Controller
-@RequestMapping("/item")
-public class ItemController {
+@RequestMapping("/sales")
+public class SalesController extends AbstractController{
 
 	@Autowired
-	ItemRepository repo;
+	SalesRepository repo;
+	
+	@Autowired
+	StockRepository stockRepo;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String getItem(final ModelMap model) {
-		model.addAttribute("item", new Item());
-		model.addAttribute("brand", "Item setup");
-		model.addAttribute("page", "item");
+		model.addAttribute("sales", new Sales());
+		model.addAttribute("brand", "Sales");
+		model.addAttribute("page", "sales");
 		return "template";
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, String> save(@Valid Item item, BindingResult binding, final ModelMap model) throws BindException {
-		Map<String, String> result = new HashMap<>();
+	public Map<String, Object> save(@Valid Sales sales, BindingResult binding, final ModelMap model) throws BindException {
 		if (binding.hasErrors())
 			throw new BindException(binding);
-		repo.save(item);
-		result.put("status", "success");
-		result.put("redirect", "item/find/all");
-		return result;
+		sales.setSalesDate(new Date());
+		repo.save(sales);
+		Stock stock = stockRepo.findByItemId(sales.getItemId());
+		int adjustQty = stock.getQuantity() - sales.getQuantity();
+		stock.setQuantity(adjustQty);
+		stockRepo.save(stock);
+		response.setSuccessStatus();
+		response.setSuccessMessage("Success");
+		return response.prepareAndGetJSONResponse();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)

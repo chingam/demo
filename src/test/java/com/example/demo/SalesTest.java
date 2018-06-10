@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.example.demo.repo.SalesRepo;
+import com.example.demo.repo.SalesRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class SalesTest {
-	@Autowired SalesRepo rep;
+	@Autowired SalesRepository rep;
 
 	@Test
 	public void firstTest() {

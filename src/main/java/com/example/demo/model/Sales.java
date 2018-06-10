@@ -17,16 +17,19 @@ public class Sales {
 	private Long id;
 	
 	@Column
-	private Long stockId;
+	private Long itemId;
 	
 	@Column
 	private String discount;
 	
 	@Column
+	private Integer quantity;
+	
+	@Column
 	private Date salesDate;
 	
 	@Column
-	private BigDecimal total;
+	private BigDecimal price;
 	
 	@Column
 	private BigDecimal grandTotal;
@@ -39,12 +42,12 @@ public class Sales {
 		this.id = id;
 	}
 
-	public Long getStockId() {
-		return stockId;
+	public Long getItemId() {
+		return itemId;
 	}
 
-	public void setStockId(Long stockId) {
-		this.stockId = stockId;
+	public void setItemId(Long itemId) {
+		this.itemId = itemId;
 	}
 
 	public String getDiscount() {
@@ -55,12 +58,12 @@ public class Sales {
 		this.discount = discount;
 	}
 
-	public BigDecimal getTotal() {
-		return total;
+	public BigDecimal getPrice() {
+		return price;
 	}
 
-	public void setTotal(BigDecimal total) {
-		this.total = total;
+	public void setPrice(BigDecimal price) {
+		this.price = price;
 	}
 
 	public BigDecimal getGrandTotal() {
@@ -79,9 +82,17 @@ public class Sales {
 		this.salesDate = salesDate;
 	}
 
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+
 	@Override
 	public String toString() {
-		return "Sales [id=" + id + ", stockId=" + stockId + ", discount=" + discount + ", total=" + total
+		return "Sales [id=" + id + ", itemId=" + itemId + ", discount=" + discount + ", price=" + price
 				+ ", grandTotal=" + grandTotal + "]";
 	}
 }

@@ -16,17 +16,20 @@ public class Stock {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@Column
+	@Column(name="itemid")
 	private Long itemId;
 	
-	@Column
-	private Date entryDate;
+	@Column(name="quantity")
+	private Integer quantity;
 	
-	@Column
+	@Column(name="costprice")
 	private BigDecimal costPrice;
 	
-	@Column
+	@Column(name="salesprice")
 	private BigDecimal salesPrice;
+	
+	@Column(name="entrydate")
+	private Date entryDate;
 
 	public Long getId() {
 		return id;
@@ -66,6 +69,14 @@ public class Stock {
 
 	public void setEntryDate(Date entryDate) {
 		this.entryDate = entryDate;
+	}
+
+	public Integer getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
 	}
 
 	@Override

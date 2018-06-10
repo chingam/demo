@@ -1,0 +1,51 @@
+<div th:remove="tag" xmlns:th="http://www.thymeleaf.org">
+<script src="/page/sales/sales.js"></script>
+	<section>
+		<div id="mess" class="row"></div>
+			<form id="mainform" class="form-horizontal" method="" autocomplete="off" th:action="@{'/sales'}">
+				<div class="col-md-12">
+					<div class="form-group">
+						<label class="control-label col-sm-4" for="name" >Product name</label>
+						<div class=" col-sm-3 form-group input-group" style="padding-left: 15px;">
+							<input type="text" class="form-control multicolumn-search" id="products" data-search-url="/search/products/"
+										th:attr="data-search-url=@{'/search/products/'}" placeholder="Search"/>
+							<span class="input-group-addon"><i class="fa fa-search"></i></span>
+						</div>
+						<input class="multicolumn-val" type="hidden" name="itemId" value="" />
+						<input class="multicolumn-desc" type="hidden" value="" />
+						<input class="product-price" type="hidden" value="" />
+						
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-4" for="qtd" >Quantity </label>
+						<div class="col-sm-4">
+							<input th:field="*{sales.quantity}" type="text" class="form-control" data-rule-required="true" id="qtd" placeholder="Quantity"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-4" for="disc" >Discount </label>
+						<div class="col-sm-4">
+							<input th:field="*{sales.discount}" type="text" class="form-control" id="disc" placeholder="Discount"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-4" for="total" >Price </label>
+						<div class="col-sm-4">
+							<input th:field="*{sales.price}" type="text" class="form-control" data-rule-required="true" id="total" placeholder="Total"/>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label col-sm-4" for="gtotal" >Grand total </label>
+						<div class="col-sm-4">
+							<input th:field="*{sales.grandTotal}" type="text" class="form-control" data-rule-required="true" id="gtotal" placeholder="Grand total"/>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-8">
+					<button type="button" id="saveBtn" th:attr="data-action-url=@{/sales}" class="btn btn-success pull-right">Save</button>
+				</div>
+				<div id="view"></div>
+			</form>
+			<!-- Modal window -->
+	</section>
+</div>	

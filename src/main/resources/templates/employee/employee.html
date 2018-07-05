@@ -1,0 +1,103 @@
+<div th:remove="tag" xmlns:th="http://www.thymeleaf.org">
+<script src="/page/employee/employee.js"></script>
+	<section>
+		<div id="mess" class="row"></div>
+		<div class="row">
+			<div class="col-md-12">
+				<table th:fragment="employeeList" id="datalist" class="table table-striped" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th class="no-sort" >Name</th>
+								<th class="no-sort" >Pin</th>
+								<th class="no-sort" >Father name</th>
+								<th class="no-sort" >Mother name</th>
+								<th class="no-sort" >Date of birth</th>
+								<th class="no-sort" style="text-align: right">Salary</th>
+								<th class="no-sort">
+									<div class="pull-right">
+										<button class="btn btn-info" type="button" id="addBtn" style="padding: 3px 4px;" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span>Add</button>
+									</div>
+								</th>
+							</tr>
+						</thead>
+						<tbody id="datalistBody">
+							<tr th:fragment="datas" th:each="st : ${employees}">
+								<td th:text="${st.name}"></td>
+								<td th:text="${st.pin}"></td>
+								<td th:text="${st.fatherName}"></td>
+								<td th:text="${st.motherName}"></td>
+								<td th:text="${#dates.format(st.dateOfBirth, 'dd-MMM-yyyy')}"></td>
+								<td style="text-align: right" th:text="${#numbers.formatDecimal(st.salary, 0, 'COMMA', 2, 'POINT')}"></td>
+								<td style="text-align: right">
+									<button th:attr="data-url='/employee/' + ${st.id}" class="btn btn-info btn-sm editBtn" style="padding: 2px 6px;"><span class="glyphicon glyphicon-edit"></span></button>
+									<button th:attr="data-url='/employee/' + ${st.id}" class="btn btn-danger btn-sm deleteBtn" style="padding: 2px 5px;"><span class="glyphicon glyphicon-trash"></span></button>
+								</td>
+							</tr>
+						</tbody>
+				</table>
+			</div>
+		</div>
+			<!-- Modal window -->
+		<div data-backdrop="static" data-keyboard="false" id="myModal" class="modal fade">
+			<div class="modal-dialog" style="width: 68% !important">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Add new</h4>
+					</div>
+					<div class="modal-body">
+						<div class="row" th:fragment="employeeModal" style="padding-top:9px">
+							<form id="mainform" class="form-horizontal" method="" autocomplete="off" th:action="@{'/employee'}">
+								<div class="col-md-8">
+									
+									<div class="form-group">
+										<label class="control-label col-sm-3" for="nameId" >Name:</label>
+										<div class="col-md-5">
+											<input th:field="*{employee.name}" name="name" type="text" class="form-control" data-rule-required="true" data-rule-maxlength="50" id="nameId" placeholder="Name"/>
+											<input th:value="${employee.id}" name="id" type="hidden"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-3" for="pinId" >Pin:</label>
+										<div class="col-md-5">
+											<input th:field="*{employee.pin}" name="costPrice" type="text" class="form-control" data-rule-required="true" data-rule-maxlength="10" id="pinId" placeholder="pin"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-3" for="fatherNameId" >Father name:</label>
+										<div class="col-md-5">
+											<input th:field="*{employee.fatherName}" name="fatherName" type="text" class="form-control" id="fatherNameId" data-rule-maxlength="50" placeholder="Father Name"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-3" for="motherNameId" >Mother name:</label>
+										<div class="col-md-5">
+											<input th:field="*{employee.motherName}" data-rule-required="true" data-rule-maxlength="50" name="motherName" type="text" class="form-control" id="motherNameId" placeholder="Mother Name"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-3" for="motherNameId" >Date of birth:</label>
+										<div class="col-md-5">
+											<input th:field="*{employee.dateOfBirth}" name="dateOfBirth" type="text" class="form-control" id="dateOfBirthId" placeholder="yyyy-MM-dd"/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-sm-3" for="salaryId" >Salary:</label>
+										<div class="col-md-5">
+											<input th:field="*{employee.salary}" name="salary" type="text" class="form-control" data-rule-number="true" data-rule-required="true" id="salaryId" placeholder="Salary"/>
+										</div>
+									</div>
+									
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="modal-footer" style="padding: 5px;">
+						<button type="button" th:attr="data-action-url=@{/employee}" class="btn btn-success modal-submit" style="padding: 3px 4px;">Save</button>
+						<button type="button" class="btn btn-default" style="padding: 3px 4px;" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>

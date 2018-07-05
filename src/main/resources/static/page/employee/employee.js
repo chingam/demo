@@ -1,44 +1,93 @@
 var d4 = d4 || {};
 d4.eo = d4.eo || {};
-d4.eo.sales = d4.eo.sales || {};
-var dataTableObj;
+d4.eo.employee = d4.eo.employee || {};
+var dataTB;
 
 (window.jQuery)
-$(document).ready(function(){
-	d4.eo.sales.init();
+$(document).ready(function() {
+	d4.eo.employee.init();
 });
 
-
-d4.eo.sales.init = function() {
-	
-	$("#disc").on("keyup", d4.eo.sales.discount);
-	$("#qtd").on("keyup", d4.eo.sales.quantity);
-	$("#saveBtn").on("click", d4.eo.sales.save);
-	d4.eo.sales.searchProduct();
+d4.eo.employee.init = function() {
+	d4.eo.employee.load("/employee/find/all");
+	$(".modal-submit").on("click", d4.eo.employee.save);
+	d4.eo.employee.search();
 }
 
-d4.eo.sales.save = function() {
+d4.eo.employee.add = function() {
+	$("input[type=text], input[type=hidden], textarea").val("");
+}
+
+d4.eo.employee.save = function() {
 	var fm = $('form#mainform');
 	var validator = fm.validate();
-	if(!validator.form()) {
-		return false;
+	if (!validator.form()) {
+		return;
 	}
-	$("#loadingmask2").show();
 	var formData = fm.serializeArray();
-	$.post("/sales", formData, function(responseData, status, jqXHR) {
-		d4.eo.sales.shoAlert("#overview", "body", responseData.status, responseData.message);
-		d4.eo.sales.reset();
-	}).done(function() {
-		console.log( "second success" );
-	}).fail(function() {
-		console.log( "error" );
-	}).always(function() {
-		console.log( "finished" );
-		$("#loadingmask2").hide();
+	var url = fm.attr("action");
+	$("#loadingmask2").show();
+
+	$.ajax({
+		url : url,
+		type : "POST",
+		delay : 500,
+		data : formData,
+		success : function(responseData) {
+			if (responseData.status === "error") {
+				d4.eo.employee.shoAlert(".modal-body", "modal", responseData.status, responseData.message);
+				$("#loadingmask2").hide();
+				return;
+			}
+			setTimeout(function() {
+				d4.eo.employee.add();
+				d4.eo.employee.load(url + "/find/all");
+				$("#myModal").modal("hide");
+				d4.eo.employee.shoAlert("#overview", "body", responseData.status,
+						responseData.message);
+			}, 1000);
+		}
+	});
+
+}
+
+d4.eo.employee.edit = function() {
+	console.log($(this).data("url"));
+	$("#loadingmask2").show();
+	$.ajax({
+		url : $(this).data("url"),
+		type : "GET",
+		delay : 500,
+		success : function(responseData) {
+			$("div.modal-body").empty();
+			$("div.modal-body").html(responseData);
+			$("#myModal").modal("show");
+			$("#loadingmask2").hide();
+		}
 	});
 }
 
-d4.eo.sales.shoAlert = function(target, des, tag, message) {
+d4.eo.employee.deletedata = function() {
+	var url = $(this).data("url");
+	if (confirm('Are you sure.Do you want to delete?')) {
+		$("#loadingmask2").show();
+		$.ajax({
+			url : url,
+			type : 'DELETE',
+			delay : 500,
+			success : function(responseData) {
+				setTimeout(function() {
+					d4.eo.employee.load("/employee/find/all");
+					$("#myModal").modal("hide");
+					d4.eo.employee.shoAlert("#overview", "body", responseData.status, responseData.message);
+				}, 1000);
+			}
+		});
+
+	}
+}
+
+d4.eo.employee.shoAlert = function(target, des, tag, message) {
 	var cs, ic, posi;
 	if ($("#success-alert") != null) {
 		$("#success-alert").remove();
@@ -89,35 +138,31 @@ d4.eo.sales.shoAlert = function(target, des, tag, message) {
 	//		}, 15000);
 
 }
-d4.eo.sales.reset = function() {
-	$("input[type=text], input[type=hidden], textarea").val("");
-}
-
-d4.eo.sales.quantity = function() {
-	var qt = $("#qtd").val();
-	var total = $("#total").val();
-	$("#gtotal").val(total);
-	if (qt == "" || qt == null) {
-		return;
+d4.eo.employee.load = function(url) {
+	$("#loadingmask2").show();
+	if (dataTB != null) {
+		dataTB.destroy();
 	}
-	var dis = $("#disc").val();
-	dis = (dis == "") ? 0 : dis;
-	var totls = parseInt(total) * parseInt(qt) - parseInt(dis);
-	$("#gtotal").val(totls + ".00");
-}
+	if (url != null) {
+		$("#datalist tbody tr").remove();
+		$("#datalistBody").load(url, function(responseTxt, statusTxt, xhr) {
+			dataTB = $('#datalist').DataTable({
+				"columnDefs" : [ {
+					"targets" : 'no-sort',
+					"orderable" : false,
+				} ],
+				"bSort" : false
+			});
+			$(".editBtn").bind("click", d4.eo.employee.edit);
+			$(".deleteBtn").bind("click", d4.eo.employee.deletedata);
 
-d4.eo.sales.discount = function() {
-	var qt = $("#disc").val();
-	var total = $("#total").val();
-	$("#gtotal").val(total);
-	if (qt == "" || qt == null) {
-		return false;
+		});
 	}
-	var totls = parseInt(total) - parseInt(qt);
-	$("#gtotal").val(totls + ".00");
+	$("#loadingmask2").hide();
 }
 
-d4.eo.sales.searchProduct = function() {
+d4.eo.employee.search = function() {
+
 
 	var searchField = $( ".multicolumn-search" );
 	searchField.autocomplete({
@@ -204,9 +249,6 @@ d4.eo.sales.searchProduct = function() {
 				$( ".multicolumn-search" ).val(ui.item.key);
 				$( ".multicolumn-val" ).val(ui.item.data[0]);
 				$( ".multicolumn-desc" ).val(ui.item.key);
-				$( "#total" ).val(ui.item.value[2]);
-				$( "#gtotal" ).val(ui.item.value[2]);
-				$("#qtd").val("1");
 			}, 10);
 			console.log(ui.item.value[0]);
 },
@@ -214,5 +256,6 @@ d4.eo.sales.searchProduct = function() {
 			$(this).parents('.input-group').find('span.input-group-addon i.fa').removeClass('fa-search').addClass('fa-repeat autocompletesearching');
 		}
 		});
+
 
 }

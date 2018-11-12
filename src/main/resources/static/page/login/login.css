@@ -1,0 +1,248 @@
+body {
+	font-family: verdana;
+	color: #7a7a7a;
+	background: url(/images/m-body-bg.png) no-repeat fixed transparent;
+	background-size: 100% 100%;
+}
+
+#bg {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100vh;
+	width: 100%;
+	z-index: -999;
+}
+
+#container1 {
+	height: 100%;
+	width: 100%;
+}
+
+/*BootStrap modify*/
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+	.table>thead>tr>td, .table>thead>tr>th {
+	line-height: 1.42857143 !important;
+	vertical-align: top !important;
+	border-top: 0px !important;
+	;
+}
+
+@media screen and (min-width: 0px) and (max-width: 400px) {
+	#my2 {
+		display: block;
+	} /* show it on small screens */
+}
+
+@media screen and (min-width: 401px) and (max-width: 1024px) {
+	#my1 {
+		display: none;
+	} /* hide it elsewhere */
+	#warning {
+		display: none;
+	} /* hide it elsewhere */
+}
+
+#box {
+	height: 402px;
+	margin-top: 10.5%;
+	-ms-border-radius: 15px;
+	border-radius: 15px;
+	border: 1px solid rgb(217, 220, 220);
+	background-color: #fff;
+	background-color: rgba(250, 250, 250, .7);
+}
+
+.leftPanel {
+	float: left;
+}
+
+.rightPanel {
+	float: right;
+}
+
+td, th {
+	padding: 1px !important;
+}
+
+#title span {
+	display: inline-block;
+	margin-top: 20px;
+	font-size: 1.8em;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+span.red {
+	margin-left: 20px;
+	color: #c12d2d;
+}
+
+span.gray {
+	color: #7a7a7a;
+}
+
+.roundPanel {
+	height: 140px;
+	width: 140px;
+	margin: 20px 0 0 30px;
+	-ms-border-radius: 70px;
+	border-radius: 70px;
+	background-color: #fff;
+}
+
+.tips {
+	margin: 33px 0 0 36px;
+}
+
+.sidePanel {
+	height: 100px;
+	width: 313px;
+	padding: 40px 0 0 20px;
+}
+
+.heading {
+	display: inline-block;
+	font-size: 1.4em !important;
+	font-weight: bold;
+	color: #c12d2d;
+}
+
+.sidePanel ul {
+	list-style-type: none;
+	margin-left: -40px;
+	font-size: .8em;
+}
+
+.sidePanel ul li {
+	background-image: url(/images/li.png);
+	background-repeat: no-repeat;
+	background-position: 0 3px;
+	margin-top: 3px;
+	padding-left: 12px;
+}
+
+.sidePanel span {
+	font-size: .8em;
+}
+
+.hospLogo {
+	/* margin: 15px 0 0 22px; */
+	margin: 40px 0 0 7px;
+	width: 122px;
+	height: 57px;
+}
+
+.innerPanel {
+	overflow: hidden;
+	width: 100%;
+}
+
+#login {
+	overflow: hidden;
+	background-image: url(/images/numpadbg.png);
+	height: 357px;
+	width: 595px;
+	margin: 20px 51px;
+}
+
+.loginIcon {
+	margin: 50px 0 0 75px;
+}
+
+.inputPanel {
+	height: 40px;
+	width: 220px;
+	-ms-border-radius: 5px;
+	border-radius: 5px;
+	background-color: #fff;
+}
+
+.inputPanel img {
+	margin: 10px 5px 15px 13px !important;
+}
+
+.inputPanel input {
+	font-size: 1.5em;
+	width: 150px;
+	height: 30px;
+	color: #c12d2d;
+	border: none;
+	text-transform: uppercase;
+}
+
+#namePanel {
+	padding-top: 3px;
+	margin: 75px 0 0 25px !important;
+}
+
+#passPanel {
+	margin: 5px 0 0 25px !important;
+}
+
+.rightPanel table {
+	margin: 20px 45px 0 0 !important;
+}
+
+.rightPanel table button {
+	height: 55px;
+	width: 55px;
+	font-family: arial;
+	font-size: 1.1em;
+	font-weight: bold;
+	color: #888;
+	background: -moz-linear-gradient(#f3f3f3, #ccc);
+	background: -o-linear-gradient(#f3f3f3, #ccc);
+	background: -webkit-linear-gradient(#f3f3f3, #ccc);
+	background: linear-gradient(#f3f3f3, #ccc);
+	border: none;
+	-ms-border-radius: 5px;
+	border-radius: 5px;
+}
+
+#btn0 {
+	width: 114px;
+}
+
+#btnEnter {
+	font-size: .9em;
+	height: 114px;
+}
+
+#btnDot, #btnBS {
+	font-size: 1.5em;
+}
+
+.actionButton {
+	height: 72px;
+	width: 72px;
+	border: none;
+	-ms-border-radius: 35px;
+	border-radius: 35px;
+}
+
+#btnLogout {
+	margin: 10px 10px 10px 35px;
+	background: url(/images/logout.png) no-repeat;
+}
+
+#btnLogin {
+	margin: 10px;
+	background: url(/images/login.png) no-repeat;
+}
+
+#footer {
+	padding-top: 30px;
+	overflow: hidden;
+	width: 100%;
+	font-size: .8em;
+}
+
+#warning {
+	width: 550px;
+}
+
+#warning span {
+	color: #c12d2d;
+	font-weight: bold;
+}

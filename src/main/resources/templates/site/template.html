@@ -1,0 +1,401 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Job Tile Registration </title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<span th:substituteby="commons :: common-css"></span>
+	<style>
+	#loadingmask2 {
+    background-color: rgba(255, 255, 255, 0.8);
+    display: none;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 99999;
+}
+
+#loadingdots {
+    height: 24px;
+    left: 46%;
+    position: relative;
+    top: 50%;
+    width: 200px;
+    
+}
+
+#loadingdots_1{
+    left:0;
+    -moz-animation-delay:0s;
+    -webkit-animation-delay:0s;
+    -ms-animation-delay:0s;
+    -o-animation-delay:0s;
+    animation-delay:0s;
+}
+
+#loadingdots_2{
+    left:30px;
+    -moz-animation-delay:0.2s;
+    -webkit-animation-delay:0.2s;
+    -ms-animation-delay:0.2s;
+    -o-animation-delay:0.2s;
+    animation-delay:0.2s;
+}
+
+#loadingdots_3{
+    left:60px;
+    -moz-animation-delay:0.4s;
+    -webkit-animation-delay:0.4s;
+    -ms-animation-delay:0.4s;
+    -o-animation-delay:0.4s;
+    animation-delay:0.4s;
+}
+
+@-moz-keyframes bounce_loadingdots{
+0%{
+    -moz-transform:scale(1);
+    opacity: 0.5; 
+}
+
+25%{
+    -moz-transform:scale(1.5);
+    opacity:1;
+}
+
+50%{
+    -moz-transform:scale(1);
+    opacity: 0.5;
+}
+
+100%{
+    -moz-transform:scale(1);
+    opacity: 0.5;
+}
+}
+
+@-webkit-keyframes bounce_loadingdots{
+    0%{
+    -webkit-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+25%{
+    -webkit-transform:scale(1.5);
+    opacity:1;
+}
+
+50%{
+    -webkit-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+100%{
+    -webkit-transform:scale(1);
+    opacity: 0.5;
+   
+}
+}
+
+@-ms-keyframes bounce_loadingdots{
+    0%{
+    -ms-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+25%{
+    -ms-transform:scale(1.5);
+    opacity:1;
+}
+
+50%{
+    -ms-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+100%{
+    -ms-transform:scale(1);
+    opacity: 0.5;
+   
+}
+}
+
+@-o-keyframes bounce_loadingdots{
+    0%{
+    -o-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+25%{
+    -o-transform:scale(1.5);
+    opacity:1;
+}
+
+50%{
+    -o-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+100%{
+    -o-transform:scale(1);
+    opacity: 0.5;
+   
+}
+}
+
+@keyframes bounce_loadingdots{
+    0%{
+    transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+25%{
+    transform:scale(1.5);
+    opacity:1;
+}
+
+50%{
+    transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+100%{
+    transform:scale(1);
+    opacity: 0.5;
+   
+}
+}
+
+.loadingdots {
+    -webkit-animation-duration: 1.5s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-name: bounce_loadingdots;
+
+    -moz-animation-duration: 1.5s;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-name: bounce_loadingdots;
+
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-name: bounce_loadingdots;
+    background-color: #ca5250;
+    border-radius: 5px;
+    height: 18px;
+    position: absolute;
+    top: 0;
+    width: 18px;
+}
+
+th{
+background-color: #c12d2d;
+    padding: 3px;
+    color: #f7f7f7;
+}
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #a21217;
+}
+tr:hover {
+    color: #f7f7f7;
+    background-color: #e17d7d;
+    cursor: pointer
+}
+
+#title{
+float: right;
+    position: fixed;
+    top: 50px;
+    right: 0;
+    display: inline-block;
+    font-size: 2em;
+    font-weight: bold;
+    text-transform: uppercase
+}
+span.red {
+    margin-left: 20px;
+    color: #c12d2d
+}
+span.gray {
+    color: #7a7a7a
+}
+	</style>
+</head>
+<body>
+	<span th:substituteby="commons :: common-html"></span>
+	<div class="topbar-css">
+		<img th:src="@{/images/topbarbg.png}" class="topbar-css" style="opacity: .8;"/>
+		<div class="date-panel">
+			<img th:src="@{/images/calender.png}" />
+			<span id="engdate"></span>
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;&brvbar;&nbsp;&nbsp;&nbsp;
+			<!-- <script th:src="@{/vendor/js/date/ar-sa.js}"></script>
+			<script type="text/javascript">
+				document.writeln(moment().format('iYYYY/iMM/iDD'));
+			</script> -->
+			<img th:src="@{/images/topbarseparator.png}" class="separator"/>
+		</div>
+		<div class="form-name">
+			<span id="formcode" th:text="${formCode}">T01009</span>
+			<span id="lblFormInfo" style="width: auto;padding-left: 26px;" th:text="${formName}">User Registration</span>
+		</div>
+		<div class="white-logo">
+			<img th:src="@{/images/whitelogo.png}"/>
+		</div>
+	</div>
+	<div class="content-body">
+		<div class="left-col">
+			<img th:src="@{/images/pageleftpanelbg.png}" class="left-panel"/>
+			<div class="action-panel" style="margin:-54px auto;">
+				<button id="btnNew" title="New" class="Button New"></button>
+				<button id="btnSave" title="save" class="Button Save"></button>
+				<button id="btnClear" title="Clear" class="Button Clear"></button>
+				<button id="btnDelete" title="Delete" class="Button Delete"></button>
+				<button id="btnEnterQuery" title="Enter Query" class="Button Enter"></button>
+				<button id="btnExecuteQuery" title="Execute Query" class="Button Execute"></button>
+				<button id="btnNextblock" title="Next" class="Button Next"></button>
+			</div>
+			<div class="loggout">
+				<button id="btnBack" title="Back" Class="Button Back"></button>
+				<button id="btnLogout" title="Logout" Class="Button Logout"></button>
+			</div>
+			
+			
+		</div>
+		<div class="right-col">
+			<div id="banner"></div>
+			<img th:src="@{/images/headerbg.png}" class="header-white"/>
+			<div id="title">
+				<span class='red'>Hospital</span>&nbsp;<span class='gray'>Information System</span>
+			</div>
+			<div class="form-panel">
+				<form id="validateForm" th:object="${bean}" class="form-horizontal" style="padding:4px" method="POST" autocomplete="off" th:action="@{'/setup/' + ${controller}}">
+					<div th:replace="${controller + '/' + controller}">
+						<h3>Specified view '<span th:text="${controller + '/' + controller}"></span>' not found. Please contact with Medisys Administrator</h3>
+					</div>
+				</form>
+			
+			</div>
+		</div>
+	</div>
+		
+		<span th:substituteby="commons :: common-js"></span>
+
+
+<!-- <div id="topbar" style="padding: 4px;">
+	<img src="../../Images/bg.png" id="bg" alt="background image"/>
+	<img src="../../Images/topbarbg.png" id="topbarBg" alt="top bar" />
+	<img src="../../Images/topbarseparator.png" id="topbarSeparator" alt="top bar separator" />
+	<img src="../../Images/whitelogo.png" id="whiteLogo" alt="white logo" />
+	<img src="../../Images/pageleftpanelbg.png" id="pageLeftPanelBg" alt="page left panel" />
+	<img src="../../Images/headerbg.png" id="headerBg" alt="header" />
+	<img src="../../Images/calender.png" id="calender" alt="calender" />
+	<div id="datePanel">
+		<script type="text/javascript">
+			document.writeln(moment().format('DD/MM/YYYY'));
+		</script>
+		&nbsp;&nbsp;&nbsp;&nbsp;&brvbar;&nbsp;&nbsp;&nbsp;
+		<script src="../../Scripts/locale/ar-sa.js"></script>
+		<script type="text/javascript">
+			document.writeln(moment().format('iYYYY/iMM/iDD'));
+		</script>
+	</div>
+	<div id="formInfo">
+		<label id="formcode"></label>
+		<label ID="lblFormInfo" style="width: 70px;"></label>
+		 <select ID="ddlLanguage" name="ddlLanguage">
+			 <option value="LANG2">English</option>
+			 <option value="LANG1">Arabic</option>
+		 </select>
+	</div>
+</div>
+2nd part 
+	<div class="clear"></div>
+	<div id="header">
+		<div id="logo">
+			<img src="../../Images/logo.png" alt="logo"/>
+			<img src="../../Images/m-medisys-logo.png" alt="logo" class="img-responsive" />
+		</div>
+		<div id="user">
+			<img src="../../Images/user.png" id="usericon" alt="user icon" class="img-responsive" />
+		</div>
+		<div id="userName" style="margin: -2px auto;">
+			<label ID="lblUserName" style="font-weight: bold !important;"></label>
+		</div>
+		<div id="title">
+			<span class='red'>Hospital</span>&nbsp;<span class='gray'>Information System</span>
+		</div>
+	</div>
+3rd part
+	<div class="clear"></div>
+	<div id="options" style="margin:-54px auto;">
+		<button th:if="${newBtnHave}" ID="btnNew" Title="New" class="Button New"></button>
+		<button th:if="${save}" ID="btnSave" title="save" class="Button Save"></button>
+		<button th:if="${clear}" ID="btnClear" ToolTip="Clear" class="Button Clear"></button>
+		<button th:if="${delete}" ID="btnDelete" ToolTip="Delete" class="Button Delete"></button>
+		<button th:if="${enterqurey}" ID="btnEnterQuery" ToolTip="Enter Query" class="Button Enter"></button>
+		<button th:if="${executequery}" ID="btnExecuteQuery" ToolTip="Execute Query" class="Button Execute"></button>
+		<button th:if="${nextblock}" ID="btnNextblock" class="Button Next"></button>
+	
+		<div id="navigation">
+			<button ID="btnBack" ToolTip="Back" Class="Button Back"></button>
+			<button ID="btnLogout" Class="Button Logout"></button>
+		</div>
+	</div>
+
+4th part
+	<div id="container">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 custyle" style="padding-top: 10px;">
+					<br/>
+					<span th:substituteby="common :: common-loading"></span>
+					  ==========================================================
+					  						Container Form Body 
+					  ==========================================================
+					<div class="col-md-offset-1 col-md-10 col-sm-12 col-xs-12" style="padding-top: 20px;border: 1.5px solid #e17d7d; -ms-border-radius: 5px; border-radius: 5px;">
+						<form id="validateForm" th:object="${bean}" class="form-horizontal" method="POST" autocomplete="off" th:action="@{'/setup/' + ${controller}}">
+							<div th:replace="${controller + '/' + controller} :: formdiv">
+								<h3>Specified view '<span th:text="${controller + '/' + controller}"></span>' not found. Please contact with Medisys Administrator</h3>
+							</div>
+						</form>
+						<div th:replace="${controller + '/' + controller}  :: tbldiv">
+								<h3>Specified view '<span th:text="${controller + '/' + controller}"></span>' not found. Please contact with Medisys Administrator</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> -->
+</body>
+
+
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+		$("#engdate").text(moment().format('DD/MM/YYYY'));
+		$( document ).ready(function() {});
+			
+	
+	$('#btnBack').click(function () {
+		window.location.href = "../hims/menu";
+	});
+	
+	/*]]>*/
+</script>
+
+
+
+</html>

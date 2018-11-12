@@ -1,0 +1,26 @@
+<div id="tablesec" xmlns:th="http://www.thymeleaf.org">
+	<table id="dataList" width="100%" class="grid">
+		<thead style="font-size: 12px;">
+			<tr>
+				<th>Form code</th>
+				<th>Form name</th>
+				<th style="text-align:center">Open</th>
+				<th style="text-align:center">Query</th>
+				<th style="text-align:center">Insert</th>
+				<th style="text-align:center">Delete</th>
+				<th style="text-align:center">Update</th>
+			</tr>
+		</thead>
+		<tbody id="dataTable">
+			<tr th:unless="${#lists.isEmpty(list)}"  th:each="li : ${list}">
+				<td th:text="${li.formCode}"></td>
+				<td th:text="${li.langName1}"></td>
+				<td style="text-align:center"><input type="checkbox" name="canOpen" th:checked="${li.canOpen eq '1'}"/></td>
+				<td style="text-align:center"><input type="checkbox" name="canQuery" th:checked="${li.canQuery eq '1'}"/></td>
+				<td style="text-align:center"><input type="checkbox" name="canInsert" th:checked="${li.canInsert eq '1'}"/></td>
+				<td style="text-align:center"><input type="checkbox" name="canDelete" th:checked="${li.canDelete eq '1'}"/></td>
+				<td style="text-align:center"><input type="checkbox" name="canUpdate" th:checked="${li.canUpdate eq '1'}"/></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

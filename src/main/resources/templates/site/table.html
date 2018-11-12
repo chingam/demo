@@ -1,0 +1,26 @@
+<div id="tablesec" xmlns:th="http://www.thymeleaf.org">
+	<table id="tbl" width="100%" class="grid">
+		<thead style="font-size: 12px;">
+			<tr>
+				<th>Site code</th>
+				<th>Arabic name</th>
+				<th>English name</th>
+				<th>Contact name</th>
+				<th>Contact mobile</th>
+				<th style="text-align:center">Mudiria</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		<tbody id="dataTable">
+			<tr th:unless="${#lists.isEmpty(sites)}"  th:each="li : ${sites}">
+				<td th:attr="data-code=${li.siteId}" th:text="${li.siteCode}"></td>
+				<td th:text="${li.langName1}"></td>
+				<td th:text="${li.langName2}"></td>
+				<td th:text="${li.contactName}"></td>
+				<td th:text="${li.contactMobile}"></td>
+				<td style="text-align:center"><input type="checkbox" name="chkMudiria" th:checked="${li.mudiria eq 'Y'}"/></td>
+				<td th:text="${li.siteStatus}"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

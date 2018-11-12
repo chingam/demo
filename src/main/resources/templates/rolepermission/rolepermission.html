@@ -1,0 +1,25 @@
+<section style="padding-top: 12px;padding-left: 120px;padding-right: 120px;" xmlns:th="http://www.thymeleaf.org">
+	<div id="formsection" class="col-md-12" style="padding-top: 8px;border: 1.5px solid #e17d7d; -ms-border-radius: 5px; border-radius: 5px;">
+		<div id="formdiv" th:fragment="fdiv">
+		<div class="col-md-offset-3 col-md-6">
+			<div class="form-group">
+				<label for="zoneCode" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.role.label.rolecode}">Role code</label>
+				<div class="col-sm-12 col-md-4" style="padding-left: 3px">
+					<select class="form-control" th:field="*{bean.roleCode}">
+						 <option th:if="${not #lists.isEmpty(roles)}" th:each="it : ${roles}" th:value="${it.roleCode}" th:text="${it.langName1}">Select...</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="formCode" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.rolepermission.label.formcode}">Title no</label>
+				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+					<input type="text" th:field="*{bean.formCode}" class="form-control" data-rule-required="true" th:placeholder="#{setup.rolepermission.label.formcode}" />
+				</div>
+			</div>
+			
+		</div>
+	
+		</div>
+	</div>
+	<script th:src="@{/page/rolepermission/rolepermission.js}"></script>
+</section>

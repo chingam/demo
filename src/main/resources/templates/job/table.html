@@ -1,0 +1,18 @@
+<div id="tablesec" xmlns:th="http://www.thymeleaf.org">
+	<table id="tbl" width="100%" class="grid">
+		<thead style="font-size: 12px;">
+			<tr>
+				<th>Title no</th>
+				<th>Arabic name</th>
+				<th>English name</th>
+			</tr>
+		</thead>
+		<tbody id="dataTable">
+			<tr th:unless="${#lists.isEmpty(jobs)}"  th:each="li : ${jobs}">
+				<td th:attr="data-code=${li.titleId}" th:text="${li.titleNo}"></td>
+				<td th:text="${li.langName1}"></td>
+				<td th:text="${li.langName2}"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

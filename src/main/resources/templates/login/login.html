@@ -1,0 +1,591 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Login</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<span th:substituteby="commons :: common-css"></span>
+	<link th:href="@{/page/login/login.css}" rel="stylesheet" />
+	<style>
+	#loadingmask2 {
+    background-color: rgba(255, 255, 255, 0.8);
+    display: none;
+    height: 100%;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 99999;
+}
+
+#loadingdots {
+    height: 24px;
+    left: 46%;
+    position: relative;
+    top: 50%;
+    width: 200px;
+    
+}
+
+#loadingdots_1{
+    left:0;
+    -moz-animation-delay:0s;
+    -webkit-animation-delay:0s;
+    -ms-animation-delay:0s;
+    -o-animation-delay:0s;
+    animation-delay:0s;
+}
+
+#loadingdots_2{
+    left:30px;
+    -moz-animation-delay:0.2s;
+    -webkit-animation-delay:0.2s;
+    -ms-animation-delay:0.2s;
+    -o-animation-delay:0.2s;
+    animation-delay:0.2s;
+}
+
+#loadingdots_3{
+    left:60px;
+    -moz-animation-delay:0.4s;
+    -webkit-animation-delay:0.4s;
+    -ms-animation-delay:0.4s;
+    -o-animation-delay:0.4s;
+    animation-delay:0.4s;
+}
+
+@-moz-keyframes bounce_loadingdots{
+0%{
+    -moz-transform:scale(1);
+    opacity: 0.5; 
+}
+
+25%{
+    -moz-transform:scale(1.5);
+    opacity:1;
+}
+
+50%{
+    -moz-transform:scale(1);
+    opacity: 0.5;
+}
+
+100%{
+    -moz-transform:scale(1);
+    opacity: 0.5;
+}
+}
+
+@-webkit-keyframes bounce_loadingdots{
+    0%{
+    -webkit-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+25%{
+    -webkit-transform:scale(1.5);
+    opacity:1;
+}
+
+50%{
+    -webkit-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+100%{
+    -webkit-transform:scale(1);
+    opacity: 0.5;
+   
+}
+}
+
+@-ms-keyframes bounce_loadingdots{
+    0%{
+    -ms-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+25%{
+    -ms-transform:scale(1.5);
+    opacity:1;
+}
+
+50%{
+    -ms-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+100%{
+    -ms-transform:scale(1);
+    opacity: 0.5;
+   
+}
+}
+
+@-o-keyframes bounce_loadingdots{
+    0%{
+    -o-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+25%{
+    -o-transform:scale(1.5);
+    opacity:1;
+}
+
+50%{
+    -o-transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+100%{
+    -o-transform:scale(1);
+    opacity: 0.5;
+   
+}
+}
+
+@keyframes bounce_loadingdots{
+    0%{
+    transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+25%{
+    transform:scale(1.5);
+    opacity:1;
+}
+
+50%{
+    transform:scale(1);
+    opacity: 0.5;
+   
+}
+
+100%{
+    transform:scale(1);
+    opacity: 0.5;
+   
+}
+}
+
+.loadingdots {
+    -webkit-animation-duration: 1.5s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-name: bounce_loadingdots;
+
+    -moz-animation-duration: 1.5s;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-name: bounce_loadingdots;
+
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-name: bounce_loadingdots;
+    background-color: #ca5250;
+    border-radius: 5px;
+    height: 18px;
+    position: absolute;
+    top: 0;
+    width: 18px;
+}
+	</style>
+	
+</head>
+<body>
+   <!-- <img src="../../Images/loginbg.png" id="bg" alt="background image" /> -->
+   <!-- <img src="../../Images/m-body-bg.png" id="bg" alt="background image" /> -->
+	<span th:substituteby="commons :: common-html"></span>
+	<div id="container" class="container">
+        <form id="mainForm" th:action="@{/login}" method="post">
+            <input id="userId" type="hidden" name="username"/>
+            <input id="passwordId" type="hidden" name="password"/>
+        </form>
+		<div id="box" class="row">
+			<div th:if="${param.error}" style="z-index: 1000;position: fixed;float: right;right: 385px;">
+				<div class="alert alert-danger">Invalid username or password.</div>
+			</div>
+			<div class="col-sm-5 col-md-5 col-lg-5" id="my1">
+				<div id="title">
+					<span class="red">Hospital</span>
+					<span class="gray">Information System</span>
+				</div>
+			<div class="row">
+				<div class="table-responsive">
+					<table class="table">
+						<tr>
+							<td>
+								<div class="roundPanel">
+									<img class="tips" th:src="@{/images/tips.png}" />
+								</div>
+							</td>
+							<td>
+								<div class="sidePanel">
+									<span class="heading">User Tips</span>
+										<ul>
+											<li>To Change Password Press </li>
+											<li>Remember to logout before leaving your workstation</li>
+											<li>if you your session will be logged out.</li>
+										</ul>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+							<div class="leftPanel">
+								<div class="roundPanel">
+									<img class="hospLogo" th:src="@{/images/m-medisys-logo.png}"/>
+								</div>
+							</div>
+							</td>
+							<td>
+							<div class="rightPanel">
+								<div class="sidePanel">
+									<span class="heading">Product License</span>
+									<br />
+									<span>
+										This Product is Licensed to:
+										<br />
+										Medisys
+										<br />
+										License Code: 0000-33
+									</span>
+								</div>
+							</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				</div>
+			</div>
+			<div class="col-sm-7 col-md-7 col-lg-7" id="my2">
+			
+				<div id="login">
+					<div class="leftPanel">
+						<img class="loginIcon" th:src="@{/images/security.png}" alt="security" />
+						<div id="namePanel" class="inputPanel">
+							<img th:src="@{/images/usericon.png}" alt="user icon"/>
+							<input id="txtEmpID" Placeholder="Employee ID" type="text" />
+						</div>
+						<div id="passPanel" class="inputPanel">
+							<img th:src="@{/images/passicon.png}" alt="password icon"/>
+							<input id="txtPassword" Placeholder="Password" type="password" />
+						</div>
+					</div>
+						<div class="rightPanel">
+							<table>
+								<tr>
+									<td>
+										<button id="btn7">7</button>
+									</td>
+									<td>
+										<button id="btn8">8</button>
+									</td>
+									<td>
+										<button id="btn9">9</button>
+									</td>
+									<td>
+										<button id="btnAC">AC</button>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<button id="btn4">4</button>
+									</td>
+									<td>
+										<button id="btn5">5</button>
+									</td>
+									<td>
+										<button id="btn6">6</button>
+									</td>
+									<td>
+										<button id="btnBS">←</button>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<button id="btn1">1</button>
+									</td>
+									<td>
+										<button id="btn2">2</button>
+									</td>
+									<td>
+										<button id="btn3">3</button>
+									</td>
+									<td rowspan="2">
+										<button id="btnEnter">Enter</button>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<button id="btn0">0</button>
+									</td>
+									<td>
+										<button id="btnDot">.</button>
+									</td>
+								</tr>
+							</table>
+							<div>
+								<button ID="btnLogout" class="actionButton"></button>
+								<button ID="btnLogin" class="actionButton"></button>
+							</div>
+						</div>
+				</div>
+			</div>
+		</div>
+		<div id="footer">
+				<div class="leftPanel">
+					<strong>Medical Systems Co.LTD,</strong> All Rights Reserved (Version : 12.5.0)
+				</div>
+				<div class="rightPanel">
+					<div id="warning">
+						<span>Warning :</span> This computer product is protected by copyright law and international treaties. Unauthorized reproduction or distribution of this programe or any portion of it may result in servere civil and criminal planalties and will be procsecuted to the maximum extent possible under the law.
+					</div>
+				</div>
+		</div>
+	</div>
+   <span th:substituteby="commons :: common-js"></span>
+</body>
+</html>
+
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	$(document).ready(function () {
+
+		function sendAjax(jsData, url, type, successMessage, str) {
+			var returnData = "";
+			$.ajax({
+				async: false,
+				type: type,
+				url: url,
+				data: str === "" ? JSON.stringify(jsData) : jsData, //JSON.stringify(jsData),
+				contentType: "application/json;charset=utf-8",
+				success: function (data) {
+					//alert(row);
+					returnData = data;
+					if (successMessage !== "") {
+						reset();
+						window.swal({
+							title: successMessage,
+							type: "success",
+							showCancelButton: false,
+							confirmButtonClass: 'btn-danger',
+							confirmButtonText: 'OK!'
+						});
+					}
+				},
+				error: function () {
+					window.swal({
+						title: "Error !",
+						type: "error",
+						showCancelButton: false,
+						confirmButtonClass: 'btn-danger',
+						confirmButtonText: 'Danger!'
+					});
+				}
+
+			});
+			return returnData;
+		}
+
+	   
+
+		
+		
+		
+		
+		function login() {
+			$("#userId").val($("#txtEmpID").val());
+			$("#passwordId").val($("#txtPassword").val());
+			$("#mainForm").submit();
+		}
+
+		$("#btnLogin").click(function () {
+			login();
+		});
+		
+		
+		
+		
+
+
+		$('#txtEmpID').focus();
+			var focused = "UName";
+			$('txtEmpID').focus(function () {
+				focused = "UName";
+			});
+			$('#txtPassword').focus(function () {
+				focused = "Pwd";
+			});
+			$("input").not($(":button")).keypress(function (evt) {
+				if (evt.which === 13) {
+					if ($(this).attr('id') === "txtEmpID")
+						$('#txtPassword').focus();
+					if ($(this).attr('id') === "txtPassword")
+						$('#btnLogin').click();
+					return false;
+				}
+			});
+			$('#btn0').click(function () {
+				if (focused === "UName") {
+					$('#txtEmpID').val($('#txtEmpID').val() + '0');
+					$('#txtEmpID').focus();
+				}
+				if (focused === "Pwd") {
+					$('#txtPassword').val($('#txtPassword').val() + '0');
+					$('#txtPassword').focus();
+				}
+				return false;
+			});
+			$('#btn1').click(function () {
+				if (focused === "UName") {
+					$('#txtEmpID').val($('#txtEmpID').val() + '1');
+					$('#txtEmpID').focus();
+				}
+				if (focused === "Pwd") {
+					$('#txtPassword').val($('#txtPassword').val() + '1');
+					$('#txtPassword').focus();
+				}
+				return false;
+			});
+			$('#btn2').click(function () {
+				if (focused === "UName") {
+					$('#txtEmpID').val($('#txtEmpID').val() + '2');
+					$('#txtEmpID').focus();
+				}
+				if (focused === "Pwd") {
+					$('#txtPassword').val($('#txtPassword').val() + '2');
+					$('#txtPassword').focus();
+				}
+				return false;
+			});
+			$('#btn3').click(function () {
+				if (focused === "UName") {
+					$('#txtEmpID').val($('#txtEmpID').val() + '3');
+					$('#txtEmpID').focus();
+				}
+				if (focused === "Pwd") {
+					$('#txtPassword').val($('#txtPassword').val() + '3');
+					$('#txtPassword').focus();
+				}
+				return false;
+			});
+			$('#btn4').click(function () {
+				if (focused === "UName") {
+					$('#txtEmpID').val($('#txtEmpID').val() + '4');
+					$('#txtEmpID').focus();
+				}
+				if (focused === "Pwd") {
+					$('#txtPassword').val($('#txtPassword').val() + '4');
+					$('#txtPassword').focus();
+				}
+				return false;
+			});
+			$('#btn5').click(function () {
+				if (focused === "UName") {
+					$('#txtEmpID').val($('#txtEmpID').val() + '5');
+					$('#txtEmpID').focus();
+				}
+				if (focused === "Pwd") {
+					$('#txtPassword').val($('#txtPassword').val() + '5');
+					$('#txtPassword').focus();
+				}
+				return false;
+			});
+			$('#btn6').click(function () {
+				if (focused === "UName") {
+					$('#txtEmpID').val($('#txtEmpID').val() + '6');
+					$('#txtEmpID').focus();
+				}
+				if (focused === "Pwd") {
+					$('#txtPassword').val($('#txtPassword').val() + '6');
+					$('#txtPassword').focus();
+				}
+				return false;
+			});
+			$('#btn7').click(function () {
+				if (focused === "UName") {
+					$('#txtEmpID').val($('#txtEmpID').val() + '7');
+					$('#txtEmpID').focus();
+				}
+				if (focused === "Pwd") {
+					$('#txtPassword').val($('#txtPassword').val() + '7');
+					$('#txtPassword').focus();
+				}
+				return false;
+			});
+			$('#btn8').click(function () {
+				if (focused === "UName") {
+					$('#txtEmpID').val($('#txtEmpID').val() + '8');
+					$('#txtEmpID').focus();
+				}
+				if (focused === "Pwd") {
+					$('#txtPassword').val($('#txtPassword').val() + '8');
+					$('#txtPassword').focus();
+				}
+				return false;
+			});
+			$('#btn9').click(function () {
+				if (focused === "UName") {
+					$('#txtEmpID').val($('#txtEmpID').val() + '9');
+					$('#txtEmpID').focus();
+				}
+				if (focused === "Pwd") {
+					$('#txtPassword').val($('#txtPassword').val() + '9');
+					$('#txtPassword').focus();
+				}
+				return false;
+			});
+			$('#btnDot').click(function () {
+				if (focused === "UName") {
+					$('#txtEmpID').val($('#txtEmpID').val() + '.');
+					$('#txtEmpID').focus();
+				}
+				if (focused === "Pwd") {
+					$('#txtPassword').val($('#txtPassword').val() + '.');
+					$('#txtPassword').focus();
+				}
+				return false;
+			});
+			$('#btnAC').click(function () {
+				if (focused === "UName") {
+					$('#txtEmpID').val('');
+					$('#txtEmpID').focus();
+				}
+				if (focused === "Pwd") {
+					$('#txtPassword').val('');
+					$('#txtPassword').focus();
+				}
+				return false;
+			});
+			$('#btnBS').click(function () {
+				if (focused === "UName") {
+					$('#txtEmpID').val($('#txtEmpID').val().substring(0, ($('#txtEmpID').val().length - 1)));
+					$('#txtEmpID').focus();
+				}
+				if (focused === "Pwd") {
+					$('#txtPassword').val($('#txtPassword').val().substring(0, ($('#txtPassword').val().length - 1)));
+					$('#txtPassword').focus();
+				}
+				return false;
+			});
+			$('#btnEnter').click(function () {
+				if (focused === "UName") {
+					$('#txtPassword').focus();
+				}
+				else {
+					$('#btnLogin').click();
+				}
+				return false;
+			});
+			$('#btnLogout').click(function () {
+				window.close();
+			});
+	});
+	/*]]>*/
+	</script>

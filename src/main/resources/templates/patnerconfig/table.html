@@ -1,0 +1,16 @@
+<div id="tablesec" xmlns:th="http://www.thymeleaf.org">
+	<table id="tbl" width="100%" class="grid">
+		<thead style="font-size: 12px;">
+			<tr>
+				<th>System name</th>
+				<th>Url</th>
+			</tr>
+		</thead>
+		<tbody id="dataTable">
+			<tr th:unless="${#lists.isEmpty(jobs)}"  th:each="li : ${jobs}">
+				<td th:attr="data-code=${li.patnerId}" th:text="${li.patnerName}"></td>
+				<td th:text="${li.url}"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

@@ -1,0 +1,78 @@
+<div id="tablesec" xmlns:th="http://www.thymeleaf.org">
+	<div class="col-md-12 alert alert-success" style="border:1px solid">
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-2" style="padding-right: 1px; padding-top: 2px">Patient no:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${list.patientId}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label class="control-label col-md-2" style="padding-right: 1px; padding-top: 2px">Title:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${list.title}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label class="control-label col-md-2" style="padding-right: 1px; padding-top: 2px">Creation time:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${list.creationDate}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label class="control-label col-md-2" style="padding-right: 1px; padding-top: 2px">Status:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${list.status}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label class="control-label col-md-2" style="padding-right: 1px; padding-top: 2px">Service time:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${list.serviceDate}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label class="control-label col-md-2" style="padding-right: 1px; padding-top: 2px">Home community id:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${list.homeCommunityId}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label class="control-label col-md-2" style="padding-right: 1px; padding-top: 2px">Repository unique id:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${list.repositoryUniqueId}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label class="control-label col-md-2" style="padding-right: 1px; padding-top: 2px">Document unique id:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${list.documentUniqueId}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label class="control-label col-md-2" style="padding-right: 1px; padding-top: 2px">Mime type:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${list.mimeType}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label class="control-label col-md-2" style="padding-right: 1px; padding-top: 2px">URI:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${list.url}"></label>
+				</div>
+			</div>
+	</div>
+	<table id="metaDataList" width="100%" class="grid">
+		<thead style="font-size: 12px;">
+			<tr>
+				<th>Name</th>
+				<th>Value</th>
+			</tr>
+		</thead>
+		<tbody>
+		<tr th:unless="${#lists.isEmpty(list.metaData)}"  th:each="li : ${list.metaData}">
+			<td th:text="${li.name}"></td>
+			<td th:text="${li.value}"></td>
+		</tr>
+		</tbody>
+	</table>
+</div>

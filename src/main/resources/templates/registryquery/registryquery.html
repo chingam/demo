@@ -1,0 +1,62 @@
+<section style="padding-top: 12px;padding-left: 120px;padding-right: 120px;" xmlns:th="http://www.thymeleaf.org">
+	<div id="formsection" class="col-md-12" style="padding-top: 8px;border: 1.5px solid #e17d7d; -ms-border-radius: 5px; border-radius: 5px;">
+		<div id="formdiv" th:fragment="fdiv">
+		<div class="col-md-offset-3 col-md-6">
+			<div class="form-group">
+				<label for="zoneCode" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.registryquery.label.configuration}">Configuration</label>
+				<div class="col-sm-12 col-md-5" style="padding-left: 3px">
+					<select class="form-control">
+						 <option th:if="${not #lists.isEmpty(configs)}" th:each="it : ${configs}" th:value="${it.patnerId}" th:text="${it.patnerName}">Select...</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="zoneCode" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.registryquery.label.returntype}">Return type</label>
+				<div class="col-sm-12 col-md-5" style="padding-left: 3px">
+					<select class="form-control">
+						<option value="LEAFCLASS">LeafClass</option>
+						<option value="OBJECTREF">ObjectRef</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="zoneCode" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.registryquery.label.requesttype}">Request type</label>
+				<div class="col-sm-12 col-md-5" style="padding-left: 3px">
+					<select class="form-control">
+						<option value="98" selected="selected">FindDocuments</option>
+						<option value="99">FindDocumentsByReferenceId</option>
+						<option value="100">FindFolders</option>
+						<option value="101">FindSubmissionSets</option>
+						<option value="102">GetAll</option>
+						<option value="103">GetAssociations</option>
+						<option value="104">GetDocuments</option>
+						<option value="105">GetDocumentsAndAssociations</option>
+						<option value="106">GetFolderAndContents</option>
+						<option value="107">GetFolders</option>
+						<option value="108">GetFoldersForDocument</option>
+						<option value="109">GetRelatedDocuments</option>
+						<option value="110">GetSubmissionSetAndContents</option>
+						<option value="111">GetSubmissionSets</option>
+						 <!-- <option th:if="${not #lists.isEmpty(roles)}" th:each="it : ${roles}" th:value="${it.roleCode}" th:text="${it.langName1}">Select...</option> -->
+					</select>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="formCode" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.registryquery.label.patientid}">Patient no</label>
+				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+					<input type="text" th:field="*{bean.formCode}" class="form-control" data-rule-required="true" th:placeholder="#{query.registryquery.label.patientid}" />
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	<script th:src="@{/page/registrystorequery/registrystorequery.js}"></script>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		$( document ).ready(function() {
+			d4.eo.regitryquery.init();
+		});
+	
+	/*]]>*/
+</script>
+</section>

@@ -1,0 +1,173 @@
+<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope">
+   <env:Header xmlns:addressing="http://www.w3.org/2005/08/addressing">
+      <addressing:Action env:mustUnderstand="1">urn:ihe:iti:2007:RegistryStoredQueryResponse</addressing:Action>
+      <addressing:MessageID>uuid:83EDDBB0-7C4D-4EA8-9106-815B37868D20</addressing:MessageID>
+      <addressing:RelatesTo>urn:uuid:233b94e7-ff2c-47fb-9d21-0d019e9971a1</addressing:RelatesTo>
+   </env:Header>
+   <env:Body>
+      <AdhocQueryResponse xmlns="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0"
+                          status="urn:oasis:names:tc:ebxml-regrep:ResponseStatusType:Success">       
+         <ns1:RegistryObjectList xmlns:ns1="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0">
+            <ExtrinsicObject xmlns="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0"
+                             id="urn:uuid:e9a5b7f1-b159-439a-a32b-c8f26d490922"
+                             lid="urn:uuid:e9a5b7f1-b159-439a-a32b-c8f26d490922"
+                             mimeType="text/xml"
+                             objectType="urn:uuid:7edca82f-054d-47f2-a032-9b2a5b5186c1"
+                             status="urn:oasis:names:tc:ebxml-regrep:StatusType:Approved">
+               <Slot name="hash">
+                  <ValueList>
+                     <Value>d62e7d16cd29abde6d13abc44e69479526978c37</Value>
+                  </ValueList>
+               </Slot>
+               <Slot name="size">
+                  <ValueList>
+                     <Value>2416</Value>
+                  </ValueList>
+               </Slot>
+               <Slot name="repositoryUniqueId">
+                  <ValueList>
+                     <Value>1.3.6.1.4.1.21367.2011.2.3.248</Value>
+                  </ValueList>
+               </Slot>
+               <Slot name="languageCode">
+                  <ValueList>
+                     <Value>en-us</Value>
+                  </ValueList>
+               </Slot>
+               <Slot name="creationTime">
+                  <ValueList>
+                     <Value>20180803014646</Value>
+                  </ValueList>
+               </Slot>
+               <Slot name="sourcePatientId">
+                  <ValueList>
+                     <Value>9fe89bd266ef460^^^&amp;1.3.6.1.4.1.21367.2005.13.20.1000&amp;ISO</Value>
+                  </ValueList>
+               </Slot>
+               <Name>
+                  <LocalizedString value="AllergyDoc"/>
+               </Name>
+               <VersionInfo versionName="1"/>
+               <Classification classificationScheme="urn:uuid:41a5887f-8865-4c09-adf7-e362475b143a"
+                               classifiedObject="urn:uuid:e9a5b7f1-b159-439a-a32b-c8f26d490922"
+                               id="urn:uuid:796411f4-3925-48b1-8267-6e5123b62709"
+                               lid="urn:uuid:796411f4-3925-48b1-8267-6e5123b62709"
+                               nodeRepresentation="WORKFLOWS"
+                               objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification">
+                  <Slot name="codingScheme">
+                     <ValueList>
+                        <Value>1.3.6.1.4.1.19376.1.2.6.1</Value>
+                     </ValueList>
+                  </Slot>
+                  <Name>
+                     <LocalizedString value="Workflow Management"/>
+                  </Name>
+                  <VersionInfo versionName="1"/>
+               </Classification>
+               <Classification classificationScheme="urn:uuid:f4f85eac-e6cb-4883-b524-f2705394840f"
+                               classifiedObject="urn:uuid:e9a5b7f1-b159-439a-a32b-c8f26d490922"
+                               id="urn:uuid:42386338-9a6f-41ec-8d8f-f76a35cb4f1f"
+                               lid="urn:uuid:42386338-9a6f-41ec-8d8f-f76a35cb4f1f"
+                               nodeRepresentation="R"
+                               objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification">
+                  <Slot name="codingScheme">
+                     <ValueList>
+                        <Value>2.16.840.1.113883.5.25</Value>
+                     </ValueList>
+                  </Slot>
+                  <Name>
+                     <LocalizedString value="restricted"/>
+                  </Name>
+                  <VersionInfo versionName="1"/>
+               </Classification>
+               <Classification classificationScheme="urn:uuid:a09d5840-386c-46f2-b5ad-9c3699a4309d"
+                               classifiedObject="urn:uuid:e9a5b7f1-b159-439a-a32b-c8f26d490922"
+                               id="urn:uuid:aaa88ba5-7734-46fb-ad27-a30ea87981e5"
+                               lid="urn:uuid:aaa88ba5-7734-46fb-ad27-a30ea87981e5"
+                               nodeRepresentation="urn:ihe:pat:apsr:cancer:skin:2010"
+                               objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification">
+                  <Slot name="codingScheme">
+                     <ValueList>
+                        <Value>1.3.6.1.4.1.19376.1.2.3</Value>
+                     </ValueList>
+                  </Slot>
+                  <Name>
+                     <LocalizedString value="Anatomic Pathology Structured Report Cancer Skin"/>
+                  </Name>
+                  <VersionInfo versionName="1"/>
+               </Classification>
+               <Classification classificationScheme="urn:uuid:f33fb8ac-18af-42cc-ae0e-ed0b0bdb91e1"
+                               classifiedObject="urn:uuid:e9a5b7f1-b159-439a-a32b-c8f26d490922"
+                               id="urn:uuid:d0377a58-dffb-4e53-a8e4-c9a109a39274"
+                               lid="urn:uuid:d0377a58-dffb-4e53-a8e4-c9a109a39274"
+                               nodeRepresentation="42665001"
+                               objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification">
+                  <Slot name="codingScheme">
+                     <ValueList>
+                        <Value>2.16.840.1.113883.6.96</Value>
+                     </ValueList>
+                  </Slot>
+                  <Name>
+                     <LocalizedString value="Nursing home"/>
+                  </Name>
+                  <VersionInfo versionName="1"/>
+               </Classification>
+               <Classification classificationScheme="urn:uuid:cccf5598-8b07-4b77-a05e-ae952c785ead"
+                               classifiedObject="urn:uuid:e9a5b7f1-b159-439a-a32b-c8f26d490922"
+                               id="urn:uuid:2d208cd6-33a6-4dc8-a754-399349eb7fb4"
+                               lid="urn:uuid:2d208cd6-33a6-4dc8-a754-399349eb7fb4"
+                               nodeRepresentation="Practice-F"
+                               objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification">
+                  <Slot name="codingScheme">
+                     <ValueList>
+                        <Value>1.3.6.1.4.1.21367.2017.3</Value>
+                     </ValueList>
+                  </Slot>
+                  <Name>
+                     <LocalizedString value="Family Practice"/>
+                  </Name>
+                  <VersionInfo versionName="1"/>
+               </Classification>
+               <Classification classificationScheme="urn:uuid:f0306f51-975f-434e-a61c-c59651d33983"
+                               classifiedObject="urn:uuid:e9a5b7f1-b159-439a-a32b-c8f26d490922"
+                               id="urn:uuid:8a15f7f2-b8da-48b3-9047-9ea5e42163e7"
+                               lid="urn:uuid:8a15f7f2-b8da-48b3-9047-9ea5e42163e7"
+                               nodeRepresentation="18748-4"
+                               objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:Classification">
+                  <Slot name="codingScheme">
+                     <ValueList>
+                        <Value>2.16.840.1.113883.6.1</Value>
+                     </ValueList>
+                  </Slot>
+                  <Name>
+                     <LocalizedString value="Diagnostic imaging study"/>
+                  </Name>
+                  <VersionInfo versionName="1"/>
+               </Classification>
+               <ExternalIdentifier id="urn:uuid:febb1726-24f3-4250-9e9f-d07631ac2198"
+                                   identificationScheme="urn:uuid:2e82c1f6-a085-4c72-9da3-8640a32e42ab"
+                                   lid="urn:uuid:febb1726-24f3-4250-9e9f-d07631ac2198"
+                                   objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:ExternalIdentifier"
+                                   registryObject="urn:uuid:e9a5b7f1-b159-439a-a32b-c8f26d490922"
+                                   value="1.3.6.1.4.1.12559.11.1.2.2.1.1.3.125974">
+                  <Name>
+                     <LocalizedString value="XDSDocumentEntry.uniqueId"/>
+                  </Name>
+                  <VersionInfo versionName="1"/>
+               </ExternalIdentifier>
+               <ExternalIdentifier id="urn:uuid:18752b4e-853c-4c7f-8f36-ee614e89f8b8"
+                                   identificationScheme="urn:uuid:58a6f841-87b3-4a3e-92fd-a8ffeff98427"
+                                   lid="urn:uuid:18752b4e-853c-4c7f-8f36-ee614e89f8b8"
+                                   objectType="urn:oasis:names:tc:ebxml-regrep:ObjectType:RegistryObject:ExternalIdentifier"
+                                   registryObject="urn:uuid:e9a5b7f1-b159-439a-a32b-c8f26d490922"
+                                   value="9fe89bd266ef460^^^&amp;1.3.6.1.4.1.21367.2005.13.20.1000&amp;ISO">
+                  <Name>
+                     <LocalizedString value="XDSDocumentEntry.patientId"/>
+                  </Name>
+                  <VersionInfo versionName="1"/>
+               </ExternalIdentifier>
+            </ExtrinsicObject>    
+         </ns1:RegistryObjectList>
+      </AdhocQueryResponse>
+   </env:Body>
+</env:Envelope>

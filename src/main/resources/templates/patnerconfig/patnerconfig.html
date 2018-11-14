@@ -1,0 +1,21 @@
+<section style="padding-top: 12px;padding-left: 120px;padding-right: 120px;" xmlns:th="http://www.thymeleaf.org">
+	<div id="formsection" class="col-md-12" style="padding-top: 8px;border: 1.5px solid #e17d7d; -ms-border-radius: 5px; border-radius: 5px;">
+		<div id="formdiv" th:fragment="fdiv">
+		<div class="col-md-offset-3 col-md-6">
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="roleCode" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patnerconfig.label.systemname}">System name</label>
+				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+					<input type="hidden" th:field="*{bean.patnerId}"/>
+					<input type="text" th:field="*{bean.patnerName}" class="form-control" data-rule-required="true" th:placeholder="#{setup.patnerconfig.label.systemname}" />
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="langName1" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patnerconfig.label.url}">Url :</label>
+				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+					<input type="text" th:field="*{bean.url}" class="form-control" data-rule-required="true" th:placeholder="#{setup.patnerconfig.label.url}" />
+				</div>
+			</div>
+		</div>
+		</div>
+	</div>
+</section>

@@ -9,14 +9,17 @@ d4.eo.regitryquery.init = function() {
 
 d4.eo.regitryquery.next = function() {
 	var fm = $('form#mainform');
-//	var roleCode = $("#roleCode option:selected").val();
-//	var formCode = $("#formCode").val();
-	var url = fm.attr("action") + "/all";
+	var patnerId = $("#patnerId option:selected").val();
+	var returnType = $("#returnType option:selected").val();
+	var messageType = $("#messageType option:selected").val();
+	var searchData = $("#searchData").val();
+	
+	$("#loadingmask2").show();
+	var url = fm.attr("action") + "/all?search=" + searchData + "&returntype=" + returnType + "&messagetype=" + messageType + "&patnerid=" + patnerId;
 	d4.eo.regitryquery.load(url);
 }
 
 d4.eo.regitryquery.load = function(url) {
-	$("#loadingmask2").show();
 	if (dataTB != null) {
 		dataTB.destroy();
 	}
@@ -24,13 +27,8 @@ d4.eo.regitryquery.load = function(url) {
 		$("#metaDataList tbody tr").remove();
 		$("#formsection").append("<div id='datalistBody'></div>")
 		$("#datalistBody").load(url, function(responseTxt, statusTxt, xhr) {
-			dataTB = $('#metaDataList').DataTable(
-					{
-						"bFilter" : false,
-						"bLengthChange": false,
-						"bSort" : false
-					});
+			$("#loadingmask2").hide();
+			
 		});
 	}
-	$("#loadingmask2").hide();
 }

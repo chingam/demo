@@ -30,7 +30,7 @@ d4.eo.employee.findById = function() {
 }
 
 d4.eo.employee.clean = function() {
-	$("input[type=text], input[type=hidden], textarea").val("");
+	$("input[type=text], input[type=hidden][name!='_csrf'], textarea").val("");
 	if (dataTB != null) {
 		dataTB.destroy();
 	}
@@ -38,7 +38,7 @@ d4.eo.employee.clean = function() {
 }
 
 d4.eo.employee.clear = function() {
-	$("input[type=text], input[type=hidden], textarea").val("");
+	$("input[type=text], input[type=hidden][name!='_csrf'], textarea").val("");
 }
 
 d4.eo.employee.query = function() {

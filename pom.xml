@@ -104,6 +104,60 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		
+		<dependency>
+		    <groupId>org.apache.camel</groupId>
+		    <artifactId>camel-spring-boot</artifactId>
+		    <version>2.15.1</version>
+		</dependency>
+		<dependency>
+            <groupId>org.openehealth.ipf.platform-camel</groupId>
+            <artifactId>ipf-platform-camel-core</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openehealth.ipf.platform-camel</groupId>
+            <artifactId>ipf-platform-camel-ihe-ws</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openehealth.ipf.platform-camel</groupId>
+            <artifactId>ipf-platform-camel-ihe-xds</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openehealth.ipf.modules</groupId>
+            <artifactId>ipf-modules-cda-mdht</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openehealth.ipf.commons</groupId>
+            <artifactId>ipf-commons-ihe-xds</artifactId>
+            <version>3.1.1</version>
+        </dependency>
+		<dependency>
+            <groupId>org.openehealth.ipf.platform-camel</groupId>
+            <artifactId>ipf-platform-camel-ihe-ws</artifactId>
+            <version>3.1.1</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+		<dependency>
+            <groupId>org.openehealth.ipf.commons</groupId>
+            <artifactId>ipf-commons-ihe-ws</artifactId>
+            <version>3.1.1</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openehealth.ipf.commons</groupId>
+            <artifactId>ipf-commons-ihe-xds</artifactId>
+            <version>3.1.1</version>           
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+		
 	</dependencies>
 
 	<build>

@@ -8,13 +8,15 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.model.Button;
 import com.example.demo.model.Button.Buttons;
-import com.example.demo.model.T01008;
+import com.example.demo.model.RegistryQuery;
 import com.example.demo.model.T130961;
 import com.example.demo.repo.T130961Repository;
 import com.example.demo.service.RegistryQueryService;
@@ -71,20 +73,18 @@ URI:
 		return list;
 	}
 	
-	@RequestMapping(method = RequestMethod.GET)
+	@GetMapping
 	public String getScreen(final ModelMap model, final Locale locale) {
 		model.addAttribute("formCode", "T130960");
 		model.addAttribute("formName", "Registry Store Query");
 		model.addAttribute("controller", "registryquery");
-		model.addAttribute("bean", new T01008());
+		model.addAttribute("bean", new RegistryQuery());
 		return "query/template";
 	}
 	
-	@RequestMapping(value = "/all", method = RequestMethod.GET)
-	public String findAll(final ModelMap model) {
-		List<T01008> list = new ArrayList<>();
-		String patientNo = "", returnType = "";
-		model.addAttribute("list", queryService.getPatientMetaData(patientNo, returnType));
+	@GetMapping(path = "/all")
+	public String findAll(@RequestParam("search") String search, @RequestParam("returntype") String returntype, @RequestParam("messagetype") String messagetype, @RequestParam("patnerid") String patnerid, final ModelMap model) {
+		model.addAttribute("list", queryService.getPatientMetaData(search, returntype, messagetype, patnerid));
 		return "registryquery/table";
 	}
 }

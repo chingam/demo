@@ -1,11 +1,11 @@
-<section style="padding-top: 12px;padding-left: 120px;padding-right: 120px;" xmlns:th="http://www.thymeleaf.org">
+<section style="padding-top: 12px;padding-left: 2px;padding-right: 2px;" xmlns:th="http://www.thymeleaf.org">
 	<div id="formsection" class="col-md-12" style="padding-top: 8px;border: 1.5px solid #e17d7d; -ms-border-radius: 5px; border-radius: 5px;">
 		<div id="formdiv" th:fragment="fdiv">
 		<div class="col-md-offset-3 col-md-6">
 			<div class="form-group">
 				<label for="zoneCode" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.registryquery.label.configuration}">Configuration</label>
 				<div class="col-sm-12 col-md-5" style="padding-left: 3px">
-					<select class="form-control">
+					<select class="form-control" id="patnerId">
 						 <option th:if="${not #lists.isEmpty(configs)}" th:each="it : ${configs}" th:value="${it.patnerId}" th:text="${it.patnerName}">Select...</option>
 					</select>
 				</div>
@@ -13,16 +13,16 @@
 			<div class="form-group">
 				<label for="zoneCode" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.registryquery.label.returntype}">Return type</label>
 				<div class="col-sm-12 col-md-5" style="padding-left: 3px">
-					<select class="form-control">
-						<option value="LEAFCLASS">LeafClass</option>
-						<option value="OBJECTREF">ObjectRef</option>
+					<select class="form-control" id="returnType">
+						<option value="LeafClass">LeafClass</option>
+						<option value="ObjectRef">ObjectRef</option>
 					</select>
 				</div>
 			</div>
 			<div class="form-group">
 				<label for="zoneCode" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.registryquery.label.requesttype}">Request type</label>
 				<div class="col-sm-12 col-md-5" style="padding-left: 3px">
-					<select class="form-control">
+					<select class="form-control" id="messageType">
 						<option value="98" selected="selected">FindDocuments</option>
 						<option value="99">FindDocumentsByReferenceId</option>
 						<option value="100">FindFolders</option>
@@ -44,7 +44,7 @@
 			<div class="form-group" style="padding-botton: 1px">
 				<label for="formCode" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.registryquery.label.patientid}">Patient no</label>
 				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
-					<input type="text" th:field="*{bean.formCode}" class="form-control" data-rule-required="true" th:placeholder="#{query.registryquery.label.patientid}" />
+					<input type="text" id="searchData" class="form-control" data-rule-required="true" th:placeholder="#{query.registryquery.label.patientid}" />
 				</div>
 			</div>
 		</div>

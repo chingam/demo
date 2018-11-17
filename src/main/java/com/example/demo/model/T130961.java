@@ -35,4 +35,13 @@ public class T130961 extends CommonEntity {
 
 	@Column(name = "t_url")
 	private String url;
+	
+	@Column(name = "t_assigningAuthority")
+	private String assigningAuthority;
+	
+	@Column(name = "t_homecommunity_id")
+	private String homeCommunityId;
+	
+	@Column(name = "t_repo_uniqueid")
+	private String repositoryUniqueId;
 }

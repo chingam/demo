@@ -1,7 +1,14 @@
 <div id="tablesec" xmlns:th="http://www.thymeleaf.org">
+	<div th:if="${list.status ne null and #lists.isEmpty(list.documentEntries) and #lists.isEmpty(list.errors) and #lists.isEmpty(list.references)}" class="col-md-12 alert alert-success" style="border:1px solid">
+		<p th:text="${'Status : '+ list.status}"></p>
+		<p>No related documents were found</p>
+	</div>
 	<div th:unless="${#lists.isEmpty(list.errors)}" class="col-md-12 alert alert-success" style="border:1px solid">
 		<table width="100%" class="grid">
 			<thead style="font-size: 12px;">
+				<tr>
+					<th colspan="3" style="text-align: center;padding: 0px;">Errors</th>
+				</tr>
 				<tr>
 					<th>Code context</th>
 					<th>Custom error</th>
@@ -20,6 +27,9 @@
 	<div th:unless="${#lists.isEmpty(list.references)}" class="col-md-12 alert alert-success" style="border:1px solid">
 		<table width="100%" class="grid">
 			<thead style="font-size: 12px;">
+				<tr>
+					<th colspan="2" style="text-align: center;padding: 0px;">References</th>
+				</tr>
 				<tr>
 					<th>Id</th>
 					<th>Name</th>
@@ -112,61 +122,61 @@
 		<div class="col-md-6">
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Repository unique id:</label>
-				<div class="col-md-6">
+				<div class="col-md-8">
 					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.repositoryUniqueId}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Document unique id:</label>
-				<div class="col-md-6">
+				<div class="col-md-8">
 					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.uniqueId}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Mime type:</label>
-				<div class="col-md-6">
+				<div class="col-md-8">
 					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.mimeType}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">URI:</label>
-				<div class="col-md-6">
+				<div class="col-md-8">
 					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.uri}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Size:</label>
-				<div class="col-md-6">
+				<div class="col-md-8">
 					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.size}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Comment:</label>
-				<div class="col-md-6">
+				<div class="col-md-8">
 					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.comments ne null ? li.comments.value : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Practice setting:</label>
-				<div class="col-md-6">
+				<div class="col-md-8">
 					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.practiceSettingCode ne null ? li.practiceSettingCode.schemeName + (li.practiceSettingCode.displayName ne null ? '('  + li.practiceSettingCode.displayName.value + ')' : '') : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Healthcare facility:</label>
-				<div class="col-md-6">
+				<div class="col-md-8">
 					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.healthcareFacilityTypeCode ne null ? li.healthcareFacilityTypeCode.schemeName + (li.healthcareFacilityTypeCode.displayName ne null ? '('  + li.healthcareFacilityTypeCode.displayName.value + ')' : '') : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Format code:</label>
-				<div class="col-md-6">
+				<div class="col-md-8">
 					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.formatCode ne null ? li.formatCode.schemeName + (li.formatCode.displayName ne null ? '('  + li.formatCode.displayName.value + ')' : '') : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Class code:</label>
-				<div class="col-md-6">
+				<div class="col-md-8">
 					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.classCode ne null ? li.classCode.schemeName + (li.classCode.displayName ne null ? '('  + li.classCode.displayName.value + ')' : '') : ''}"></label>
 				</div>
 			</div>
@@ -176,6 +186,9 @@
 		<div th:unless="${#lists.isEmpty(li.authors)}"  th:each="au : ${li.authors}">
 			<table width="100%" class="grid">
 				<thead style="font-size: 12px;">
+					<tr>
+						<th colspan="2" style="text-align: center;padding: 0px;">Author person</th>
+					</tr>
 					<tr>
 						<th>Id</th>
 						<th>Name</th>
@@ -191,6 +204,9 @@
 			<table width="100%" class="grid">
 				<thead style="font-size: 12px;">
 					<tr>
+						<th colspan="2" style="text-align: center;padding: 0px;">AuthorInstitution</th>
+					</tr>
+					<tr>
 						<th>Id number</th>
 						<th>OrganizationName</th>
 					</tr>
@@ -205,9 +221,11 @@
 			
 		</div>
 		<div th:unless="${#lists.isEmpty(li.confidentialityCodes)}">
-			<p>Confidentiality code :</p>
 			<table width="100%" class="grid">
 				<thead style="font-size: 12px;">
+					<tr>
+						<th colspan="2" style="text-align: center;padding: 0px;">Confidentiality</th>
+					</tr>
 					<tr>
 						<th>Scheme name</th>
 						<th>Display name</th>

@@ -78,7 +78,7 @@ public class PatnerConfigurationController implements AbstractController{
 	@RequestMapping(value = "/find/{code}", method = RequestMethod.GET)
 	public String findByCode(@PathVariable String code, final ModelMap model) {
 		model.addAttribute("jobs", repository.findByPatnerNameContaining(code).stream().filter(a -> a.getArchive() == 0).collect(Collectors.toList()));
-		return "job/table";
+		return "patnerconfig/table";
 	}
 	
 	@RequestMapping(value = "/find", method = RequestMethod.GET)

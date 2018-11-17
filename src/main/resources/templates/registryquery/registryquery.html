@@ -1,4 +1,4 @@
-<section style="padding-top: 12px;padding-left: 2px;padding-right: 2px;" xmlns:th="http://www.thymeleaf.org">
+<section style="padding-top: 12px;padding-left: 6px;padding-right: 6px;" xmlns:th="http://www.thymeleaf.org">
 	<div id="formsection" class="col-md-12" style="padding-top: 8px;border: 1.5px solid #e17d7d; -ms-border-radius: 5px; border-radius: 5px;">
 		<div id="formdiv" th:fragment="fdiv">
 		<div class="col-md-offset-3 col-md-6">
@@ -23,7 +23,7 @@
 				<label for="zoneCode" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.registryquery.label.requesttype}">Request type</label>
 				<div class="col-sm-12 col-md-5" style="padding-left: 3px">
 					<select class="form-control" id="messageType">
-						<option value="98" selected="selected">FindDocuments</option>
+						<option value="98">FindDocuments</option>
 						<option value="99">FindDocumentsByReferenceId</option>
 						<option value="100">FindFolders</option>
 						<option value="101">FindSubmissionSets</option>
@@ -37,12 +37,11 @@
 						<option value="109">GetRelatedDocuments</option>
 						<option value="110">GetSubmissionSetAndContents</option>
 						<option value="111">GetSubmissionSets</option>
-						 <!-- <option th:if="${not #lists.isEmpty(roles)}" th:each="it : ${roles}" th:value="${it.roleCode}" th:text="${it.langName1}">Select...</option> -->
 					</select>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
-				<label for="formCode" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.registryquery.label.patientid}">Patient no</label>
+				<label for="formCode" id="searchLabel" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.registryquery.label.patientid}">Patient no</label>
 				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
 					<input type="text" id="searchData" class="form-control" data-rule-required="true" th:placeholder="#{query.registryquery.label.patientid}" />
 				</div>

@@ -1,29 +1,35 @@
 package com.example.demo.service;
 
 import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.Collections;
 
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
 import org.apache.commons.lang3.StringUtils;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.AssigningAuthority;
-import org.openehealth.ipf.commons.ihe.xds.core.metadata.Author;
+import org.openehealth.ipf.commons.ihe.xds.core.metadata.AssociationType;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.AvailabilityStatus;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.DocumentAvailability;
-import org.openehealth.ipf.commons.ihe.xds.core.metadata.DocumentEntry;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.DocumentEntryType;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.Identifiable;
-import org.openehealth.ipf.commons.ihe.xds.core.metadata.ObjectReference;
-import org.openehealth.ipf.commons.ihe.xds.core.metadata.Organization;
-import org.openehealth.ipf.commons.ihe.xds.core.metadata.SubmissionSet;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.QueryRegistry;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.FindDocumentsQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.FindFoldersQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.FindSubmissionSetsQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetAllQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetAssociationsQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetDocumentsAndAssociationsQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetDocumentsQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetFolderAndContentsQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetFoldersForDocumentQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetFoldersQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetRelatedDocumentsQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetSubmissionSetAndContentsQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetSubmissionSetsQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.QueryReturnType;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.QueryResponse;
+import org.openehealth.ipf.commons.ihe.xds.core.stub.ebrs30.query.AdhocQueryRequest;
 import org.openehealth.ipf.commons.ihe.xds.core.stub.ebrs30.query.AdhocQueryResponse;
-import org.openehealth.ipf.commons.ihe.xds.core.stub.ebrs30.rim.ExtrinsicObjectType;
-import org.openehealth.ipf.commons.ihe.xds.core.stub.ebrs30.rim.RegistryObjectListType;
 import org.openehealth.ipf.platform.camel.ihe.xds.core.converters.EbXML30Converters;
 import org.openehealth.ipf.platform.camel.ihe.xds.core.converters.XdsRenderingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +37,6 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.RecordNotFoundException;
-import com.example.demo.model.MetaDataInfo;
-import com.example.demo.model.PatientInfo;
 import com.example.demo.model.T130961;
 import com.example.demo.repo.T130961Repository;
 
@@ -42,30 +46,49 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RegistryQueryService {
 
-	@Autowired private T130961Repository patnerConfig;
-	
+	@Autowired
+	private T130961Repository patnerConfig;
+
 	@EndpointInject(uri = "direct:mokpoint")
 	private ProducerTemplate producerTemplate;
-	
-	public QueryResponse getPatientMetaData(String patientNo, String returnType, String messageType, String patnerId) {
-		T130961 patner = patnerConfig.findById(patnerId).orElseThrow(() -> new RecordNotFoundException("Patner id not found"));
-		if(StringUtils.isEmpty(patner.getUrl())) {
+
+	public QueryResponse getPatientMetaData(String patientId, String returnType, String messageType, String patnerId) {
+		QueryRegistry queryRegistry = null;
+		T130961 patner = patnerConfig.findById(patnerId)
+				.orElseThrow(() -> new RecordNotFoundException("Patner id not found"));
+		if (StringUtils.isEmpty(patner.getUrl())) {
 			log.error("Wrong patner Url");
 			throw new BadRequestException("Wrong patner Url");
 		}
-		
-		FindDocumentsQuery query = new FindDocumentsQuery();
-		query.setPatientId(new Identifiable(patientNo, new AssigningAuthority("1.3.6.1.4.1.21367.2005.13.20.1000")));
-		List<AvailabilityStatus> list = Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED);
-		query.setStatus(list);
-		List<DocumentEntryType> documents = Arrays.asList(DocumentEntryType.STABLE);
-		query.setDocumentEntryTypes(documents);
-		
-		List<DocumentAvailability> documentAvail = Arrays.asList(DocumentAvailability.ONLINE);
-		query.setDocumentAvailability(documentAvail);
-		query.setMetadataLevel(1);
-		
-		QueryRegistry queryRegistry=new QueryRegistry(query);
+		String assigningAuthority = patner.getAssigningAuthority();
+		if ("98".equals(messageType)) {
+			queryRegistry = new QueryRegistry(createFindDocumentsQuery(patientId, assigningAuthority, patner.getHomeCommunityId()));
+		} else if ("100".equals(messageType)) {
+			queryRegistry = new QueryRegistry(createFindFoldersQuery(patientId, assigningAuthority, patner.getHomeCommunityId()));
+		} else if ("101".equals(messageType)) {
+			queryRegistry = new QueryRegistry(createFindSubmissionSetsQuery(patientId, assigningAuthority, patner.getHomeCommunityId()));
+		} else if ("102".equals(messageType)) {
+			queryRegistry = new QueryRegistry(createGetAllQuery(patientId, assigningAuthority, patner.getHomeCommunityId()));
+		} else if ("103".equals(messageType)) {
+			queryRegistry = new QueryRegistry(createGetAssociationsQuery(patnerId, patner.getHomeCommunityId()));
+		} else if ("104".equals(messageType)) {
+			queryRegistry = new QueryRegistry(createGetDocumentsQuery(patientId, patner.getHomeCommunityId()));
+		} else if ("105".equals(messageType)) {
+			queryRegistry = new QueryRegistry(createGetDocumentsAndAssociationsQuery(patientId, patner.getHomeCommunityId()));
+		} else if ("106".equals(messageType)) {
+			queryRegistry = new QueryRegistry(createGetFolderAndContentsQuery(patientId, patner.getHomeCommunityId()));
+		} else if ("107".equals(messageType)) {
+			queryRegistry = new QueryRegistry(createGetFoldersQuery(patientId, patner.getHomeCommunityId()));
+		} else if ("108".equals(messageType)) {
+			queryRegistry = new QueryRegistry(createGetFoldersForDocumentQuery(patientId, patner.getHomeCommunityId()));
+		} else if ("109".equals(messageType)) {
+			queryRegistry = new QueryRegistry(createGetRelatedDocumentsQuery(patientId, patner.getHomeCommunityId()));
+		} else if ("110".equals(messageType)) {
+			queryRegistry = new QueryRegistry(createGetSubmissionSetAndContentsQuery(patientId, patner.getHomeCommunityId()));
+		} else if ("111".equals(messageType)) {
+			queryRegistry = new QueryRegistry(createGetSubmissionSetsQuery(patientId, patner.getHomeCommunityId()));
+		}
+
 		try {
 			QueryReturnType queryType = QueryReturnType.valueOfCode(returnType);
 			queryRegistry.setReturnType(queryType);
@@ -73,94 +96,151 @@ public class RegistryQueryService {
 			log.info("Wrong query return type {}", e.getMessage());
 			throw e;
 		}
-		
+
+		AdhocQueryRequest ebXML = EbXML30Converters.convert(queryRegistry);
+		System.out.println(XdsRenderingUtils.renderEbxml(ebXML));
+
 		AdhocQueryResponse response = (AdhocQueryResponse) producerTemplate.requestBody("xds-iti18://" + patner.getUrl(), queryRegistry);
 		System.out.println(XdsRenderingUtils.renderEbxml(response));
 		QueryResponse queryResponse = EbXML30Converters.convertToQueryResponse(response);
-		
 		return queryResponse;
-		
-//		queryResponse.getDocumentEntries().iterator().forEachRemaining(f -> {
-//			System.out.println("getMimeType :" + f.getMimeType());
-//			System.out.println("getHash :" + f.getHash());
-//			System.out.println("getEntryUuid :" + f.getEntryUuid());
-//			System.out.println("getEntryUuid :" + f.getHomeCommunityId());
-//			System.out.println("getEntryUuid :" + f.getLanguageCode());
-//			System.out.println("getEntryUuid :" + f.getLogicalUuid());
-//			System.out.println("getEntryUuid :" + f.getRepositoryUniqueId());
-//			System.out.println("getEntryUuid :" + f.getUniqueId());
-//			System.out.println("getEntryUuid :" + f.getUri());
-//			System.out.println("getEntryUuid :" + f.getSize());
-//			System.out.println("getEntryUuid :" + f.getAvailabilityStatus());
-//			System.out.println("getEntryUuid :" + f.getAuthor().getAuthorPerson().getName());
-//			
-//			f.getAuthor().getAuthorInstitution().forEach(a -> a.getOrganizationName());
-//			System.out.println("getEntryUuid :" + f.getAuthor().getAuthorInstitution());
-//			
-//			System.out.println("getEntryUuid :" + f.getComments().getLang());
-//			System.out.println("getEntryUuid :" + f.getComments().getValue());
-//			System.out.println("getEntryUuid :" + f.getCreationTime());
-//			System.out.println("getEntryUuid :" + f.getServiceStartTime());
-//			System.out.println("getEntryUuid :" + f.getServiceStopTime());
-//			System.out.println("getEntryUuid :" + f.getSourcePatientId().getId());
-//			System.out.println("getEntryUuid :" + f.getSourcePatientInfo().getGender());
-//			System.out.println("getEntryUuid :" + f.getSourcePatientInfo().getAddress().getCity());
-//			System.out.println("getEntryUuid :" + f.getSourcePatientInfo().getAddress().getCountry());
-//			System.out.println("getEntryUuid :" + f.getSourcePatientInfo().getAddress().getStreetAddress());
-//			System.out.println("getEntryUuid :" + f.getSourcePatientInfo().getDateOfBirth());
-////			System.out.println("getEntryUuid :" + f.getSourcePatientInfo().getIds().forEach(i -> i.getId()));
-//			System.out.println("getEntryUuid :" + f.getTitle());
-//			System.out.println("getEntryUuid :" + f.getType().getUuid());
-////			System.out.println("getEntryUuid :" + f.get);
-//		});
-//		
-//		queryResponse.getDocuments().forEach(d -> {
-//			System.out.println("getMimeType : " + d.getDocumentEntry().getMimeType());
-//			System.out.println("getHash : " + d.getDocumentEntry().getHash());
-//			System.out.println("getEntryUuid : " + d.getDocumentEntry().getEntryUuid());
-//			System.out.println("getHomeCommunityId : " + d.getDocumentEntry().getHomeCommunityId());
-//			System.out.println("getSize : " + d.getDocumentEntry().getSize());
-//		});
-		
-//		ExtrinsicObjectType aas = new ExtrinsicObjectType();
-//		response.getRegistryObjectList().getIdentifiable().iterator().forEachRemaining(a -> {
-//			
-//			
-//			System.out.println("======================");
-//			System.out.println("getDeclaredType : "+ a.getDeclaredType());
-//			System.out.println("getLocalPart : "+ a.getName().getLocalPart());
-//			System.out.println("getNamespaceURI : "+ a.getName().getNamespaceURI());
-//			System.out.println("getPrefix : "+ a.getName().getPrefix());
-//			System.out.println("getHome : "+ a.getValue().getHome());
-//			System.out.println("scope name : "+ a.getScope().getName());
-//			
-//			
-//		});
-		
-//		response.getResponseSlotList().getSlot().forEach(s -> {
-//			
-//			System.out.println("slote name : "+ s.getName());
-//			System.out.println("getSlotType : "+ s.getSlotType());
-//			s.getValueList().getValue().forEach(System.out::println);
-//			
-//		});
-		
-		
-		
-//		List<MetaDataInfo> metaData = Arrays.asList(new MetaDataInfo("hash", "d62e7d16cd29abde6d13abc44e69479526978c37"), new MetaDataInfo("size", "2416"), new MetaDataInfo("repositoryUniqueId", "1.3.6.1.4.1.21367.2011.2.3.248"));
-//		PatientInfo patientInfo = new PatientInfo();
-//		patientInfo.setPatientId("9fe89bd266ef460^^^&1.3.6.1.4.1.21367.2005.13.20.1000&ISO");
-//		patientInfo.setTitle("AllergyDoc");
-//		patientInfo.setCreationDate(new Date());
-//		patientInfo.setStatus("Approved");
-//		patientInfo.setServiceDate(new Date());
-//		patientInfo.setHomeCommunityId("2423232323");
-//		patientInfo.setRepositoryUniqueId("1.3.6.1.4.1.21367.2011.2.3.248");
-//		patientInfo.setDocumentUniqueId("1.3.6.1.4.1.12559.11.1.2.2.1.1.3.125974");
-//		patientInfo.setMimeType("text/xml");
-//		patientInfo.setUrl("www.medisys.com.sa");
-//		patientInfo.setMetaData(metaData);
-//		return patientInfo;
 	}
 
+	public FindDocumentsQuery createFindDocumentsQuery(String patientId, String assigningAuthority, String homeCommunityId) {
+		FindDocumentsQuery query = new FindDocumentsQuery();
+		if (StringUtils.isNotBlank(homeCommunityId)) {
+			query.setHomeCommunityId(homeCommunityId);
+		}
+		
+		
+		query.setPatientId(new Identifiable(patientId, new AssigningAuthority(assigningAuthority)));
+		query.setStatus(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
+		query.setDocumentEntryTypes(Collections.singletonList(DocumentEntryType.STABLE));
+		query.setDocumentAvailability(Collections.singletonList(DocumentAvailability.ONLINE));
+		query.setMetadataLevel(1);
+		return query;
+	}
+
+	public FindFoldersQuery createFindFoldersQuery(String patientId, String assigningAuthority, String homeCommunityId) {
+		FindFoldersQuery query = new FindFoldersQuery();
+		if (StringUtils.isNotBlank(homeCommunityId)) {
+			query.setHomeCommunityId(homeCommunityId);
+		}
+		query.setPatientId(new Identifiable(patientId, new AssigningAuthority(assigningAuthority)));
+		query.setStatus(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
+		return query;
+	}
+
+	public FindSubmissionSetsQuery createFindSubmissionSetsQuery(String patientId, String assigningAuthority, String homeCommunityId) {
+		FindSubmissionSetsQuery query = new FindSubmissionSetsQuery();
+		if (StringUtils.isNotBlank(homeCommunityId)) {
+			query.setHomeCommunityId(homeCommunityId);
+		}
+		query.setPatientId(new Identifiable(patientId, new AssigningAuthority(assigningAuthority)));
+		query.setStatus(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
+		return query;
+	}
+
+	public GetAllQuery createGetAllQuery(String patientId, String assigningAuthority, String homeCommunityId) {
+		GetAllQuery query = new GetAllQuery();
+		if (StringUtils.isNotBlank(homeCommunityId)) {
+			query.setHomeCommunityId(homeCommunityId);
+		}
+		query.setPatientId(new Identifiable(patientId, new AssigningAuthority(assigningAuthority)));
+		query.setStatusDocuments(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
+		query.setStatusFolders(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
+		query.setStatusSubmissionSets(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
+		query.setDocumentEntryTypes(Collections.singletonList(DocumentEntryType.STABLE));
+		return query;
+	}
+
+	public GetAssociationsQuery createGetAssociationsQuery(String uuids, String homeCommunityId) {
+		// "urn:uuid:1.2.3.4", "urn:uuid:2.3.4.5"
+		GetAssociationsQuery query = new GetAssociationsQuery();
+		if (StringUtils.isNotBlank(homeCommunityId)) {
+			query.setHomeCommunityId(homeCommunityId);
+		}
+		query.setUuids(Arrays.asList("urn:uuid:" + uuids));
+		return query;
+	}
+
+	public GetDocumentsQuery createGetDocumentsQuery(String uniqueIds, String homeCommunityId) {
+		GetDocumentsQuery query = new GetDocumentsQuery();
+		if (StringUtils.isNotBlank(homeCommunityId)) {
+			query.setHomeCommunityId(homeCommunityId);
+		}
+		// query.setUuids(Arrays.asList(uuids));
+		query.setUniqueIds(Arrays.asList(uniqueIds));
+		return query;
+	}
+
+	public GetDocumentsAndAssociationsQuery createGetDocumentsAndAssociationsQuery(String uniqueIds, String homeCommunityId) {
+		GetDocumentsAndAssociationsQuery query = new GetDocumentsAndAssociationsQuery();
+		// query.setUuids(Arrays.asList("urn:uuid:1.2.3.4",
+		// "urn:uuid:2.3.4.5"));
+		if (StringUtils.isNotBlank(homeCommunityId)) {
+			query.setHomeCommunityId(homeCommunityId);
+		}
+		query.setUniqueIds(Arrays.asList(uniqueIds));
+		return query;
+	}
+
+	public GetFolderAndContentsQuery createGetFolderAndContentsQuery(String uniqueId, String homeCommunityId) {
+		GetFolderAndContentsQuery query = new GetFolderAndContentsQuery();
+		if (StringUtils.isNotBlank(homeCommunityId)) {
+			query.setHomeCommunityId(homeCommunityId);
+		}
+		query.setUniqueId(uniqueId);
+		query.setDocumentEntryTypes(Collections.singletonList(DocumentEntryType.STABLE));
+		return query;
+	}
+
+	public GetFoldersQuery createGetFoldersQuery(String uniqueIds, String homeCommunityId) {
+		GetFoldersQuery query = new GetFoldersQuery();
+		if (StringUtils.isNotBlank(homeCommunityId)) {
+			query.setHomeCommunityId(homeCommunityId);
+		}
+		
+		query.setUniqueIds(Arrays.asList(uniqueIds));
+		return query;
+	}
+
+	public GetFoldersForDocumentQuery createGetFoldersForDocumentQuery(String uniqueId, String homeCommunityId) {
+		GetFoldersForDocumentQuery query = new GetFoldersForDocumentQuery();
+		if (StringUtils.isNotBlank(homeCommunityId)) {
+			query.setHomeCommunityId(homeCommunityId);
+		}
+		query.setUniqueId(uniqueId);
+		return query;
+	}
+
+	public GetRelatedDocumentsQuery createGetRelatedDocumentsQuery(String uniqueId, String homeCommunityId) {
+		GetRelatedDocumentsQuery query = new GetRelatedDocumentsQuery();
+		if (StringUtils.isNotBlank(homeCommunityId)) {
+			query.setHomeCommunityId(homeCommunityId);
+		}
+		query.setUniqueId(uniqueId);
+		query.setAssociationTypes(Arrays.asList(AssociationType.APPEND, AssociationType.TRANSFORM));
+		query.setDocumentEntryTypes(Collections.singletonList(DocumentEntryType.STABLE));
+		return query;
+	}
+
+	public GetSubmissionSetAndContentsQuery createGetSubmissionSetAndContentsQuery(String uniqueId, String homeCommunityId) {
+		GetSubmissionSetAndContentsQuery query = new GetSubmissionSetAndContentsQuery();
+		if (StringUtils.isNotBlank(homeCommunityId)) {
+			query.setHomeCommunityId(homeCommunityId);
+		}
+		query.setUniqueId(uniqueId);
+		query.setDocumentEntryTypes(Collections.singletonList(DocumentEntryType.STABLE));
+		return query;
+	}
+
+	public GetSubmissionSetsQuery createGetSubmissionSetsQuery(String uuids, String homeCommunityId) {
+		GetSubmissionSetsQuery query = new GetSubmissionSetsQuery();
+		if (StringUtils.isNotBlank(homeCommunityId)) {
+			query.setHomeCommunityId(homeCommunityId);
+		}
+		query.setUuids(Arrays.asList("urn:uuid:" + uuids));
+		return query;
+	}
 }

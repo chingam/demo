@@ -4,12 +4,18 @@
 			<tr>
 				<th>System name</th>
 				<th>Url</th>
+				<th>AssigningAuthority</th>
+				<th>AssigningAuthority</th>
+				<th>RepositoryUniqueId</th>
 			</tr>
 		</thead>
 		<tbody id="dataTable">
 			<tr th:unless="${#lists.isEmpty(jobs)}"  th:each="li : ${jobs}">
 				<td th:attr="data-code=${li.patnerId}" th:text="${li.patnerName}"></td>
 				<td th:text="${li.url}"></td>
+				<td th:text="${li.assigningAuthority}"></td>
+				<td th:text="${li.homeCommunityId}"></td>
+				<td th:text="${li.repositoryUniqueId}"></td>
 			</tr>
 		</tbody>
 	</table>

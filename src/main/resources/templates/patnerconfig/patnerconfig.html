@@ -1,18 +1,39 @@
 <section style="padding-top: 12px;padding-left: 120px;padding-right: 120px;" xmlns:th="http://www.thymeleaf.org">
 	<div id="formsection" class="col-md-12" style="padding-top: 8px;border: 1.5px solid #e17d7d; -ms-border-radius: 5px; border-radius: 5px;">
 		<div id="formdiv" th:fragment="fdiv">
-		<div class="col-md-offset-3 col-md-6">
+		<div class="col-md-6">
 			<div class="form-group" style="padding-botton: 1px">
-				<label for="patnerName" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patnerconfig.label.systemname}">System name</label>
+				<label for="patnerName" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patnerconfig.label.systemname}">System name</label>
 				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
 					<input type="hidden" th:field="*{bean.patnerId}"/>
 					<input type="text" th:field="*{bean.patnerName}" class="form-control" data-rule-required="true" th:placeholder="#{setup.patnerconfig.label.systemname}" />
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
-				<label for="url" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patnerconfig.label.url}">Url :</label>
-				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+				<label for="url" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patnerconfig.label.url}">Url :</label>
+				<div class="col-md-6" style="padding-left: 3px">
 					<input type="text" th:field="*{bean.url}" class="form-control" data-rule-required="true" th:placeholder="#{setup.patnerconfig.label.url}" />
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="assigningAuthority" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patnerconfig.label.assigningAuthority}">assigningAuthority :</label>
+				<div class="col-md-6" style="padding-left: 3px">
+					<input type="text" th:field="*{bean.assigningAuthority}" class="form-control" th:placeholder="#{setup.patnerconfig.label.assigningAuthority}" />
+				</div>
+			</div>
+			
+		</div>
+		<div class="col-md-6">
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="homeCommunityId" class="control-label col-sm-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patnerconfig.label.homeCommunityId}">homeCommunityId :</label>
+				<div class="col-md-6" style="padding-left: 3px">
+					<input type="text" th:field="*{bean.homeCommunityId}" class="form-control" th:placeholder="#{setup.patnerconfig.label.homeCommunityId}" />
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="repositoryUniqueId" class="control-label col-sm-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patnerconfig.label.repositoryuniqueid}">repositoryUniqueId :</label>
+				<div class="col-md-6" style="padding-left: 3px">
+					<input type="text" th:field="*{bean.repositoryUniqueId}" class="form-control" th:placeholder="#{setup.patnerconfig.label.repositoryuniqueid}" />
 				</div>
 			</div>
 		</div>

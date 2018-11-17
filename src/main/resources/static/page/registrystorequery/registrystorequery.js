@@ -5,6 +5,7 @@ var dataTB;
 
 d4.eo.regitryquery.init = function() {
 	$("#custbtnNextblock").on("click", d4.eo.regitryquery.next);
+	$("#messageType").on("change", d4.eo.regitryquery.selectMessageType);
 }
 
 d4.eo.regitryquery.next = function() {
@@ -28,7 +29,28 @@ d4.eo.regitryquery.load = function(url) {
 		$("#formsection").append("<div id='datalistBody'></div>")
 		$("#datalistBody").load(url, function(responseTxt, statusTxt, xhr) {
 			$("#loadingmask2").hide();
+			console.log(responseTxt);
+			if (responseTxt.startsWith('{"message"')) {
+				$("#datalistBody").remove();
+				showScreenMessage("alert-danger", "Could not send Message.", "");
+			}
 			
 		});
+	}
+}
+d4.eo.regitryquery.selectMessageType = function() {
+	var selectValue = $(this).val();
+	if (selectValue == "103" || selectValue == "111") {
+		$("#searchLabel").text("Uuid");
+		$("#searchData").attr("placeholder", "Uuid");
+	} else if (selectValue == "104") {
+		$("#searchLabel").text("Unique id");
+		$("#searchData").attr("placeholder", "Unique id");
+	} else if (selectValue == "104" || selectValue == "105" || selectValue == "106" || selectValue == "107" || selectValue == "108" || selectValue == "109" || selectValue == "110") {
+		$("#searchLabel").text("Unique id");
+		$("#searchData").attr("placeholder", "Unique id");
+	} else {
+		$("#searchLabel").text("Patient no");
+		$("#searchData").attr("placeholder", "Patient no");
 	}
 }

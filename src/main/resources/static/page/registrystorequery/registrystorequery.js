@@ -32,7 +32,8 @@ d4.eo.regitryquery.load = function(url) {
 			console.log(responseTxt);
 			if (responseTxt.startsWith('{"message"')) {
 				$("#datalistBody").remove();
-				showScreenMessage("alert-danger", "Could not send Message.", "");
+				var obj = JSON.parse(responseTxt);
+				showScreenMessage("alert-danger", obj.message, "");
 			}
 			
 		});

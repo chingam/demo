@@ -146,12 +146,13 @@ d4.eo.employee.load = function(url) {
 			dataTB = $('#tbl').DataTable(
 					{
 						"bFilter" : false,
-						"bLengthChange": false
+						"bLengthChange": false,
+						"bSort" : false
 					});
 			$('#tbl tbody tr').bind('click', d4.eo.employee.findById);
+			$("#loadingmask2").hide();
 		});
 	}
-	$("#loadingmask2").hide();
 }
 
 d4.eo.employee.back = function() {

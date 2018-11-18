@@ -273,9 +273,30 @@
 				</tbody>
 			</table>
 		</div>
-		
-		
 	</div>
+	
+	<!-- <div th:unless="${#lists.isEmpty(list.submissionSets)}" th:each="sub : ${list.submissionSets}" class="col-md-12 alert alert-success" style="border:1px solid">
+		<div class="col-md-6">
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Entry uuid:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${sub.entryUuid}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Source id:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${sub.sourceId}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">HomeCommunity id:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${sub.homeCommunityId}"></label>
+				</div>
+			</div>
+		</div>
+	</div> -->
 	<!-- <table id="metaDataList" width="100%" class="grid">
 		<thead style="font-size: 12px;">
 			<tr>

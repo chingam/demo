@@ -1,13 +1,20 @@
 package com.example.demo.route;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.Processor;
 import org.apache.camel.spring.boot.FatJarRouter;
+import org.apache.commons.lang3.StringUtils;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.QueryRegistry;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.FindDocumentsQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.FindSubmissionSetsQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.QueryType;
+import org.openehealth.ipf.commons.ihe.xds.core.responses.ErrorInfo;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.QueryResponse;
+import org.openehealth.ipf.commons.ihe.xds.core.responses.Severity;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +70,29 @@ public class Iti18QueryRoute extends FatJarRouter{
 		
 		
 		
+		
+		from("direct:findDocs").process(new Processor() {
+			
+			@Override
+			public void process(Exchange exchange) throws Exception {
+				QueryRegistry request=exchange.getIn().getBody(QueryRegistry.class);
+				FindDocumentsQuery findDocumentsQuery =(FindDocumentsQuery) request.getQuery();
+				QueryResponse resp=new QueryResponse();
+				if (findDocumentsQuery.getPatientId() == null || StringUtils.isBlank(findDocumentsQuery.getPatientId().getId())) {
+					resp.setStatus(Status.FAILURE);
+					List<ErrorInfo> errors = new ArrayList<>();
+					ErrorInfo error = new ErrorInfo();
+					error.setSeverity(Severity.ERROR);
+					errors.add(error);
+					error.setCodeContext("error : patient id not found !");
+					resp.setErrors(errors);
+					exchange.getIn().setBody(resp);
+				}
+				
+				resp.setStatus(Status.SUCCESS);
+				exchange.getIn().setBody(resp);
+			}
+		}).log(LoggingLevel.INFO, "findSets End.........");
 		
 		from("direct:findSets").process(new Processor() {
 			

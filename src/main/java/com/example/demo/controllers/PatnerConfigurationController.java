@@ -40,7 +40,7 @@ public class PatnerConfigurationController implements AbstractController{
 	@RequestMapping(method = RequestMethod.GET)
 	public String getScreen(final ModelMap model, final Locale locale) {
 		model.addAttribute("formCode", "T130961");
-		model.addAttribute("formName", "Job title Registration");
+		model.addAttribute("formName", "Connecting Patner Setup");
 		model.addAttribute("controller", "patnerconfig");
 		model.addAttribute("bean", new T130961());
 		return "setup/template";

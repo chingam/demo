@@ -1,0 +1,61 @@
+<div id="tablesec" xmlns:th="http://www.thymeleaf.org">
+	<div th:if="${list.registryResponse ne null and list.registryResponse.status ne null and #lists.isEmpty(list.documentResponse)}" th:class="${list.registryResponse.status eq 'urn:oasis:names:tc:ebxml-regrep:ResponseStatusType:Failure' ? 'col-md-12 alert alert-danger' : 'col-md-12 alert alert-success'}" style="border:1px solid">
+		<p th:text="${'Status : '+ list.registryResponse.status}"></p>
+		<p>No related documents were found</p>
+	</div>
+	<div th:if="${list.registryResponse ne null and list.registryResponse.registryErrorList ne null}" class="col-md-12 alert alert-success" style="border:1px solid">
+		<table width="100%" class="grid">
+			<thead style="font-size: 12px;">
+				<tr>
+					<th colspan="3" style="text-align: center;padding: 0px;">Errors</th>
+				</tr>
+				<tr>
+					<th>Code context</th>
+					<th>Custom error</th>
+					<th>Location</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:unless="${#lists.isEmpty(list.registryResponse.registryErrorList.registryError)}" th:each="error : ${list.registryResponse.registryErrorList.registryError}">
+					<td th:text="${error.codeContext}"></td>
+					<td th:text="${error.errorCode}"></td>
+					<td th:text="${error.location}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div th:unless="${#lists.isEmpty(list.documentResponse)}" class="col-md-12 alert alert-success" style="border:1px solid">
+		<table width="100%" class="grid">
+			<thead style="font-size: 12px;">
+				<tr>
+					<th>Document id</th>
+					<th>Home community</th>
+					<th>Repository</th>
+					<th>Type</th>
+					<th>New document</th>
+					<th>New repository</th>
+					<th>Download</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:unless="${#lists.isEmpty(list.documentResponse)}"  th:each="document : ${list.documentResponse}">
+					<td th:text="${document.documentUniqueId}"></td>
+					<td th:text="${document.homeCommunityId}"></td>
+					<td th:text="${document.repositoryUniqueId}"></td>
+					<td th:text="${document.mimeType}"></td>
+					<td th:text="${document.newDocumentUniqueId}"></td>
+					<td th:text="${document.newRepositoryUniqueId}"></td>
+					<td style="text-align: center;">
+						<a th:href="@{'/document/' + ${document.documentUniqueId} + ${document.mimeType eq 'text/plain' ? '/xml' : '/pdf'}}">
+							<span th:if="${document.mimeType eq 'text/plain'}" style="font-size: 14px;">
+								<i class="fa fa-file" aria-hidden="true" style="color: red;"></i>
+							</span>
+							<span th:unless="${document.mimeType eq 'text/plain'}" style="font-size: 14px;">
+								<i class="fa fa-file-pdf-o" aria-hidden="true" style="color: red;"></i>
+							</span>
+						</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>

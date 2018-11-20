@@ -1,0 +1,28 @@
+<section style="padding-top: 12px;padding-left: 120px;padding-right: 120px;" xmlns:th="http://www.thymeleaf.org">
+	<div id="formsection" class="col-md-12" style="padding-top: 8px;border: 1.5px solid #e17d7d; -ms-border-radius: 5px; border-radius: 5px;">
+		<div id="formdiv" th:fragment="fdiv">
+		<div class="col-md-offset-3 col-md-6">
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="code" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.code.label.code}">Code :</label>
+				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+					<input type="hidden" th:field="*{bean.id}"/>
+					<input type="text" th:field="*{bean.code}" class="form-control" data-rule-required="true" th:placeholder="#{setup.code.label.code}" />
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="displayName" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.code.label.displayname}">Display name :</label>
+				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+					<input type="text" th:field="*{bean.displayName}" class="form-control" data-rule-required="true" th:placeholder="#{setup.code.label.displayname}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="schemeName" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.code.label.schemename}">Schema name :</label>
+				<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+					<input type="text" th:field="*{bean.schemeName}" class="form-control" data-rule-required="true" th:placeholder="#{setup.code.label.schemename}" />
+				</div>
+			</div>
+		</div>
+	
+		</div>
+	</div>
+</section>

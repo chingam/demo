@@ -41,11 +41,27 @@ public class CommandLineAppStartupRunner implements CommandLineRunner{
 		patner5.setHomeCommunityId("1.3.6.1.4.1.12559.11.1.2.2.1.1.3.123788");
 		patner5.setRepositoryUniqueId("1.3.6.1.4.1.21367.13.71.101.1");
 		
+		T130961 patner6 = new T130961();//1.2.42.20180913113513.116
+		patner6.setPatnerName("RDP repository");
+		patner6.setAssigningAuthority("1.3.6.1.4.1.21367.2005.13.20.1000");
+		patner6.setUrl("rdp.wbc.co.in:7474/xdstools/sim/meenal__meenal_drr/rep/ret");
+		patner6.setHomeCommunityId("1.3.6.1.4.1.21367.2012.2.1.1");
+		patner6.setRepositoryUniqueId("1.1.4567332.1.4");
+		
+		T130961 patner7 = new T130961();
+		patner7.setPatnerName("RDP regitry");
+		patner7.setAssigningAuthority("1.3.6.1.4.1.21367.13.20.2000");
+		patner7.setUrl("rdp.wbc.co.in:7474/xdstools/sim/meenal__meenal_drr/reg/sq");
+		patner7.setHomeCommunityId("1.3.6.1.4.1.21367.2012.2.1.1");
+		patner7.setRepositoryUniqueId("1.1.4567332.1.4");
+		
 		repository.save(patner);
 		repository.save(patner2);
 		repository.save(patner3);
 		repository.save(patner4);
 		repository.save(patner5);
+		repository.save(patner6);
+		repository.save(patner7);
 	}
 
 }

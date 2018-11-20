@@ -3,6 +3,8 @@ package com.example.demo;
 import java.util.Locale;
 
 import org.apache.cxf.transport.servlet.CXFServlet;
+import org.openehealth.ipf.commons.ihe.ws.cxf.payload.InPayloadInjectorInterceptor;
+import org.openehealth.ipf.commons.ihe.ws.cxf.payload.OutPayloadLoggerInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -47,5 +49,11 @@ public class DemoApplication {
 		public void addInterceptors(InterceptorRegistry registry) {
 			registry.addInterceptor(localeChangeInterceptor());
 		}
+	}
+	
+	@Bean
+	public OutPayloadLoggerInterceptor serverOutLogger() {
+		String fileNamePattern = "/tmp/test.txt";
+		return new OutPayloadLoggerInterceptor(fileNamePattern );
 	}
 }

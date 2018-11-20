@@ -1,0 +1,18 @@
+<div id="tablesec" xmlns:th="http://www.thymeleaf.org">
+	<table id="tbl" width="100%" class="grid">
+		<thead style="font-size: 12px;">
+			<tr>
+				<th>Code</th>
+				<th>Display name</th>
+				<th>Scheme name</th>
+			</tr>
+		</thead>
+		<tbody id="dataTable">
+			<tr th:unless="${#lists.isEmpty(codes)}"  th:each="li : ${codes}">
+				<td th:attr="data-code=${li.id}" th:text="${li.code}"></td>
+				<td th:text="${li.displayName}"></td>
+				<td th:text="${li.schemeName}"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

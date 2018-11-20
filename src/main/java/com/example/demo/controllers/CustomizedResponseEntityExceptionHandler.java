@@ -1,13 +1,21 @@
 package com.example.demo.controllers;
 
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.context.request.WebRequest;
 
 @ControllerAdvice
@@ -27,6 +35,16 @@ public class CustomizedResponseEntityExceptionHandler {
 		response.put("status", "error");
 		response.put("message", "error : " + ex.getMessage());
 		return ResponseEntity.ok(response);
+	}
+	
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+		dateFormat.setLenient(false);
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+		binder.registerCustomEditor(BigDecimal.class, new CustomNumberEditor(BigDecimal.class, true));
+		binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
+		binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 	}
 
 //	@ExceptionHandler(RecordNotFoundException.class)

@@ -100,7 +100,7 @@ public class RegistryQueryService {
 		AdhocQueryRequest ebXML = EbXML30Converters.convert(queryRegistry);
 		System.out.println(XdsRenderingUtils.renderEbxml(ebXML));
 
-		AdhocQueryResponse response = (AdhocQueryResponse) producerTemplate.requestBody("xds-iti18://" + patner.getUrl(), queryRegistry);
+		AdhocQueryResponse response = (AdhocQueryResponse) producerTemplate.requestBody("xds-iti18://" + patner.getUrl() + "?outInterceptors=#serverOutLogger", queryRegistry);
 		System.out.println(XdsRenderingUtils.renderEbxml(response));
 		QueryResponse queryResponse = EbXML30Converters.convertToQueryResponse(response);
 		return queryResponse;

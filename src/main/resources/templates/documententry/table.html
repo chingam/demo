@@ -1,0 +1,22 @@
+<div id="tablesec" xmlns:th="http://www.thymeleaf.org">
+	<table id="tbl" width="100%" class="grid">
+		<thead style="font-size: 12px;">
+			<tr>
+				<th>Patient no</th>
+				<th>Class code</th>
+				<th>Format code</th>
+				<th>Health care</th>
+				<th>Practice setting</th>
+			</tr>
+		</thead>
+		<tbody id="dataTable">
+			<tr th:unless="${#lists.isEmpty(zones)}"  th:each="li : ${zones}">
+				<td th:attr="data-code=${li.patientDocId}" th:text="${li.patientNo}"></td>
+				<td th:text="${li.classCode}"></td>
+				<td th:text="${li.formatCode}"></td>
+				<td th:text="${li.healthcareFacilityTypeCode}"></td>
+				<td th:text="${li.practiceSettingCode}"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

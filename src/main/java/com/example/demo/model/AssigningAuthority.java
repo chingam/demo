@@ -13,22 +13,19 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "t91000")
+@Table(name = "t91001")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ObjectReference implements Serializable{
-	
-	private static final long serialVersionUID = 4054665961401353824L;
+public class AssigningAuthority implements Serializable {
 
+	private static final long serialVersionUID = 6567357535491034240L;
+	
 	@Id
-	@Column(name = "t_id")
-	private String id;
+	@Column(name = "t_universalid")
+	private String universalId;
 	
-	@Column(name = "t_patient_no")
-	private String patientNo;
-	
-	@Column(name = "t_home")
-	private String home;
+	@Column(name = "t_universalidtype")
+	private String universalIdType;
 }

@@ -45,8 +45,8 @@
 					<td th:text="${document.mimeType}"></td>
 					<td th:text="${document.newDocumentUniqueId}"></td>
 					<td th:text="${document.newRepositoryUniqueId}"></td>
-					<td style="text-align: center;">
-						<a th:href="@{'/document/' + ${document.documentUniqueId} + ${document.mimeType eq 'text/plain' ? '/xml' : '/pdf'}}">
+					<td style="text-align: center;" th:with="fileType=${document.mimeType eq 'image/jpeg' ? '/jpeg' : '/pdf'}">
+						<a th:href="@{'/document/' + ${document.documentUniqueId} + '?mimetype=' + ${document.mimeType}}">
 							<span th:if="${document.mimeType eq 'text/plain'}" style="font-size: 14px;">
 								<i class="fa fa-file" aria-hidden="true" style="color: red;"></i>
 							</span>

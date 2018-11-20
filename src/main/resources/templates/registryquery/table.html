@@ -63,10 +63,10 @@
 					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.sourcePatientInfo ne null ? li.sourcePatientInfo.name : ''}"></label>
 				</div>
 			</div>
-			<div class="form-group" style="padding-botton: 1px">
+			<div class="form-group" style="padding-botton: 1px" th:with="df='dd-MMM-yyyy'">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Date of birth:</label>
 				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.sourcePatientInfo ne null and li.sourcePatientInfo.dateOfBirth ne null ? li.sourcePatientInfo.dateOfBirth.dateTime : ''}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.sourcePatientInfo ne null and li.sourcePatientInfo.dateOfBirth ne null ? #dates.format(li.sourcePatientInfo.dateOfBirth.dateTime, df) : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
@@ -184,7 +184,7 @@
 		</div>
 		
 		<div th:unless="${#lists.isEmpty(li.authors)}"  th:each="au : ${li.authors}">
-			<table width="100%" class="grid">
+			<table th:unless="${#lists.isEmpty(au.authorPerson)}" width="100%" class="grid">
 				<thead style="font-size: 12px;">
 					<tr>
 						<th colspan="2" style="text-align: center;padding: 0px;">Author person</th>
@@ -195,13 +195,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:unless="${#lists.isEmpty(au.authorPerson)}"  th:each="auPerson : ${au.authorPerson}">
+					<tr th:each="auPerson : ${au.authorPerson}">
 						<td th:text="${auPerson.id}"></td>
 						<td th:text="${auPerson.name}"></td>
 					</tr>
 				</tbody>
 			</table>
-			<table width="100%" class="grid">
+			<table th:unless="${#lists.isEmpty(au.authorInstitution)}" width="100%" class="grid">
 				<thead style="font-size: 12px;">
 					<tr>
 						<th colspan="2" style="text-align: center;padding: 0px;">AuthorInstitution</th>
@@ -212,7 +212,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:unless="${#lists.isEmpty(au.authorInstitution)}"  th:each="institution : ${au.authorInstitution}">
+					<tr th:each="institution : ${au.authorInstitution}">
 						<td th:text="${institution.idNumber}"></td>
 						<td th:text="${institution.organizationName}"></td>
 					</tr>

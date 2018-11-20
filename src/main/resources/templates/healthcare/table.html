@@ -1,0 +1,18 @@
+<div id="tablesec" xmlns:th="http://www.thymeleaf.org">
+	<table id="tbl" width="100%" class="grid">
+		<thead style="font-size: 12px;">
+			<tr>
+				<th>Health care</th>
+				<th>Arabic name</th>
+				<th>English name</th>
+			</tr>
+		</thead>
+		<tbody id="dataTable">
+			<tr th:unless="${#lists.isEmpty(zones)}"  th:each="li : ${zones}">
+				<td th:attr="data-code=${li.healthCareId}" th:text="${li.healthCareCode}"></td>
+				<td th:text="${li.langName1}"></td>
+				<td th:text="${li.langName2}"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

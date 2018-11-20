@@ -1,0 +1,24 @@
+<div id="tablesec" xmlns:th="http://www.thymeleaf.org">
+	<table id="tbl" width="100%" class="grid">
+		<thead style="font-size: 12px;">
+			<tr>
+				<th>Patient no</th>
+				<th>First name</th>
+				<th>Last name</th>
+				<th>Mother name</th>
+				<th>Gender</th>
+				<th>Birth date</th>
+			</tr>
+		</thead>
+		<tbody id="dataTable">
+			<tr th:unless="${#lists.isEmpty(zones)}"  th:each="li : ${zones}">
+				<td th:attr="data-code=${li.patientNo}" th:text="${li.patientNo}"></td>
+				<td th:text="${li.firstNameNative}"></td>
+				<td th:text="${li.familyNameNative}"></td>
+				<td th:text="${li.motherNameNative}"></td>
+				<td th:text="${li.gender}"></td>
+				<td th:text="${li.birthDate ne null ? #dates.format(li.birthDate, 'dd-MMM-yyyy') : ''}"></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

@@ -19,6 +19,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.ApplicationConfig;
 
@@ -32,10 +33,23 @@ public class DownloadController {
 	@Autowired
 	private ApplicationConfig appConfig;
 
-	@GetMapping(path = "/{id}/{fileType}")
+	@GetMapping(path = "/{id}")
 	public ResponseEntity<byte[]> downloadDocuemnt(@PathVariable("id") String docId,
-			@PathVariable("fileType") String fileType, HttpServletRequest req, HttpServletResponse res,
+			@RequestParam("mimetype") String mimetype, HttpServletRequest req, HttpServletResponse res,
 			final ModelMap model, Locale locale) {
+		String fileType = "pdf";
+		if ("image/jpeg".equals(mimetype)) {
+			fileType = "jpeg";
+		} else if ("application/pdf".equals(mimetype)) {
+			fileType = "pdf";
+		} else if ("text/plain".equals(mimetype)) {
+			fileType = "text";
+		} else if ("text/xml".equals(mimetype)) {
+			fileType = "xml";
+		} else if ("application/octet-stream".equals(mimetype)) {
+			fileType = "file";
+		}
+		
 		String fileName = docId + "." + fileType;
 		String url = appConfig.getPath() + File.separator + fileName;
 		File file = new File(url);

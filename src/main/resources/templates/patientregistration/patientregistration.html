@@ -1,0 +1,100 @@
+<section style="padding-top: 12px;padding-left: 12px;padding-right: 12px;" xmlns:th="http://www.thymeleaf.org">
+	<div id="formsection" class="col-md-12" style="padding-top: 8px;border: 1.5px solid #e17d7d; -ms-border-radius: 5px; border-radius: 5px;">
+		<div id="formdiv" th:fragment="fdiv">
+		<div class="col-md-6">
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="firstNameNative" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patient.reg.label.name}">First name :</label>
+					<input type="hidden" th:field="*{bean.patientNo}"/>
+				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+					<input type="text" th:field="*{bean.firstNameNative}" class="form-control" data-rule-required="true" th:placeholder="#{setup.patient.reg.label.name}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="familyNameNative" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patient.reg.label.lastname}">Last name :</label>
+				<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+					<input type="text" th:field="*{bean.familyNameNative}" class="form-control" data-rule-required="true" th:placeholder="#{setup.patient.reg.label.lastname}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="motherNameNative" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patient.reg.label.mothername}">Mother name :</label>
+				<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+					<input type="text" th:field="*{bean.motherNameNative}" class="form-control" th:placeholder="#{setup.patient.reg.label.mothername}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="gender" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patient.reg.label.gender}">Gender :</label>
+				<div class="col-md-4" style="padding-left: 3px">
+					<select class="form-control" th:field="*{bean.gender}">
+						<option value="01">Male</option>
+						<option value="02">Female</option>
+						<option value="03">Other</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="birthDate" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patient.reg.label.birthdate}">Date of birth :</label>
+				<div style="padding-left: 3px" class="col-md-4 input-group date" data-provide="datepicker" data-date-today-highlight="true" data-date-format="dd-MM-yyyy">
+					<input type="text" th:field="*{bean.birthDate}" class="form-control" />
+					<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="religionCode" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patient.reg.label.relegion}">Relegion :</label>
+				<div class="col-md-4" style="padding-left: 3px">
+					<select class="form-control" th:field="*{bean.religionCode}">
+						<option value="01">Islam</option>
+						<option value="02">Christian</option>
+						<option value="03">Baptist</option>
+						<!-- <option th:if="${not #lists.isEmpty(zones)}" th:each="it : ${zones}" th:value="${it.zoneCode}" th:text="${it.langName1}">Select...</option> -->
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<label for="religionCode" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patient.reg.label.status}">Status :</label>
+				<div class="col-md-4" style="padding-left: 3px">
+					<select class="form-control" th:field="*{bean.maritalStatus}">
+						<option value="01">Single</option>
+						<option value="02">Married</option>
+						<!-- <option th:if="${not #lists.isEmpty(zones)}" th:each="it : ${zones}" th:value="${it.zoneCode}" th:text="${it.langName1}">Select...</option> -->
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="phoneHome" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patient.reg.label.phoneno}">Phone :</label>
+				<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+					<input type="text" th:field="*{bean.phoneHome}" class="form-control" th:placeholder="#{setup.patient.reg.label.phoneno}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="addressLineOne" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patient.reg.label.addresslineone}">Address :</label>
+				<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+					<input type="text" th:field="*{bean.addressLineOne}" class="form-control" th:placeholder="#{setup.patient.reg.label.addresslineone}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="postalCode" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patient.reg.label.zipcode}">Zip code :</label>
+				<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+					<input type="text" th:field="*{bean.postalCode}" class="form-control" th:placeholder="#{setup.patient.reg.label.zipcode}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="city" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patient.reg.label.city}">City :</label>
+				<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+					<input type="text" th:field="*{bean.city}" class="form-control" th:placeholder="#{setup.patient.reg.label.city}" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="country" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patient.reg.label.country}">Country :</label>
+				<div class="col-md-4" style="padding-left: 3px">
+					<select class="form-control" th:field="*{bean.country}">
+						<!-- <option th:if="${not #lists.isEmpty(zones)}" th:each="it : ${zones}" th:value="${it.zoneCode}" th:text="${it.langName1}">Select...</option> -->
+					</select>
+				</div>
+			</div>
+		</div>
+	
+		</div>
+	</div>
+</section>

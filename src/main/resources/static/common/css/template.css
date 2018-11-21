@@ -85,7 +85,7 @@
 	margin: 10px;
 	height: 80.5vh;
 	min-height: 80.5vh;
-	max-height: 80.5vh;
+	max-height: 88.5vh;
 }
 
 .loggout {
@@ -209,4 +209,10 @@ label {
 	font-weight: normal !important;
 	margin-bottom: 5px;
 	max-width: 100%;
+}
+.alert-success{
+	border-color: #c2ecae!important;
+}
+.alert-danger{
+	border-color: #f1cccc!important;
 }

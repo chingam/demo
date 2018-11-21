@@ -38,9 +38,9 @@
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
-					<label for="status" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.status}">Zone</label>
+					<label for="siteStatus" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.status}">Zone</label>
 					<div class="col-sm-12 col-md-4" style="padding-left: 3px">
-						<select class="form-control" th:field="*{bean.zoneCode}">
+						<select class="form-control" th:field="*{bean.siteStatus}">
 							<option th:if="${not #lists.isEmpty(status)}" th:each="it : ${status}" th:value="${it.statusCode}" th:text="${it.langName1}">Select...</option>
 						</select>
 					</div>

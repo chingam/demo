@@ -59,7 +59,7 @@ public class HealthCareController implements AbstractController{
 		HealthCare zone = repository.save(healthCare);
 		if (zone == null) throw new BadRequestException("Health care code could not save");
 		response.put("status", "success");
-		response.put("message", healthCare.getArchive() == 1 ? healthCare.getHealthCareCode() + " Successfully deleted" : healthCare.getHealthCareCode() + " Successfully save");
+		response.put("message", healthCare.getArchive() == 1 ? healthCare.getHealthCareCode() + " have been deleted" : healthCare.getHealthCareCode() + " have been saved");
 		return ResponseEntity.ok(response);
 	}
 	

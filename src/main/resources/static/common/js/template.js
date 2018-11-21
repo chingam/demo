@@ -156,13 +156,13 @@ d4.eo.employee.load = function(url) {
 }
 
 d4.eo.employee.back = function() {
-	window.location.href = "/menu";
+	window.location.href = "/menu?linkid=" + $("#separateMenu").val();
 }
 
 
 function showScreenMessage(alertClass, message, triggerelement) {
     $('.headeralert').remove();
-    var div = "<div class='headeralert alert "+alertClass+" role='alert' style='font-size: 15px;border: 1px solid;width: 40%; position:fixed;z-index: 1000;float: right;right: 0px;'>"
+    var div = "<div class='headeralert alert "+alertClass+" role='alert' style='padding:10px;font-size: 15px;border: 1px solid;width: 40%; position:fixed;z-index: 1000;float: right;right: 0px;'>"
     + message
     + "<button type='button' class='close preventmessages' data-dismiss='alert' aria-label='Close'>"
     + "<span aria-hidden='true'>&times;</span>"

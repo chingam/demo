@@ -4,13 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.model.T01199;
 import com.example.demo.model.T130961;
+import com.example.demo.repo.T01199Repository;
 import com.example.demo.repo.T130961Repository;
 
 @Component
 public class CommandLineAppStartupRunner implements CommandLineRunner{
 
 	@Autowired private T130961Repository repository;
+	@Autowired private T01199Repository repo;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -62,6 +65,33 @@ public class CommandLineAppStartupRunner implements CommandLineRunner{
 		repository.save(patner5);
 		repository.save(patner6);
 		repository.save(patner7);
+		
+		//###################################
+		T01199 menuLink = new T01199(1, "Registry store query", "Registry store query", "/query/registryquery", 2, "003", null);
+		T01199 menuLink2 = new T01199(2, "Retrieve document", "Rereieve document", "/query/retrieve", 2, "003", null);
+		T01199 menuLink3 = new T01199(3, "EHR vendors", "EHR vendors", "/setup/patnerconfig", 4, "003", null);
+		T01199 menuLink4 = new T01199(4, "Zone registration", "Zone registration", "/setup/zone", 4, "003", null);
+		T01199 menuLink5 = new T01199(5, "Role registration", "Role registration", "/setup/role", 4, "003", null);
+		T01199 menuLink6 = new T01199(6, "Job registration", "Job registration", "/setup/job", 4, "003", null);
+		T01199 menuLink7 = new T01199(7, "Site registration", "Site registration", "/setup/site", 4, "003", null);
+		T01199 menuLink8 = new T01199(8, "Role permssion", "Role permssion", "/setup/rolepermission", 4, "003", null);
+		T01199 menuLink9 = new T01199(9, "User registration", "User registration", "/setup/user", 4, "003", null);
+		T01199 menuLink10 = new T01199(10, "Patient registration", "Patient registration", "/transaction/patientregistration", 1, "003", null);
+		T01199 menuLink11 = new T01199(11, "Document entry", "Document entry", "/transaction/documententry", 1, "003", null);
+		T01199 menuLink12 = new T01199(12, "Practice setting", "Practice setting", "/transaction/practicesetting", 1, "003", null);
+		T01199 menuLink13 = new T01199(13, "Codes", "Codes", "/transaction/code", 1, "003", null);
+		repo.save(menuLink);
+		repo.save(menuLink2);
+		repo.save(menuLink3);
+		repo.save(menuLink4);
+		repo.save(menuLink5);
+		repo.save(menuLink6);
+		repo.save(menuLink7);repo.save(menuLink8);repo.save(menuLink9);repo.save(menuLink10);repo.save(menuLink11);repo.save(menuLink12);
+		repo.save(menuLink13);
+		
+		
+		
+		
 	}
 
 }

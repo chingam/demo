@@ -59,7 +59,7 @@ public class JobController implements AbstractController{
 		T02016 job = repository.save(t01007);
 		if (job == null) throw new BadRequestException("Job could not save");
 		response.put("status", "success");
-		response.put("message", t01007.getArchive() == 1 ? t01007.getTitleNo() + " Successfully deleted" : t01007.getTitleNo() + " Successfully save");
+		response.put("message", t01007.getArchive() == 1 ? t01007.getTitleNo() + " have been deleted" : t01007.getTitleNo() + " have been saved");
 		return ResponseEntity.ok(response);
 	}
 	

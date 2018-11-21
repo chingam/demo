@@ -3,7 +3,6 @@ package com.example.demo;
 import java.util.Locale;
 
 import org.apache.cxf.transport.servlet.CXFServlet;
-import org.openehealth.ipf.commons.ihe.ws.cxf.payload.InPayloadInjectorInterceptor;
 import org.openehealth.ipf.commons.ihe.ws.cxf.payload.OutPayloadLoggerInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,8 +21,8 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 public class DemoApplication {
 
 	@Bean
-	public ServletRegistrationBean servletRegistrationBean(ApplicationContext context) {
-		return new ServletRegistrationBean(new CXFServlet(), "/rufaida/service/*");
+	public ServletRegistrationBean<CXFServlet> servletRegistrationBean(ApplicationContext context) {
+		return new ServletRegistrationBean<>(new CXFServlet(), "/medisys/service/*");
 	}
 
 	@Bean

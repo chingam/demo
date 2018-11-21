@@ -18,6 +18,7 @@ import org.openehealth.ipf.commons.ihe.xds.core.metadata.AssigningAuthority;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.Association;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.AssociationLabel;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.AssociationType;
+import org.openehealth.ipf.commons.ihe.xds.core.metadata.Author;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.AvailabilityStatus;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.Code;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.DocumentAvailability;
@@ -34,6 +35,9 @@ import org.openehealth.ipf.commons.ihe.xds.core.metadata.SubmissionSet;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.Version;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.XpnName;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.FindDocumentsQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.FindFoldersQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.FindSubmissionSetsQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetAllQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.QueryResponse;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.Status;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,10 +46,12 @@ import org.springframework.stereotype.Service;
 import com.example.demo.ApplicationConfig;
 import com.example.demo.DateUtil;
 import com.example.demo.model.PatientDocument;
+import com.example.demo.model.SubmissionSetDocument;
 import com.example.demo.model.T03001;
 import com.example.demo.repo.AssociationRepository;
 import com.example.demo.repo.CodeRepository;
 import com.example.demo.repo.PatientDocumentRepository;
+import com.example.demo.repo.SubmissionSetDocumentRepository;
 import com.example.demo.repo.T03001Repository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -59,6 +65,7 @@ public class CreateQueryResponseService {
 	@Autowired private AssociationRepository associationRepository;
 	@Autowired private PatientDocumentRepository patientDocumentRepository;
 	@Autowired private CodeRepository codeRepository;
+	@Autowired private SubmissionSetDocumentRepository submissionSetRepository;
 
 	public QueryResponse createResponse(FindDocumentsQuery findDocumentsQuery) {
 		if (findDocumentsQuery.getPatientId() == null || StringUtils.isBlank(findDocumentsQuery.getPatientId().getId())) {
@@ -67,13 +74,69 @@ public class CreateQueryResponseService {
 		String patientId = findDocumentsQuery.getPatientId().getId();
 		
 		QueryResponse response = new QueryResponse();
-		response.setDocumentEntries(crateDocumentEntries(patientId));
+		response.setStatus(Status.SUCCESS);
+		try {
+			response.setDocumentEntries(crateDocumentEntries(patientId));
+		} catch (Exception e) {
+			log.error("Could not create response FindDocumentsQuery {}", e);
+			return sendErrorResponse();
+		}
 //		response.setAssociations(createAssociation(patientId));
 //		response.setFolders(createFolders(patientId));
 //		response.setSubmissionSets(creatieSubmissionSets(patientId));
 //		response.setReferences(createObjectReferences(patientId));
-		response.setStatus(Status.SUCCESS);
 		return response;
+	}
+	
+	public QueryResponse createResponse(FindSubmissionSetsQuery findSubmission) {
+		if (findSubmission == null || findSubmission.getPatientId() == null || StringUtils.isBlank(findSubmission.getPatientId().getId())) {
+			return sendErrorResponse();
+		}
+		String patientId = findSubmission.getPatientId().getId();
+		QueryResponse response = new QueryResponse();
+		response.setStatus(Status.SUCCESS);
+		try {
+			response.setSubmissionSets(creatieSubmissionSets(patientId));
+		} catch (Exception e) {
+			log.error("Could not create response FindSubmissionSetsQuery {}", e);
+			return sendErrorResponse();
+		}
+		return response;
+		
+	}
+	public QueryResponse createResponse(GetAllQuery getAllQuery) {
+		if (getAllQuery == null || getAllQuery.getPatientId() == null || StringUtils.isBlank(getAllQuery.getPatientId().getId())) {
+			return sendErrorResponse();
+		}
+		String patientId = getAllQuery.getPatientId().getId();
+		QueryResponse response = new QueryResponse();
+		response.setStatus(Status.SUCCESS);
+		try {
+			response.setDocumentEntries(crateDocumentEntries(patientId));
+			response.setSubmissionSets(creatieSubmissionSets(patientId));
+			response.setFolders(createFolders(patientId));
+		} catch (Exception e) {
+			log.error("Could not create response GetAllQuery {}", e);
+			return sendErrorResponse();
+		}
+		return null;
+	}
+	
+	public QueryResponse createResponse(FindFoldersQuery findFoldersQuery) {
+		if (findFoldersQuery == null || findFoldersQuery.getPatientId() == null || StringUtils.isBlank(findFoldersQuery.getPatientId().getId())) {
+			return sendErrorResponse();
+		}
+		String patientId = findFoldersQuery.getPatientId().getId();
+		QueryResponse response = new QueryResponse();
+		response.setStatus(Status.SUCCESS);
+		try {
+			response.setFolders(createFolders(patientId));
+		} catch (Exception e) {
+			log.error("Could not create response FindFoldersQuery {}", e);
+			return sendErrorResponse();
+		}
+		return response;
+		
 	}
 
 	private QueryResponse sendErrorResponse() {
@@ -88,13 +151,89 @@ public class CreateQueryResponseService {
 	}
 
 	private List<SubmissionSet> creatieSubmissionSets(String patientId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<SubmissionSet> sets = new ArrayList<>();
+		SubmissionSetDocument submissionSetObj = submissionSetRepository.findByPatientNo(patientId);
+		if (submissionSetObj == null) {
+			return Collections.emptyList();
+		}
+		SubmissionSet submissionSet = new SubmissionSet();
+		submissionSet.setAuthor(createAuthor(patientId));
+		submissionSet.setAvailabilityStatus(AvailabilityStatus.APPROVED);
+		
+		Code contentTypeCode = createCode(submissionSetObj.getContentTypeCode());
+		if (contentTypeCode != null) {
+			submissionSet.setContentTypeCode(contentTypeCode);
+		}
+		if (StringUtils.isNotBlank(submissionSetObj.getEntryUuid())) {
+			submissionSet.setEntryUuid(submissionSetObj.getEntryUuid());
+		}
+		submissionSet.setHomeCommunityId(appConfig.getHomeCommunityId());
+		submissionSet.setPatientId(getPatientId(patientId));
+		if (StringUtils.isNotBlank(submissionSetObj.getSourceId())) {
+			submissionSet.setSourceId(submissionSetObj.getSourceId());
+		}
+		if (submissionSetObj.getSubmissionTime() != null) {
+			submissionSet.setSubmissionTime(DateUtil.format(submissionSetObj.getSubmissionTime(), DateUtil.HL7v2_DATE_FORMAT));
+		}
+		if (StringUtils.isNotBlank(submissionSetObj.getTitleDocument())) {
+			submissionSet.setTitle(new LocalizedString(submissionSetObj.getTitleDocument()));
+		}
+		submissionSet.setUniqueId(patientId);
+		submissionSet.setVersion(new Version("1.0.0"));
+		sets.add(submissionSet);
+		return sets;
+	}
+
+	private Identifiable getPatientId(String patientId) {
+		Identifiable identifiable = new Identifiable(patientId, new AssigningAuthority(appConfig.getAssigningauthority()));
+		return identifiable;
+	}
+
+	private Author createAuthor(String patientId) {
+		Author author = new Author();
+		author.setAuthorPerson(createAuthorPerson(patientId));
+		return author;
+	}
+
+	private Person createAuthorPerson(String patientId) {
+		Person person = new Person();
+		person.setId(createIdentifiable(patientId));
+		person.setName(createAuthorName(patientId));
+		return person;
+	}
+
+	private Name createAuthorName(String patientId) {
+		// TODO Implementation
+		Name name = new XpnName();
+		name.setDegree("MBBS, BMBS, MBChB, MBBCh)");
+		name.setFamilyName("GM Salam");
+		name.setGivenName("Hossain");
+		name.setPrefix("Dr");
+		name.setSuffix("Sur");
+		return name;
+	}
+
+	private Identifiable createIdentifiable(String patientId) {
+		Identifiable identifi= new Identifiable();
+		identifi.setId(appConfig.getAssigningauthority());
+		identifi.setId(patientId);
+		return identifi;
 	}
 
 	private List<Folder> createFolders(String patientId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Folder> list = new ArrayList<>();
+		
+		Folder folder = new Folder();
+		folder.setAvailabilityStatus(AvailabilityStatus.APPROVED);
+		folder.setComments(new LocalizedString("folder"));
+		folder.setEntryUuid("1.3.4.5.6.44.56");
+		folder.setHomeCommunityId(appConfig.getHomeCommunityId());
+//		folder.setLastUpdateTime(lastUpdateTime);
+		folder.setPatientId(createIdentifiable(patientId));
+		folder.setTitle(new LocalizedString("Folder Document"));
+		folder.setVersion(new Version("1.0.0"));
+		list.add(folder);
+		return list;
 	}
 
 	private List<DocumentEntry> crateDocumentEntries(String patientId) {

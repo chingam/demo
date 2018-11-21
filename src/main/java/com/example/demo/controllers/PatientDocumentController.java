@@ -30,7 +30,7 @@ import com.example.demo.repo.CodeRepository;
 import com.example.demo.repo.PatientDocumentRepository;
 
 @Controller
-@RequestMapping("/setup/documententry")
+@RequestMapping("/transaction/documententry")
 public class PatientDocumentController implements AbstractController{
 
 	@Autowired private PatientDocumentRepository repository;
@@ -59,7 +59,7 @@ public class PatientDocumentController implements AbstractController{
 		model.addAttribute("formName", "Document Entry");
 		model.addAttribute("controller", "documententry");
 		model.addAttribute("bean", new PatientDocument());
-		return "setup/template";
+		return "transaction/template";
 	}
 	
 	@PostMapping
@@ -75,7 +75,7 @@ public class PatientDocumentController implements AbstractController{
 		PatientDocument zone = repository.save(patientDocument);
 		if (zone == null) throw new BadRequestException("Document could not save");
 		response.put("status", "success");
-		response.put("message", patientDocument.getArchive() == 1 ? patientDocument.getPatientNo() + " Successfully deleted" : patientDocument.getPatientNo() + " Successfully save");
+		response.put("message", patientDocument.getArchive() == 1 ? patientDocument.getPatientNo() + " have been deleted" : patientDocument.getPatientNo() + " have been saved");
 		return ResponseEntity.ok(response);
 	}
 	

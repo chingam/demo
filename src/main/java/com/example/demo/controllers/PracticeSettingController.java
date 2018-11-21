@@ -24,11 +24,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.model.Button;
 import com.example.demo.model.PracticeSetting;
-import com.example.demo.model.PracticeSetting;
 import com.example.demo.repo.PracticeSettingRepository;
 
 @Controller
-@RequestMapping("/setup/practicesetting")
+@RequestMapping("/transaction/practicesetting")
 public class PracticeSettingController implements AbstractController{
 
 	@Autowired private PracticeSettingRepository repository;
@@ -44,7 +43,7 @@ public class PracticeSettingController implements AbstractController{
 		model.addAttribute("formName", "Practice Setting Screen");
 		model.addAttribute("controller", "practicesetting");
 		model.addAttribute("bean", new PracticeSetting());
-		return "setup/template";
+		return "transaction/template";
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
@@ -60,7 +59,7 @@ public class PracticeSettingController implements AbstractController{
 		PracticeSetting zone = repository.save(practiceSetting);
 		if (zone == null) throw new BadRequestException("Practice could not save");
 		response.put("status", "success");
-		response.put("message", practiceSetting.getArchive() == 1 ? practiceSetting.getPracticeCode() + " Successfully deleted" : practiceSetting.getPracticeCode() + " Successfully save");
+		response.put("message", practiceSetting.getArchive() == 1 ? practiceSetting.getPracticeCode() + " have been deleted" : practiceSetting.getPracticeCode() + " have been saved");
 		return ResponseEntity.ok(response);
 	}
 	

@@ -1,3 +1,3 @@
 <div xmlns:th="http://www.thymeleaf.org" class="links" th:unless="${#lists.isEmpty(links)}"  th:each="li : ${links}">
-	<a style="color:#5b5b5b" th:href="@{li.linkText}" th:text="${li.langName1}"></a>
+	<a style="color:#5b5b5b" th:href="@{${li.linkText}}" th:text="${li.langName1}"></a>
 </div>

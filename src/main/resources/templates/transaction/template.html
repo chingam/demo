@@ -195,19 +195,19 @@
     width: 18px;
 }
 
-th{
+.grid th{
 background-color: #c12d2d;
     padding: 3px;
     color: #f7f7f7;
 }
-table {
+.grid table {
     border-collapse: collapse;
 }
 
-table, th, td {
+.grid table, th, td {
     border: 1px solid #a21217;
-}
-tr:hover {
+} 
+.grid tr:hover {
     color: #f7f7f7;
     background-color: #e17d7d;
     cursor: pointer
@@ -231,76 +231,26 @@ span.gray {
     color: #7a7a7a
 }
 
-.Button {
-    margin-top: 2px;
-    display: block;
-    height: 36px;
-    width: 223px;
-    color: #fafafa;
-    border: 1px solid rgb(190, 190, 190);
-    -ms-border-radius: 4px;
-    border-radius: 4px;
-    padding: 0 0 0 50px;
-    text-align: left;
-}
-
-.Button:enabled:active {
-    background-position: 4px 4px;
-    padding: 2px 0 0 51px;
-}
-
-.Transaction {
-    background: url("/images/transaction.png") no-repeat;
-    background-position: 3px 3px;
-}
-
-.Query {
-    background: url("/images/query.png") no-repeat;
-    background-position: 3px 3px;
-}
-
-.Report {
-    background: url("/images/report.png") no-repeat;
-    background-position: 3px 3px;
-}
-
-.Setup {
-    background: url("/images/setup.png") no-repeat;
-    background-position: 3px 3px;
-}
-
-.Help {
-    background: url("/images/help.png") no-repeat;
-    background-position: 3px 3px;
-}
-
-.Back {
-    background: url("/images/back1.png") no-repeat;
-    background-position: 3px 3px;
-}
-
-.Logout {
-    background: url("/images/logoutpg1.png") no-repeat;
-    background-position: 3px 3px;
-}
-
-
-
-.links {
-	padding-left: 115px;
-    font-weight: bold;
-    padding-bottom: 8px;
-}
-.user{
+.userbox{
 	float: left;
-    margin-top: -1px;
-    margin-left: 2px;
+	position: fixed;
+	top: 46px;
+    margin: 0px 0 0 190px;
     height: 46px;
     width: 46px;
     border: 2px solid #a21217;
     -ms-border-radius: 5px;
     border-radius: 5px;
     background-color: #fafafa;
+}
+.username{
+	float: left;
+    position: fixed;
+    top: 53px;
+    margin-left: 248px;
+    color: #c12d2d;
+    font-weight: bold;
+    font-size: 18px;
 }
 	</style>
 </head>
@@ -318,80 +268,66 @@ span.gray {
 			<script type="text/javascript">
 				document.writeln(moment().format('iYYYY/iMM/iDD'));
 			</script> -->
-			<img th:src="@{/images/topbarseparator.png}" class="separator" style="left: 239px;"/>
+			<img th:src="@{/images/topbarseparator.png}" class="separator"/>
 		</div>
-		<div style="left: 238px;" class="form-name">
+		<div class="form-name">
 			<span id="formcode" th:text="${formCode}">T01009</span>
-			<span id="lblFormInfo" style="width: auto;padding-left: 26px;font-weight: bold;" th:text="${formName}">User Registration</span>
+			<span id="lblFormInfo" style="width: auto;padding-left: 26px;" th:text="${formName}">User Registration</span>
 		</div>
 		<div class="white-logo">
 			<img th:src="@{/images/whitelogo.png}"/>
 		</div>
 	</div>
 	<div class="content-body">
-		<div class="left-col" style="width: 19%;min-width: 19%;">
-			<img th:src="@{/images/leftpanelbg.png}" class="left-panel" style="width: 283px;"/>
-			<div class="action-panel" style="margin-left: 3px;">
-				<div class="user">
-					<img style="padding-left: 8px;padding-top: 5px;" th:src="@{/images/user.png}" />
-				</div>
-				<div id="userName" style="float: left;width: 160px;padding: 14px 0 0 10px;color: #fafafa;font-weight: bold;font-size:15px;">
-					<span>[[${#httpServletRequest.remoteUser}]]</span>
-				</div>
-			</div>
-			
-			<div class="action-panel" style="margin:18px auto;">
-				<button type="button" id="btnTransaction" class="Button Transaction menuButton" data-id=1>Transaction</button>
-				<button type="button" id="btnIQuery" class="Button Query menuButton" data-id=2>Query</button>
-				<button type="button" id="btnReport" class="Button Report menuButton" data-id=3>Report</button>
-				<button type="button" id="btnSetup" class="Button Setup menuButton" data-id=4>Setup</button>
+		<div class="left-col">
+			<img th:src="@{/images/pageleftpanelbg.png}" class="left-panel"/>
+			<div class="action-panel" style="margin:-54px auto;">
+				<button th:unless="${#lists.isEmpty(events)}"  th:each="li : ${events}" th:id="${#bools.isTrue(li.custEvent) ? 'cust' + li.buttonName.id : li.buttonName.id}" th:if="${li.hasAccess}" th:class="${li.buttonName.cssClass}"></button>
+				<button style="display: none" id="btnExecuteQuery" title="Execute Query" class="Button Execute"></button>
+				<button style="display: none" id="btnCancelQuery" title="Cancel Query" class="Button Cancel"></button>
 			</div>
 			<div class="loggout">
-				<button id="btnBack" type="button" title="Back" Class="Button Back"></button>
+				<input id="separateMenu" type="hidden" value="1"/>
+				<button id="btnBack" title="Back" Class="Button Back"></button>
 				<form th:action="@{/logout}" method="post">
 					<input type="hidden" value="Sign Out"/>
 					<button id="btnLogout" type="submit" title="Logout" Class="Button Logout"></button>
 				</form>
 			</div>
-			
 		</div>
-		<div class="right-col" style="width: 81%;min-width: 81%;">
+		<div class="right-col">
 			<div id="banner"></div>
-			<img th:src="@{/images/headerbg.png}" class="header-white" />
-			<div id="logo" style="float: right; position: fixed;top: 45px;">
-				<img th:src="@{/images/m-medisys-logo.png}" />
+			<img th:src="@{/images/headerbg.png}" class="header-white"/>
+			<div id="logo" style="float: left;position: fixed;top: 46px;padding-left:10px">
+				<img th:src="@{/images/m-medisys-logo.png}" alt="logo" class="img-responsive" />
+			</div>
+			<div class="userbox">
+				<img th:src="@{/images/user.png}" style="padding-top: 6px;padding-left: 8px;" id="usericon" alt="user icon" class="img-responsive" />
+			</div>
+			<div class="username">
+				<span>[[${#httpServletRequest.remoteUser}]]</span>
 			</div>
 			<div id="title">
-				<span class='red'>Hospital</span>&nbsp;<span class='gray'>Information Management System</span>
+				<span class='red'>Hospital</span>&nbsp;<span class='gray'>Management Information System</span>
 			</div>
-			<div id="header">
-		</div>
 			<div class="form-panel">
-				<div style="padding: 15px;">
-					<span id="headerText" style="color: #c12d2d;font-size: 1.2em;font-weight: bold;" th:text="${headerText}">Transaction</span>
-					<img th:src="@{/images/navdir.png}" style="padding-left: 6px;"/>
-				</div>
-				<div id="menuSection">
-					<div class="links" th:unless="${#lists.isEmpty(links)}"  th:each="li : ${links}">
-						<a style="color:#5b5b5b" th:href="@{${li.linkText}}" th:text="${li.langName1}"></a>
+				<span th:substituteby="commons :: common-js"></span>
+				<form id="mainform"  class="form-horizontal" method="POST" autocomplete="off" th:action="@{'/transaction/' + ${controller}}">
+					<div th:replace="${controller + '/' + controller}">
+						<h3>Specified view '<span th:text="${controller + '/' + controller}"></span>' not found. Please contact with Medisys Administrator</h3>
 					</div>
-				</div>
+				</form>
+			
 			</div>
 		</div>
 	</div>
-				<span th:substituteby="commons :: common-js"></span>
-				<script th:src="@{/page/menu/menu.js}"></script>
 </body>
 
 
 
 <script th:inline="javascript">
 	/*<![CDATA[*/
-		$( document ).ready(function() {
-			d4.eo.menu.menuInit();
-		});
-			
-	
+		$("#engdate").text(moment().format('DD/MM/YYYY'));
 	
 	/*]]>*/
 </script>

@@ -8,7 +8,7 @@ d4.eo.menu.menuInit = function() {
 }
 
 d4.eo.menu.getLink =function() {
-	alert($(this).data("id"));
+	$("#loadingmask2").show();
 	var linkId = $(this).data("id");
 	var hText;
 	if (linkId == 1) {

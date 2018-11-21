@@ -50,7 +50,7 @@ public class RolePermissionController implements AbstractController{
 	@RequestMapping(method = RequestMethod.GET)
 	public String getScreen(final ModelMap model, final Locale locale) {
 		model.addAttribute("formCode", "T01008");
-		model.addAttribute("formName", "Role permission Registration");
+		model.addAttribute("formName", "Role Permission Registration");
 		model.addAttribute("controller", "rolepermission");
 		model.addAttribute("bean", new T01008());
 		return "setup/template";
@@ -85,7 +85,7 @@ public class RolePermissionController implements AbstractController{
 //		T01008 job = repository.save(t01008);
 //		if (job == null) throw new BadRequestException("Job could not save");
 //		response.put("status", "success");
-//		response.put("message", t01008.getArchive() == 1 ? t01008.getTitleNo() + " Successfully deleted" : t01008.getTitleNo() + " Successfully save");
+//		response.put("message", t01008.getArchive() == 1 ? t01008.getTitleNo() + " have been deleted" : t01008.getTitleNo() + " have been saved");
 //		return ResponseEntity.ok(response);
 //	}
 //	

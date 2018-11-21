@@ -87,7 +87,7 @@ public class SiteController implements AbstractController{
 		T02065 zone = repository.save(t02065);
 		if (zone == null) throw new BadRequestException("Zone could not save");
 		response.put("status", "success");
-		response.put("message", t02065.getArchive() == 1 ? t02065.getSiteCode() + " Successfully deleted" : t02065.getSiteCode() + " Successfully save");
+		response.put("message", t02065.getArchive() == 1 ? t02065.getSiteCode() + " have been deleted" : t02065.getSiteCode() + " have been saved");
 		return ResponseEntity.ok(response);
 	}
 	

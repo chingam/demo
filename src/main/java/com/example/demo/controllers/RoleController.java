@@ -59,7 +59,7 @@ public class RoleController implements AbstractController{
 		T01007 zone = repository.save(t01007);
 		if (zone == null) throw new BadRequestException("Zone could not save");
 		response.put("status", "success");
-		response.put("message", t01007.getArchive() == 1 ? t01007.getRoleCode() + " Successfully deleted" : t01007.getRoleCode() + " Successfully save");
+		response.put("message", t01007.getArchive() == 1 ? t01007.getRoleCode() + " have been deleted" : t01007.getRoleCode() + " have been saved");
 		return ResponseEntity.ok(response);
 	}
 	

@@ -3,7 +3,7 @@
 		<div id="formdiv" th:fragment="fdiv">
 			<div class="col-md-6">
 				<div class="form-group">
-					<label for="zoneCode" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.zone}">Zone</label>
+					<label for="zoneCode" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.zone}">Zone</label>
 					<div class="col-sm-12 col-md-4" style="padding-left: 3px">
 						<select class="form-control" th:field="*{bean.zoneCode}">
 							<option th:if="${not #lists.isEmpty(zones)}" th:each="it : ${zones}" th:value="${it.zoneCode}" th:text="${it.langName1}">Select...</option>
@@ -11,15 +11,89 @@
 					</div>
 				</div>
 				<div class="form-group" style="padding-botton: 1px">
-					<label for="employeeCode" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.empcode}">Emp code :</label>
+					<label for="employeeCode" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.empcode}">Emp code :</label>
 					<div class="col-sm-4 col-md-6" style="padding-left: 3px">
 						<input type="text" th:field="*{bean.employeeCode}" class="form-control" data-rule-required="true" th:placeholder="#{setup.user.label.empcode}" />
 					</div>
 				</div>
+				<div class="form-group" style="padding-botton: 1px">
+					<label for="firstLangName1" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.firstname}">Frst name :</label>
+					<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+						<input type="text" th:field="*{bean.firstLangName1}" class="form-control" th:placeholder="#{setup.user.label.firstname}" />
+					</div>
+				</div>
+				<div class="form-group" style="padding-botton: 1px">
+					<label for="firstLangName2" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.namearabic}">Name (English)</label>
+					<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+						<input type="text" th:field="*{bean.firstLangName2}" class="form-control" th:placeholder="#{setup.user.label.ar.firstname}" />
+					</div>
+				</div>
+				<div class="form-group" style="padding-botton: 1px">
+					<label for="familyLangName1" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.familyname}">Name (English)</label>
+					<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+						<input type="text" th:field="*{bean.familyLangName1}" class="form-control" th:placeholder="#{setup.user.label.familyname}" />
+					</div>
+				</div>
+				<div class="form-group" style="padding-botton: 1px">
+					<label for="familyLangName2" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.ar.familyname}">Name (English)</label>
+					<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+						<input type="text" th:field="*{bean.familyLangName2}" class="form-control" th:placeholder="#{setup.user.label.ar.familyname}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="roleCode" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.role}">Role</label>
+					<div class="col-md-4" style="padding-left: 3px">
+						<select class="form-control" th:field="*{bean.roleCode}">
+							<option th:if="${not #lists.isEmpty(roles)}" th:each="it : ${roles}" th:value="${it.roleCode}" th:text="${it.langName1}">Select...</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group" style="padding-botton: 1px">
+					<label for="loginName" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.loginname}">Login name :</label>
+					<div class="col-md-6" style="padding-left: 3px">
+						<input type="text" th:field="*{bean.loginName}" class="form-control" data-rule-required="true" th:placeholder="#{setup.user.label.loginname}" />
+					</div>
+				</div>
+				<div class="form-group" style="padding-botton: 1px">
+					<label for="mobileNo" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.mobileno}">Login name :</label>
+					<div class="col-md-6" style="padding-left: 3px">
+						<input type="text" th:field="*{bean.mobileNo}" class="form-control" data-rule-required="true" th:placeholder="#{setup.user.label.mobileno}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="activeFlag" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.active}">Active</label>
+					<div class="col-md-1" style="padding-left: 3px">
+						<input name="activeFlag" id="activeFlag" type="checkbox" value="Y" th:field="*{bean.activeFlag}" class="form-check-input" />
+					</div>
+				</div>
 			</div>
 			<div class="col-md-6">
+				<div class="form-group" style="padding-botton: 1px">
+					<label for="fatherLangName1" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.fathername}">Name (English)</label>
+					<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+						<input type="text" th:field="*{bean.fatherLangName1}" class="form-control" th:placeholder="#{setup.user.label.fathername}" />
+					</div>
+				</div>
+				<div class="form-group" style="padding-botton: 1px">
+					<label for="fatherLangName2" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.ar.fathername}">Name (English)</label>
+					<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+						<input type="text" th:field="*{bean.fatherLangName2}" class="form-control" th:placeholder="#{setup.user.label.ar.fathername}" />
+					</div>
+				</div>
+				<div class="form-group" style="padding-botton: 1px">
+					<label for="gfatherLangName1" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.gfathername}">Name (English)</label>
+					<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+						<input type="text" th:field="*{bean.gfatherLangName1}" class="form-control" th:placeholder="#{setup.user.label.gfathername}" />
+					</div>
+				</div>
+				<div class="form-group" style="padding-botton: 1px">
+					<label for="gfatherLangName2" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.ar.gfathername}">Name (English)</label>
+					<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+						<input type="text" th:field="*{bean.gfatherLangName2}" class="form-control" th:placeholder="#{setup.user.label.ar.gfathername}" />
+					</div>
+				</div>
 				<div class="form-group">
-					<label for="siteCode" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.site}">Site</label>
+					<label for="siteCode" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.site}">Site</label>
 					<div class="col-sm-12 col-md-4" style="padding-left: 3px">
 						<select class="form-control" th:field="*{bean.siteCode}">
 							<option th:if="${not #lists.isEmpty(sites)}" th:each="it : ${sites}" th:value="${it.siteCode}" th:text="${it.langName1}">Select...</option>
@@ -27,93 +101,28 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="titleNo" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.jobtitle}">Job title</label>
+					<label for="titleNo" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.jobtitle}">Job title</label>
 					<div class="col-sm-12 col-md-4" style="padding-left: 3px">
 						<select class="form-control" th:field="*{bean.titleNo}">
 							<option th:if="${not #lists.isEmpty(jobs)}" th:each="it : ${jobs}" th:value="${it.titleNo}" th:text="${it.langName1}">Select...</option>
 						</select>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-12">
-				<div class="form-group" style="margin-left: -70px;">
-					<label for="firstLangName1" class="control-label col-sm-2" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.nameeng}">Name (English)</label>
-					<div class="col-md-2" style="padding-left: 3px">
-						<input type="text" th:field="*{bean.firstLangName1}" class="form-control" th:placeholder="#{setup.user.label.firstname}" />
-					</div>
-					<div class="col-md-2" style="padding-left: 3px">
-						<input type="text" th:field="*{bean.familyLangName1}" class="form-control" th:placeholder="#{setup.user.label.familyname}" />
-					</div>
-					<div class="col-md-2" style="padding-left: 3px">
-						<input type="text" th:field="*{bean.fatherLangName1}" class="form-control" th:placeholder="#{setup.user.label.fathername}" />
-					</div>
-					<div class="col-md-2" style="padding-left: 3px">
-						<input type="text" th:field="*{bean.gfatherLangName1}" class="form-control" th:placeholder="#{setup.user.label.gfathername}" />
-					</div>
-				</div>
-			</div>
-			<div class="col-md-12">
-				<div class="form-group" style="margin-left: -70px;">
-					<label for="firstLangName2" class="control-label col-sm-2" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.namearabic}">Name (English)</label>
-					<div class="col-md-2" style="padding-left: 3px">
-						<input type="text" th:field="*{bean.firstLangName2}" class="form-control" th:placeholder="#{setup.user.label.ar.firstname}" />
-					</div>
-					<div class="col-md-2" style="padding-left: 3px">
-						<input type="text" th:field="*{bean.familyLangName2}" class="form-control" th:placeholder="#{setup.user.label.ar.familyname}" />
-					</div>
-					<div class="col-md-2" style="padding-left: 3px">
-						<input type="text" th:field="*{bean.fatherLangName2}" class="form-control" th:placeholder="#{setup.user.label.ar.fathername}" />
-					</div>
-					<div class="col-md-2" style="padding-left: 3px">
-						<input type="text" th:field="*{bean.gfatherLangName2}" class="form-control" th:placeholder="#{setup.user.label.ar.gfathername}" />
-					</div>
-				</div>
-			</div>
-			
-			<div class="col-md-6">
-				<div class="form-group">
-					<label for="roleCode" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.role}">Role</label>
-					<div class="col-sm-12 col-md-4" style="padding-left: 3px">
-						<select class="form-control" th:field="*{bean.roleCode}">
-							<option th:if="${not #lists.isEmpty(roles)}" th:each="it : ${roles}" th:value="${it.roleCode}" th:text="${it.langName1}">Select...</option>
-						</select>
-					</div>
-				</div>
 				<div class="form-group" style="padding-botton: 1px">
-					<label for="loginName" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.loginname}">Login name :</label>
-					<div class="col-sm-4 col-md-6" style="padding-left: 3px">
-						<input type="text" th:field="*{bean.loginName}" class="form-control" data-rule-required="true" th:placeholder="#{setup.user.label.loginname}" />
-					</div>
-				</div>
-				<div class="form-group" style="padding-botton: 1px">
-					<label for="mobileNo" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.mobileno}">Login name :</label>
-					<div class="col-sm-4 col-md-6" style="padding-left: 3px">
-						<input type="text" th:field="*{bean.mobileNo}" class="form-control" data-rule-required="true" th:placeholder="#{setup.user.label.mobileno}" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="activeFlag" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.active}">Active</label>
-					<div class="col-sm-1 col-md-1" style="padding-left: 3px">
-						<input name="activeFlag" id="activeFlag" type="checkbox" value="Y" th:field="*{bean.activeFlag}" class="form-check-input" />
-					</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="form-group" style="padding-botton: 1px">
-					<label for="password" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.password}">Password</label>
-					<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+					<label for="password" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.password}">Password</label>
+					<div class="col-md-6" style="padding-left: 3px">
 						<input type="text" th:field="*{bean.password}" class="form-control" data-rule-required="true" th:placeholder="#{setup.user.label.password}" />
 					</div>
 				</div>
 				<div class="form-group" style="padding-botton: 1px">
-					<label for="emailId" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.email}">Email</label>
-					<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+					<label for="emailId" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.email}">Email</label>
+					<div class="col-md-6" style="padding-left: 3px">
 						<input type="text" th:field="*{bean.emailId}" class="form-control" data-rule-required="true" th:placeholder="#{setup.user.label.email}" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="userLang" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.language}">Language</label>
-					<div class="col-sm-12 col-md-4" style="padding-left: 3px">
+					<label for="userLang" class="control-label col-md-4" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.user.label.language}">Language</label>
+					<div class="col-md-4" style="padding-left: 3px">
 						<select class="form-control" th:field="*{bean.userLang}">
 							<option selected="selected" value=""></option>
 							<option value="1">Arabic</option>
@@ -122,8 +131,8 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="userLang" class="control-label col-sm-3 col-md-3" th:text="#{setup.user.label.nursetype}">Nurse type</label>
-					<div class="col-sm-12 col-md-6">
+					<label for="userLang" class="control-label col-md-4" th:text="#{setup.user.label.nursetype}">Nurse type</label>
+					<div class="col-md-6">
 						<label class="radio-inline">
 							<input type="radio" name="optradio" />Hearing
 						</label>
@@ -135,8 +144,8 @@
 						</label>
 					</div>
 				</div>
-				
 			</div>
+			
 		</div>
 	</div>
 </section>

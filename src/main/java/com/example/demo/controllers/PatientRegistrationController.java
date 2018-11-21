@@ -27,7 +27,7 @@ import com.example.demo.model.T03001;
 import com.example.demo.repo.T03001Repository;
 
 @Controller
-@RequestMapping("/setup/patientregistration")
+@RequestMapping("/transaction/patientregistration")
 public class PatientRegistrationController implements AbstractController{
 
 	@Autowired private T03001Repository repository;
@@ -43,7 +43,7 @@ public class PatientRegistrationController implements AbstractController{
 		model.addAttribute("formName", "Patient Registration");
 		model.addAttribute("controller", "patientregistration");
 		model.addAttribute("bean", new T03001());
-		return "setup/template";
+		return "transaction/template";
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
@@ -59,7 +59,7 @@ public class PatientRegistrationController implements AbstractController{
 		T03001 zone = repository.save(t03001);
 		if (zone == null) throw new BadRequestException("Zone could not save");
 		response.put("status", "success");
-		response.put("message", t03001.getArchive() == 1 ? t03001.getFirstNameNative() + " Successfully deleted" : t03001.getFirstNameNative() + " Successfully save");
+		response.put("message", t03001.getArchive() == 1 ? t03001.getFirstNameNative() + " have been deleted" : t03001.getFirstNameNative() + " have been saved");
 		return ResponseEntity.ok(response);
 	}
 	

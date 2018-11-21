@@ -114,7 +114,7 @@ public class UserController implements AbstractController{
 		T01009 zone = repository.save(t01009);
 		if (zone == null) throw new BadRequestException("User could not save");
 		response.put("status", "success");
-		response.put("message", t01009.getArchive() == 1 ? t01009.getRoleCode() + " Successfully deleted" : t01009.getRoleCode() + " Successfully save");
+		response.put("message", t01009.getArchive() == 1 ? t01009.getRoleCode() + " have been deleted" : t01009.getRoleCode() + " have been saved");
 		return ResponseEntity.ok(response);
 	}
 	

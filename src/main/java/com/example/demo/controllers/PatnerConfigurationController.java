@@ -59,7 +59,7 @@ public class PatnerConfigurationController implements AbstractController{
 		T130961 job = repository.save(t130961);
 		if (job == null) throw new BadRequestException("Job could not save");
 		response.put("status", "success");
-		response.put("message", t130961.getArchive() == 1 ? t130961.getPatnerName() + " Successfully deleted" : t130961.getPatnerName() + " Successfully save");
+		response.put("message", t130961.getArchive() == 1 ? t130961.getPatnerName() + " have been deleted" : t130961.getPatnerName() + " have been saved");
 		return ResponseEntity.ok(response);
 	}
 	

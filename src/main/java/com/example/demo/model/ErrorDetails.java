@@ -1,9 +1,6 @@
 package com.example.demo.model;
 
 import java.io.Serializable;
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

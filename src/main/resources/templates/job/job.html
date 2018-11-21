@@ -3,7 +3,7 @@
 		<div id="formdiv" th:fragment="fdiv">
 		<div class="col-md-offset-3 col-md-6">
 			<div class="form-group" style="padding-botton: 1px">
-				<label for="roleCode" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.job.label.titleno}">Title no</label>
+				<label for="titleNo" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.job.label.titleno}">Title no</label>
 				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
 					<input type="hidden" th:field="*{bean.titleId}"/>
 					<input type="text" th:field="*{bean.titleNo}" class="form-control" data-rule-required="true" th:placeholder="#{setup.job.label.titleno}" />

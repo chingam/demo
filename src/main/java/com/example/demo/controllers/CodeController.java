@@ -28,7 +28,7 @@ import com.example.demo.model.Code;
 import com.example.demo.repo.CodeRepository;
 
 @Controller
-@RequestMapping("/setup/code")
+@RequestMapping("/transaction/code")
 public class CodeController implements AbstractController{
 
 	@Autowired private CodeRepository repository;
@@ -44,7 +44,7 @@ public class CodeController implements AbstractController{
 		model.addAttribute("formName", "Code Setup");
 		model.addAttribute("controller", "code");
 		model.addAttribute("bean", new Code());
-		return "setup/template";
+		return "transaction/template";
 	}
 	
 	@PostMapping
@@ -60,7 +60,7 @@ public class CodeController implements AbstractController{
 		Code zone = repository.save(code);
 		if (zone == null) throw new BadRequestException("Code could not save");
 		response.put("status", "success");
-		response.put("message", code.getArchive() == 1 ? code.getCode() + " Successfully deleted" : code.getCode() + " Successfully save");
+		response.put("message", code.getArchive() == 1 ? code.getCode() + " have been deleted" : code.getCode() + " have been saved");
 		return ResponseEntity.ok(response);
 	}
 	

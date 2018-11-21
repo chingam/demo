@@ -259,6 +259,8 @@ span.gray {
 			<span id="engdate"></span>
 			
 			&nbsp;&nbsp;&nbsp;&nbsp;&brvbar;&nbsp;&nbsp;&nbsp;
+			<span id="engdate">٢١/١١/٢٠١٨</span>
+			
 			<!-- <script th:src="@{/vendor/js/date/ar-sa.js}"></script>
 			<script type="text/javascript">
 				document.writeln(moment().format('iYYYY/iMM/iDD'));
@@ -280,24 +282,15 @@ span.gray {
 				<button th:unless="${#lists.isEmpty(events)}"  th:each="li : ${events}" th:id="${#bools.isTrue(li.custEvent) ? 'cust' + li.buttonName.id : li.buttonName.id}" th:if="${li.hasAccess}" th:class="${li.buttonName.cssClass}"></button>
 				<button style="display: none" id="btnExecuteQuery" title="Execute Query" class="Button Execute"></button>
 				<button style="display: none" id="btnCancelQuery" title="Cancel Query" class="Button Cancel"></button>
-				
-			<!-- 	<button id="btnSave" title="save" class="Button Save"></button>
-				<button id="btnClear" title="Clear" class="Button Clear"></button>
-				<button id="btnDelete" title="Delete" class="Button Delete"></button>
-				<button id="btnEnterQuery" title="Enter Query" class="Button Enter"></button>
-				<button style="display: none" id="btnExecuteQuery" title="Execute Query" class="Button Execute"></button>
-				<button style="display: none" id="btnCancelQuery" title="Cancel Query" class="Button Cancel"></button> -->
-				<!-- <button id="btnNextblock" title="Next" class="Button Next"></button> -->
 			</div>
 			<div class="loggout">
+				<input id="separateMenu" type="hidden" value="2"/>
 				<button id="btnBack" title="Back" Class="Button Back"></button>
 				<form th:action="@{/logout}" method="post">
 					<input type="hidden" value="Sign Out"/>
 					<button id="btnLogout" type="submit" title="Logout" Class="Button Logout"></button>
 				</form>
 			</div>
-			
-			
 		</div>
 		<div class="right-col">
 			<div id="banner"></div>

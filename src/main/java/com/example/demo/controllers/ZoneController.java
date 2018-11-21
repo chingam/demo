@@ -59,7 +59,7 @@ public class ZoneController implements AbstractController{
 		T02064 zone = repository.save(t02064);
 		if (zone == null) throw new BadRequestException("Zone could not save");
 		response.put("status", "success");
-		response.put("message", t02064.getArchive() == 1 ? t02064.getZoneCode() + " Successfully deleted" : t02064.getZoneCode() + " Successfully save");
+		response.put("message", t02064.getArchive() == 1 ? t02064.getZoneCode() + " have been deleted" : t02064.getZoneCode() + " have been saved");
 		return ResponseEntity.ok(response);
 	}
 	

@@ -38,7 +38,9 @@ import org.openehealth.ipf.commons.ihe.xds.core.requests.query.FindDocumentsQuer
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.FindFoldersQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.FindSubmissionSetsQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetAllQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.responses.ErrorInfo;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.QueryResponse;
+import org.openehealth.ipf.commons.ihe.xds.core.responses.Severity;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -142,6 +144,12 @@ public class CreateQueryResponseService {
 	private QueryResponse sendErrorResponse() {
 		QueryResponse response = new QueryResponse();
 		response.setStatus(Status.FAILURE);
+		List<ErrorInfo> errors = new ArrayList<>();
+		ErrorInfo error = new ErrorInfo();
+		error.setSeverity(Severity.ERROR);
+		errors.add(error);
+		error.setCodeContext("error : patient id not found !");
+		response.setErrors(errors);
 		return response;
 	}
 

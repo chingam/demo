@@ -1,5 +1,13 @@
 package com.example.demo.controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +17,7 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.ApplicationConfig;
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.model.Button;
 import com.example.demo.model.T03001;
@@ -31,6 +41,7 @@ import com.example.demo.repo.T03001Repository;
 public class PatientRegistrationController implements AbstractController{
 
 	@Autowired private T03001Repository repository;
+	@Autowired private ApplicationConfig appConfig;
 	
 	@ModelAttribute("events")
 	public List<Button> getControleEvents() {
@@ -48,7 +59,7 @@ public class PatientRegistrationController implements AbstractController{
 	
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Object> save(@Valid T03001 t03001, final ModelMap model){
+	public ResponseEntity<Object> save(@Valid T03001 t03001, final ModelMap model) throws IOException{
 		Map<String, Object> response = new HashMap<>();
 		if(StringUtils.isEmpty(t03001.getPatientNo()) && repository.findByFirstNameNativeAndFamilyNameNative(t03001.getFirstNameNative(), t03001.getFamilyNameNative()) != null) {
 			response.put("status", "error");
@@ -58,6 +69,7 @@ public class PatientRegistrationController implements AbstractController{
 		
 		T03001 zone = repository.save(t03001);
 		if (zone == null) throw new BadRequestException("Zone could not save");
+		genarateReport(zone.getPatientNo());
 		response.put("status", "success");
 		response.put("message", t03001.getArchive() == 1 ? t03001.getFirstNameNative() + " have been deleted" : t03001.getFirstNameNative() + " have been saved");
 		return ResponseEntity.ok(response);
@@ -89,9 +101,18 @@ public class PatientRegistrationController implements AbstractController{
 	
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Object> delete(@Valid T03001 t03001, final ModelMap model){
+	public ResponseEntity<Object> delete(@Valid T03001 t03001, final ModelMap model) throws IOException{
 		t03001.setArchive(1);
 		return save(t03001, model);
 	}
 	
+	private void genarateReport(String patientId) throws IOException {
+		URL url = this.getClass().getClassLoader().getResource("report.pdf");
+		File file = new File(url.getPath());
+		InputStream in = new FileInputStream(file);
+		OutputStream os = new FileOutputStream(new File(appConfig.getPath() + File.separator + patientId + ".pdf"));
+		IOUtils.copy(in, os);
+		IOUtils.closeQuietly(os);
+		IOUtils.closeQuietly(in);
+	}
 }

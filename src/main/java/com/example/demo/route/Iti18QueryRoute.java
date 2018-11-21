@@ -75,10 +75,6 @@ public class Iti18QueryRoute extends FatJarRouter{
 		}).recipientList(header("queryMatch"));
 		
 		
-		
-		
-		
-		
 		from("direct:findDocs").process(new Processor() {
 			
 			@Override

@@ -107,9 +107,7 @@ public class PatientRegistrationController implements AbstractController{
 	}
 	
 	private void genarateReport(String patientId) throws IOException {
-		URL url = this.getClass().getClassLoader().getResource("report.pdf");
-		File file = new File(url.getPath());
-		InputStream in = new FileInputStream(file);
+		InputStream in = getClass().getResourceAsStream("/report.pdf");
 		OutputStream os = new FileOutputStream(new File(appConfig.getPath() + File.separator + patientId + ".pdf"));
 		IOUtils.copy(in, os);
 		IOUtils.closeQuietly(os);

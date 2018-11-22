@@ -89,6 +89,10 @@
 				<label for="country" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.patient.reg.label.country}">Country :</label>
 				<div class="col-md-4" style="padding-left: 3px">
 					<select class="form-control" th:field="*{bean.country}">
+						<option value="">Please select</option>
+						<option value="Bangladesh">Bangladesh</option>
+						<option value="India">India</option>
+						<option value="USA">USA</option>
 						<!-- <option th:if="${not #lists.isEmpty(zones)}" th:each="it : ${zones}" th:value="${it.zoneCode}" th:text="${it.langName1}">Select...</option> -->
 					</select>
 				</div>

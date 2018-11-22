@@ -1,4 +1,4 @@
-package com.example.demo;
+/*package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +19,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/", "/js/**", "/common/**", "/page/**", "/css/**", "/images/**", "/img/**", "/h2-console/**", "/webjars/**")
+				.antMatchers("/", "/js/**", "/common/**", "/page/**", "/css/**", "/medisys/**", "/images/**", "/img/**", "/h2-console/**", "/webjars/**")
 				.permitAll()
 				.anyRequest().authenticated()
 		        .and()
@@ -58,4 +58,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		return new InMemoryUserDetailsManager(user);
 	}
-}
+}*/

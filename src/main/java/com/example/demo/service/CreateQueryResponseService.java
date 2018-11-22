@@ -280,7 +280,9 @@ public class CreateQueryResponseService {
 		if (healthcareFacilityTypeCode != null) {
 			doc.setHealthcareFacilityTypeCode(healthcareFacilityTypeCode);
 		}
-		doc.setHomeCommunityId(appConfig.getHomeCommunityId());
+//		doc.setHomeCommunityId(appConfig.getHomeCommunityId());
+		Identifiable sourcePatientId = new Identifiable(patientId, new AssigningAuthority(appConfig.getAssigningauthority()));
+		doc.setSourcePatientId(sourcePatientId);
 		doc.setLanguageCode("en-us");
 		Person legalAuthenticator = new Person();
 		Identifiable identifiable = new Identifiable("1.2.3.4.5..7.8.33.20132", new AssigningAuthority(appConfig.getAssigningauthority()));
@@ -299,6 +301,7 @@ public class CreateQueryResponseService {
 		Code practiceSettingCode = createCode(formObj.getPracticeSettingCode());
 		if (practiceSettingCode != null) {
 			doc.setPracticeSettingCode(practiceSettingCode);
+			doc.getConfidentialityCodes().add(practiceSettingCode);
 		}
 
 		doc.setRepositoryUniqueId(appConfig.getRepositoryId());
@@ -315,6 +318,8 @@ public class CreateQueryResponseService {
 		if (paOptional.isPresent()) {
 			T03001 patientOb = paOptional.get();
 			PatientInfo sourcePatientInfo = new PatientInfo();
+			Identifiable identi = new Identifiable(patientOb.getPatientNo(), new AssigningAuthority(appConfig.getAssigningauthority()));
+			sourcePatientInfo.getIds().add(identi);
 			Name name = new XpnName();
 			name.setFamilyName(patientOb.getFamilyNameNative());
 			sourcePatientInfo.setName(name);

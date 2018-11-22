@@ -48,7 +48,7 @@
 			<div class="form-group" style="padding-botton: 1px">
 				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Patient no:</label>
 				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.sourcePatientId.id}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.sourcePatientId ne null ? li.sourcePatientId.id : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
@@ -60,7 +60,7 @@
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Patient name:</label>
 				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.sourcePatientInfo ne null ? li.sourcePatientInfo.name : ''}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.sourcePatientInfo ne null and li.sourcePatientInfo.name ne null ? #strings.defaultString(li.sourcePatientInfo.name.familyName,'') + ' ' + #strings.defaultString(li.sourcePatientInfo.name.givenName,''): ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px" th:with="df='dd-MMM-yyyy'">

@@ -44,17 +44,17 @@
 		</table>
 	</div>
 	<div th:unless="${#lists.isEmpty(list.documentEntries)}" th:each="li : ${list.documentEntries}" class="col-md-12 alert alert-success" style="border:1px solid">
-		<div class="col-md-6">
+		<div class="col-md-6" th:with="df='dd-MMM-yyyy'">
 			<div class="form-group" style="padding-botton: 1px">
 				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Patient no:</label>
 				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.sourcePatientId ne null ? li.sourcePatientId.id : ''}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.patientId ne null ? #strings.defaultString(li.patientId.id,'') : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Gender:</label>
 				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.sourcePatientInfo ne null ? li.sourcePatientInfo.gender : ''}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.sourcePatientInfo ne null ? #strings.defaultString(li.sourcePatientInfo.gender,'') : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
@@ -63,7 +63,7 @@
 					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.sourcePatientInfo ne null and li.sourcePatientInfo.name ne null ? #strings.defaultString(li.sourcePatientInfo.name.familyName,'') + ' ' + #strings.defaultString(li.sourcePatientInfo.name.givenName,''): ''}"></label>
 				</div>
 			</div>
-			<div class="form-group" style="padding-botton: 1px" th:with="df='dd-MMM-yyyy'">
+			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Date of birth:</label>
 				<div class="col-md-6">
 					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.sourcePatientInfo ne null and li.sourcePatientInfo.dateOfBirth ne null ? #dates.format(li.sourcePatientInfo.dateOfBirth.dateTime, df) : ''}"></label>
@@ -72,49 +72,49 @@
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">City:</label>
 				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.sourcePatientInfo ne null and li.sourcePatientInfo.address ne null ? li.sourcePatientInfo.address.city : ''}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.sourcePatientInfo ne null and li.sourcePatientInfo.address ne null ? #strings.defaultString(li.sourcePatientInfo.address.city,'') : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Country:</label>
 				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.sourcePatientInfo ne null and li.sourcePatientInfo.address ne null ? li.sourcePatientInfo.address.country : ''}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.sourcePatientInfo ne null and li.sourcePatientInfo.address ne null ? #strings.defaultString(li.sourcePatientInfo.address.country,'') : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Status:</label>
 				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.availabilityStatus.name()}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(li.availabilityStatus.name(),'')}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Title:</label>
 				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.title.value}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(li.title.value,'')}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Creation time:</label>
 				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.creationTime ne null ? li.creationTime.dateTime : ''}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.creationTime ne null ? #dates.format(li.creationTime.dateTime, df) : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Service start time:</label>
 				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.serviceStartTime ne null ? li.serviceStartTime.dateTime : ''}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.serviceStartTime ne null ? #dates.format(li.serviceStartTime.dateTime, df) : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Service stop time:</label>
 				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.serviceStopTime ne null ? li.serviceStopTime.dateTime : ''}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.serviceStopTime ne null ? #dates.format(li.serviceStopTime.dateTime, df) : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Home community id:</label>
 				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.homeCommunityId}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(li.homeCommunityId,'')}"></label>
 				</div>
 			</div>
 		</div>
@@ -123,61 +123,61 @@
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Repository unique id:</label>
 				<div class="col-md-8">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.repositoryUniqueId}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(li.repositoryUniqueId,'')}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Document unique id:</label>
 				<div class="col-md-8">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.uniqueId}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(li.uniqueId,'')}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Mime type:</label>
 				<div class="col-md-8">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.mimeType}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(li.mimeType,'application/pdf')}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">URI:</label>
 				<div class="col-md-8">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.uri}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(li.uri,'')}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Size:</label>
 				<div class="col-md-8">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.size}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(li.size,'')}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Comment:</label>
 				<div class="col-md-8">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.comments ne null ? li.comments.value : ''}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.comments ne null ? #strings.defaultString(li.comments.value,'') : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Practice setting:</label>
 				<div class="col-md-8">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.practiceSettingCode ne null ? li.practiceSettingCode.schemeName + (li.practiceSettingCode.displayName ne null ? '('  + li.practiceSettingCode.displayName.value + ')' : '') : ''}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.practiceSettingCode ne null ? #strings.defaultString(li.practiceSettingCode.schemeName,'') + (li.practiceSettingCode.displayName ne null ? '('  + #strings.defaultString(li.practiceSettingCode.displayName.value,'') + ')' : '') : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Healthcare facility:</label>
 				<div class="col-md-8">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.healthcareFacilityTypeCode ne null ? li.healthcareFacilityTypeCode.schemeName + (li.healthcareFacilityTypeCode.displayName ne null ? '('  + li.healthcareFacilityTypeCode.displayName.value + ')' : '') : ''}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.healthcareFacilityTypeCode ne null ? #strings.defaultString(li.healthcareFacilityTypeCode.schemeName,'') + (li.healthcareFacilityTypeCode.displayName ne null ? '('  + #strings.defaultString(li.healthcareFacilityTypeCode.displayName.value,'') + ')' : '') : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Format code:</label>
 				<div class="col-md-8">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.formatCode ne null ? li.formatCode.schemeName + (li.formatCode.displayName ne null ? '('  + li.formatCode.displayName.value + ')' : '') : ''}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.formatCode ne null ? #strings.defaultString(li.formatCode.schemeName,'') + (li.formatCode.displayName ne null ? '('  + #strings.defaultString(li.formatCode.displayName.value,'') + ')' : '') : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Class code:</label>
 				<div class="col-md-8">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.classCode ne null ? li.classCode.schemeName + (li.classCode.displayName ne null ? '('  + li.classCode.displayName.value + ')' : '') : ''}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.classCode ne null ? #strings.defaultString(li.classCode.schemeName,'') + (li.classCode.displayName ne null ? '('  + #strings.defaultString(li.classCode.displayName.value,'') + ')' : '') : ''}"></label>
 				</div>
 			</div>
 			
@@ -275,7 +275,34 @@
 		</div>
 	</div>
 	
-	<!-- <div th:unless="${#lists.isEmpty(list.submissionSets)}" th:each="sub : ${list.submissionSets}" class="col-md-12 alert alert-success" style="border:1px solid">
+	<div th:unless="${#lists.isEmpty(list.submissionSets)}" th:each="sub : ${list.submissionSets}" class="col-md-12 alert alert-info" style="border:1px solid">
+		<div class="col-md-6" th:with="df='dd-MMM-yyyy'">
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Status:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(sub.availabilityStatus.name(),'')}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Title:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(sub.title,'')}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Patient no:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${sub.patientId ne null ? #strings.defaultString(sub.patientId.id,'') : ''}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">SubmissionTime:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${sub.submissionTime ne null ? #dates.format(sub.submissionTime.dateTime, df) : ''}"></label>
+				</div>
+			</div>
+			
+		</div>
 		<div class="col-md-6">
 			<div class="form-group" style="padding-botton: 1px">
 				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Entry uuid:</label>
@@ -295,8 +322,101 @@
 					<label style="padding-right: 0px; padding-top: 2px" th:text="${sub.homeCommunityId}"></label>
 				</div>
 			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Unique id:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${sub.uniqueId}"></label>
+				</div>
+			</div>
 		</div>
-	</div> -->
+	</div>
+	
+	<div th:unless="${#lists.isEmpty(list.folders)}" th:each="folder : ${list.folders}" class="col-md-12 alert alert-info" style="border:1px solid">
+		<div class="col-md-6" th:with="df='dd-MMM-yyyy'">
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Status:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(folder.availabilityStatus.name(),'')}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Title:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(folder.title,'')}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Patient no:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${folder.patientId ne null ? #strings.defaultString(folder.patientId.id,'') : ''}"></label>
+				</div>
+			</div>
+			
+		</div>
+		<div class="col-md-6">
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Entry uuid:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${folder.entryUuid}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">HomeCommunity id:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${folder.homeCommunityId}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Unique id:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${folder.uniqueId}"></label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:unless="${#lists.isEmpty(list.associations)}" th:each="ass : ${list.associations}" class="col-md-12 alert alert-warn" style="border:1px solid">
+		<div class="col-md-6" th:with="df='dd-MMM-yyyy'">
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Status:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(ass.availabilityStatus.name(),'')}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Label:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(ass.Label,'')}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">New status:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(ass.newStatus.name(),'')}"></label>
+				</div>
+			</div>
+			
+		</div>
+		<div class="col-md-6">
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Entry uuid:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${ass.entryUuid}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Source Uuid:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${ass.sourceUuid}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
+				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Target Uuid:</label>
+				<div class="col-md-6">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${ass.targetUuid}"></label>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- <table id="metaDataList" width="100%" class="grid">
 		<thead style="font-size: 12px;">
 			<tr>

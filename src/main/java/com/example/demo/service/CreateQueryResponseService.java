@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -29,6 +30,7 @@ import org.openehealth.ipf.commons.ihe.xds.core.metadata.Identifiable;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.LocalizedString;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.Name;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.ObjectReference;
+import org.openehealth.ipf.commons.ihe.xds.core.metadata.Organization;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.PatientInfo;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.Person;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.SubmissionSet;
@@ -38,9 +40,8 @@ import org.openehealth.ipf.commons.ihe.xds.core.requests.query.FindDocumentsQuer
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.FindFoldersQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.FindSubmissionSetsQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetAllQuery;
-import org.openehealth.ipf.commons.ihe.xds.core.responses.ErrorInfo;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetDocumentsQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.QueryResponse;
-import org.openehealth.ipf.commons.ihe.xds.core.responses.Severity;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -87,6 +88,31 @@ public class CreateQueryResponseService {
 //		response.setFolders(createFolders(patientId));
 //		response.setSubmissionSets(creatieSubmissionSets(patientId));
 //		response.setReferences(createObjectReferences(patientId));
+		return response;
+	}
+	
+	public QueryResponse createResponse(GetDocumentsQuery getDocumentQuery) {
+		if (getDocumentQuery == null || getDocumentQuery.getUniqueIds() == null || getDocumentQuery.getUniqueIds().isEmpty() || getDocumentQuery.getUuids() == null || getDocumentQuery.getUuids().isEmpty()) {
+			return sendErrorResponse();
+		}
+		List<DocumentEntry> docEntryList = new ArrayList<>();
+		List<PatientDocument> docments = new ArrayList<>();
+		getDocumentQuery.getUniqueIds().stream().forEach(a -> {
+			docments.addAll(patientDocumentRepository.findAllByEntryUuid(a));
+		});
+		
+		List<DocumentEntry> docsByUnique = docments.stream().map(this::getDocumentEntry).collect(Collectors.toList());
+		List<DocumentEntry> docs = getDocumentQuery.getUuids().stream().map(a -> {
+			Optional<PatientDocument> patientOption = patientDocumentRepository.findById(a);
+			if (patientOption.isPresent()) return patientOption.get();
+			return new PatientDocument();
+		}).map(this::getDocumentEntry).collect(Collectors.toList());
+		
+		docEntryList.addAll(docsByUnique);
+		docEntryList.addAll(docs);
+		QueryResponse response = new QueryResponse();
+		response.setStatus(Status.SUCCESS);
+		response.setDocumentEntries(docEntryList);
 		return response;
 	}
 	
@@ -144,12 +170,6 @@ public class CreateQueryResponseService {
 	private QueryResponse sendErrorResponse() {
 		QueryResponse response = new QueryResponse();
 		response.setStatus(Status.FAILURE);
-		List<ErrorInfo> errors = new ArrayList<>();
-		ErrorInfo error = new ErrorInfo();
-		error.setSeverity(Severity.ERROR);
-		errors.add(error);
-		error.setCodeContext("error : patient id not found !");
-		response.setErrors(errors);
 		return response;
 	}
 
@@ -193,20 +213,25 @@ public class CreateQueryResponseService {
 	}
 
 	private Identifiable getPatientId(String patientId) {
-		Identifiable identifiable = new Identifiable(patientId, new AssigningAuthority(appConfig.getAssigningauthority()));
-		return identifiable;
+		return new Identifiable(patientId, new AssigningAuthority(appConfig.getAssigningauthority()));
 	}
 
-	private Author createAuthor(String patientId) {
+	private Author createAuthor(String userId) {
 		Author author = new Author();
-		author.setAuthorPerson(createAuthorPerson(patientId));
+		Organization org = new Organization();
+		org.setAssigningAuthority(new AssigningAuthority(appConfig.getAssigningauthority()));
+		org.setIdNumber("276");
+		org.setOrganizationName("King Abdulaziz Specialist JOUF2");
+		author.getAuthorInstitution().add(org);
+		author.setAuthorPerson(createAuthorPerson(userId));
+		author.getAuthorSpecialty().add(createIdentifiable("3456"));
 		return author;
 	}
 
-	private Person createAuthorPerson(String patientId) {
+	private Person createAuthorPerson(String userId) {
 		Person person = new Person();
-		person.setId(createIdentifiable(patientId));
-		person.setName(createAuthorName(patientId));
+		person.setId(createIdentifiable("304"));
+		person.setName(createAuthorName(userId));
 		return person;
 	}
 
@@ -223,7 +248,7 @@ public class CreateQueryResponseService {
 
 	private Identifiable createIdentifiable(String patientId) {
 		Identifiable identifi= new Identifiable();
-		identifi.setId(appConfig.getAssigningauthority());
+		identifi.setAssigningAuthority(new AssigningAuthority(appConfig.getAssigningauthority()));
 		identifi.setId(patientId);
 		return identifi;
 	}
@@ -245,114 +270,8 @@ public class CreateQueryResponseService {
 	}
 
 	private List<DocumentEntry> crateDocumentEntries(String patientId) {
-		PatientDocument formObj = patientDocumentRepository.findByPatientNo(patientId);
-		if (formObj == null) {
-			return Collections.emptyList();
-		}
-
-		List<DocumentEntry> docList = new ArrayList<>();
-		DocumentEntry doc = new DocumentEntry();
-		doc.setAvailabilityStatus(AvailabilityStatus.APPROVED);
-		
-		Code classCode = createCode(formObj.getClassCode());
-		if (classCode != null) {
-			doc.setClassCode(classCode);
-		}
-		
-		// doc.setComments(LocalizedString.);
-		if (formObj.getCreationTime() != null) {
-			doc.setCreationTime(DateUtil.format(formObj.getCreationTime(), DateUtil.HL7v2_DATE_FORMAT));
-		}
-		
-		// doc.setCreationTime(Timestamp);
-		doc.setDocumentAvailability(DocumentAvailability.ONLINE);
-		if (StringUtils.isNotEmpty(formObj.getEntryUuid())) {
-			doc.setEntryUuid(formObj.getEntryUuid());
-		}
-		
-		Code formatCode = createCode(formObj.getFormatCode());
-		if (formatCode != null) {
-			doc.setFormatCode(formatCode);
-		}
-		
-		doc.setHash(genarateHashValue(patientId, formObj.getMimeType()));
-		Code healthcareFacilityTypeCode = createCode(formObj.getHealthcareFacilityTypeCode());
-		if (healthcareFacilityTypeCode != null) {
-			doc.setHealthcareFacilityTypeCode(healthcareFacilityTypeCode);
-		}
-//		doc.setHomeCommunityId(appConfig.getHomeCommunityId());
-		Identifiable sourcePatientId = new Identifiable(patientId, new AssigningAuthority(appConfig.getAssigningauthority()));
-		doc.setSourcePatientId(sourcePatientId);
-		doc.setLanguageCode("en-us");
-		Person legalAuthenticator = new Person();
-		Identifiable identifiable = new Identifiable("1.2.3.4.5..7.8.33.20132", new AssigningAuthority(appConfig.getAssigningauthority()));
-		legalAuthenticator.setId(identifiable);
-		doc.setLegalAuthenticator(legalAuthenticator);
-		if (StringUtils.isNotEmpty(formObj.getLogicalUuid())) {
-			doc.setLogicalUuid(formObj.getLogicalUuid());
-		}
-		if (StringUtils.isNotEmpty(formObj.getMimeType())) {
-			doc.setMimeType(formObj.getMimeType());
-		}
-		
-		Identifiable patientObj = new Identifiable(patientId, new AssigningAuthority(appConfig.getAssigningauthority()));
-		doc.setPatientId(patientObj);
-
-		Code practiceSettingCode = createCode(formObj.getPracticeSettingCode());
-		if (practiceSettingCode != null) {
-			doc.setPracticeSettingCode(practiceSettingCode);
-			doc.getConfidentialityCodes().add(practiceSettingCode);
-		}
-
-		doc.setRepositoryUniqueId(appConfig.getRepositoryId());
-		if (formObj.getServiceStartTime() != null) {
-			doc.setServiceStartTime(DateUtil.format(formObj.getServiceStartTime(), DateUtil.HL7v2_DATE_FORMAT));
-		}
-		if (formObj.getServiceStopTime() != null) {
-			doc.setServiceStopTime(DateUtil.format(formObj.getServiceStopTime(), DateUtil.HL7v2_DATE_FORMAT));
-		}
-		
-		doc.setSize(generateSize(patientId, formObj.getMimeType()));
-
-		Optional<T03001> paOptional = patientRepository.findById(patientId);
-		if (paOptional.isPresent()) {
-			T03001 patientOb = paOptional.get();
-			PatientInfo sourcePatientInfo = new PatientInfo();
-			Identifiable identi = new Identifiable(patientOb.getPatientNo(), new AssigningAuthority(appConfig.getAssigningauthority()));
-			sourcePatientInfo.getIds().add(identi);
-			Name name = new XpnName();
-			name.setFamilyName(patientOb.getFamilyNameNative());
-			sourcePatientInfo.setName(name);
-			sourcePatientInfo.setGender(patientOb.getGender());
-			sourcePatientInfo.setDateOfBirth(DateUtil.format(patientOb.getBirthDate(), DateUtil.HL7v2_DATE_FORMAT));
-			Address address = new Address();
-			address.setCity(StringUtils.isNotEmpty(patientOb.getCity()) ? patientOb.getCity() : "");
-			address.setCountry(StringUtils.isNotEmpty(patientOb.getCountry()) ? patientOb.getCountry() : "");
-			address.setZipOrPostalCode(StringUtils.isNotEmpty(patientOb.getPostalCode()) ? patientOb.getPostalCode() : "");
-			sourcePatientInfo.setAddress(address);
-			doc.setSourcePatientInfo(sourcePatientInfo);
-		}
-
-		if (StringUtils.isNotEmpty(formObj.getDocTitle())) {
-			doc.setTitle(new LocalizedString(formObj.getDocTitle()));
-		}
-		
-		doc.setType(DocumentEntryType.STABLE);
-		
-		Code typeCode = createCode(formObj.getTypeCode());
-		if (typeCode != null) {
-			doc.setTypeCode(typeCode);
-		}
-		
-		doc.setUniqueId(patientId);
-		if (StringUtils.isNotEmpty(formObj.getUri())) {
-			doc.setUri(formObj.getUri());
-		}
-
-		Version version = new Version("1");
-		doc.setVersion(version);
-		docList.add(doc);
-		return docList;
+		List<PatientDocument> patientList = patientDocumentRepository.findAllByPatientNo(patientId);
+		return patientList.stream().map(this::getDocumentEntry).collect(Collectors.toList());
 	}
 
 	private Long generateSize(String patientId, String mimeType) {
@@ -436,5 +355,222 @@ public class CreateQueryResponseService {
 		c.setDisplayName(l);
 		c.setSchemeName(code.getSchemeName());
 		return c;
+	}
+	
+	private DocumentEntry getDocumentEntry(PatientDocument formObj) {
+		if (formObj == null) {
+			return new DocumentEntry();
+		}
+
+		DocumentEntry doc = new DocumentEntry();
+		doc.setAvailabilityStatus(AvailabilityStatus.APPROVED);
+		
+		// Financial standing and financial details
+		//Education, training and employment experience
+		// Religious beliefs.
+		// Racial or ethnic origin
+		//Sexuality
+		//Criminal convictions
+		doc.setAuthor(createAuthor("0505"));
+		Code confidentialCode = new Code();
+		confidentialCode.setCode("031");
+		confidentialCode.setDisplayName(new LocalizedString("Physical or mental health", "en-US", "UTF-8"));
+		confidentialCode.setSchemeName("1.2.3.4.5.6.7.8.9");
+		doc.getConfidentialityCodes().add(confidentialCode);
+		
+		Code confidentialCode2 = new Code();
+		confidentialCode2.setCode("034");
+		confidentialCode2.setDisplayName(new LocalizedString("Social or family circumstances", "en-US", "UTF-8"));
+		confidentialCode2.setSchemeName("1.2.3.4.5.6.7.34");
+		doc.getConfidentialityCodes().add(confidentialCode2);
+		
+		Code classCode = createCode(formObj.getClassCode());
+		if (classCode != null) {
+			doc.setClassCode(classCode);
+		}
+		
+		// doc.setComments(LocalizedString.);
+		if (formObj.getCreationTime() != null) {
+			doc.setCreationTime(DateUtil.format(formObj.getCreationTime(), DateUtil.HL7v2_DATE_FORMAT));
+		}
+		
+		// doc.setCreationTime(Timestamp);
+		doc.setDocumentAvailability(DocumentAvailability.ONLINE);
+		
+		//A globally unique identifier used to manage the entry. 
+		doc.setEntryUuid(formObj.getPatientDocId());
+		
+		/*
+		 * This list of codes represents the main clinical acts, such as a colonoscopy or an appendectomy, being documented. 
+		 */
+		Code eventCode = new Code("456", new LocalizedString("Colonoscopy", "en-US", "UTF-8"), "1.2.3.4.5.6.7.88");
+		doc.getEventCodeList().add(eventCode);
+		
+		/*
+		 * Code globally uniquely specifying the detailed technical format of the document. 
+		 */
+		Code formatCode = createCode(formObj.getFormatCode());
+		if (formatCode != null) {
+			doc.setFormatCode(formatCode);
+		}
+		
+		doc.setHash(genarateHashValue(formObj.getPatientNo(), formObj.getMimeType()));
+		
+		/*
+		 * This code represents the type of organizational setting of the clinical encounter during which the documented act occurred
+		 */
+		Code healthcareFacilityTypeCode = createCode(formObj.getHealthcareFacilityTypeCode());
+		if (healthcareFacilityTypeCode != null) {
+			doc.setHealthcareFacilityTypeCode(healthcareFacilityTypeCode);
+		}
+		
+		// A globally unique identifier for a community.
+//		doc.setHomeCommunityId(appConfig.getHomeCommunityId());
+		
+		Identifiable sourcePatientId = new Identifiable(formObj.getPatientNo(), new AssigningAuthority(appConfig.getAssigningauthority()));
+		doc.setSourcePatientId(sourcePatientId);
+		
+		 //Specifies the human language of character data in the document. 
+		doc.setLanguageCode("en-us");
+		
+		/*
+		 * Characterizes a participant who has legally
+			authenticated or attested the document within the
+			authorInstitution. 
+		 */
+		Person legalAuthenticator = new Person();
+		Identifiable identifiable = new Identifiable("1.2.3.4.5..7.8.33.20132", new AssigningAuthority(appConfig.getAssigningauthority()));
+		legalAuthenticator.setId(identifiable);
+		doc.setLegalAuthenticator(legalAuthenticator);
+		if (StringUtils.isNotEmpty(formObj.getLogicalUuid())) {
+			doc.setLogicalUuid(formObj.getLogicalUuid());
+		}
+		
+		if (StringUtils.isNotEmpty(formObj.getMimeType())) {
+			doc.setMimeType(formObj.getMimeType());
+		}
+		
+		// The patientId represents the subject of care of the 
+		Identifiable patientObj = new Identifiable(StringUtils.isNotBlank(formObj.getPatientNo()) ? formObj.getPatientNo() : "", new AssigningAuthority(appConfig.getAssigningauthority()));
+		doc.setPatientId(patientObj);
+
+		// The code specifying the clinical specialty 
+		//where the act that resulted in the document was performed (e.g.,Family Practice, Laboratory, Radiology). 
+		Code practiceSettingCode = createCode(formObj.getPracticeSettingCode());
+		if (practiceSettingCode != null) {
+			doc.setPracticeSettingCode(practiceSettingCode);
+		}
+
+		//The globally unique identifier of the repository where the document is stored.
+		doc.setRepositoryUniqueId(appConfig.getRepositoryId());
+		
+		// Represents the start time the service being documented took place. 
+		if (formObj.getServiceStartTime() != null) {
+			doc.setServiceStartTime(DateUtil.format(formObj.getServiceStartTime(), DateUtil.HL7v2_DATE_FORMAT));
+		}
+		// Represents the stop time the service being documented took place. 
+		if (formObj.getServiceStopTime() != null) {
+			doc.setServiceStopTime(DateUtil.format(formObj.getServiceStopTime(), DateUtil.HL7v2_DATE_FORMAT));
+		}
+		
+		doc.setSize(generateSize(StringUtils.isNotEmpty(formObj.getPatientNo()) ? formObj.getPatientNo() : "", formObj.getMimeType()));
+
+		/*
+		 * The sourcePatientId represents the subject of care
+		 *	medical record Identifier (e.g., Patient Id) in the local
+		 *	patient Identifier Domain of the creating entity. 
+		 *
+		 *This attribute contains demographic information of
+		 *the source patient to whose medical record this
+		 *document belongs
+		 */
+		Optional<T03001> paOptional = patientRepository.findById(formObj.getPatientNo());
+		if (paOptional.isPresent()) {
+			T03001 patientOb = paOptional.get();
+			PatientInfo sourcePatientInfo = new PatientInfo();
+			Identifiable identi = new Identifiable(patientOb.getPatientNo(), new AssigningAuthority(appConfig.getAssigningauthority()));
+			sourcePatientInfo.getIds().add(identi);
+			Name<?> name = new XpnName();
+			name.setFamilyName(patientOb.getFamilyNameNative());
+			sourcePatientInfo.setName(name);
+			sourcePatientInfo.setGender(patientOb.getGender());
+			sourcePatientInfo.setDateOfBirth(DateUtil.format(patientOb.getBirthDate(), DateUtil.HL7v2_DATE_FORMAT));
+			Address address = new Address();
+			address.setCity(StringUtils.isNotEmpty(patientOb.getCity()) ? patientOb.getCity() : "");
+			address.setCountry(StringUtils.isNotEmpty(patientOb.getCountry()) ? patientOb.getCountry() : "");
+			address.setZipOrPostalCode(StringUtils.isNotEmpty(patientOb.getPostalCode()) ? patientOb.getPostalCode() : "");
+			sourcePatientInfo.setAddress(address);
+			doc.setSourcePatientInfo(sourcePatientInfo);
+		}
+
+		// Represents the title of the document.
+		if (StringUtils.isNotEmpty(formObj.getDocTitle())) {
+			doc.setTitle(new LocalizedString(formObj.getDocTitle()));
+		}
+		
+		doc.setType(DocumentEntryType.STABLE);
+		
+		/*
+		 * A low-level classification of documents within a
+			classCode that describes class, event, specialty, and setting.
+		 */
+		Code typeCode = createCode(formObj.getTypeCode());
+		if (typeCode != null) {
+			doc.setTypeCode(typeCode);
+		}
+		
+		// The globally unique identifier assigned by the document creator to this document. 
+		
+		if (StringUtils.isNotEmpty(formObj.getEntryUuid())) {
+			doc.setUniqueId(formObj.getEntryUuid());
+		}
+		
+		if (StringUtils.isNotEmpty(formObj.getUri())) {
+			doc.setUri(formObj.getUri());
+		}
+
+		Version version = new Version("1");
+		doc.setVersion(version);
+		return doc;
+	}
+
+	public QueryResponse createResponseWithObjRef(GetDocumentsQuery getDocumentsQuery) {
+		if (getDocumentsQuery == null || getDocumentsQuery.getUniqueIds() == null || getDocumentsQuery.getUniqueIds().isEmpty() || getDocumentsQuery.getUuids() == null || getDocumentsQuery.getUuids().isEmpty()) {
+			return sendErrorResponse();
+		}
+		
+		QueryResponse response = new QueryResponse();
+		List<PatientDocument> docments = new ArrayList<>();
+		getDocumentsQuery.getUniqueIds().stream().forEach(a -> {
+			docments.addAll(patientDocumentRepository.findAllByEntryUuid(a));
+		});
+		
+		List<ObjectReference> docRef = docments.stream().map(this::getReferences).collect(Collectors.toList());
+		List<ObjectReference> docRefer = getDocumentsQuery.getUuids().stream().map(a -> {
+			Optional<PatientDocument> patientOption = patientDocumentRepository.findById(a);
+			if (patientOption.isPresent()) return patientOption.get();
+			return new PatientDocument();
+		}).map(this::getReferences).collect(Collectors.toList());
+		docRefer.addAll(docRef);
+		response.setReferences(docRef);
+		return response;
+	}
+	
+	public QueryResponse createResponseWithObjRef(FindDocumentsQuery findDocumentsQuery) {
+		if (findDocumentsQuery == null || findDocumentsQuery.getPatientId() == null || StringUtils.isBlank(findDocumentsQuery.getPatientId().getId())) {
+			return sendErrorResponse();
+		}
+		
+		QueryResponse response = new QueryResponse();
+		String patientId = findDocumentsQuery.getPatientId().getId();
+		List<PatientDocument> documents = patientDocumentRepository.findAllByPatientNo(patientId);
+		response.setReferences(documents.stream().map(this::getReferences).collect(Collectors.toList()));
+		return response;
+	}
+
+	private ObjectReference getReferences(PatientDocument a) {
+		ObjectReference ref = new ObjectReference();
+		ref.setId(StringUtils.isNotEmpty(a.getPatientDocId()) ? a.getPatientDocId() : "");
+		return ref;
 	}
 }

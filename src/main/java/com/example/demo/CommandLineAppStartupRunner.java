@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.model.Code;
 import com.example.demo.model.T01199;
 import com.example.demo.model.T130961;
+import com.example.demo.repo.CodeRepository;
 import com.example.demo.repo.T01199Repository;
 import com.example.demo.repo.T130961Repository;
 
@@ -14,6 +16,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner{
 
 	@Autowired private T130961Repository repository;
 	@Autowired private T01199Repository repo;
+	@Autowired private CodeRepository codeRepo;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -80,6 +83,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner{
 		T01199 menuLink11 = new T01199(11, "Document entry", "Document entry", "/transaction/documententry", 1, "003", null);
 		T01199 menuLink12 = new T01199(12, "Practice setting", "Practice setting", "/transaction/practicesetting", 1, "003", null);
 		T01199 menuLink13 = new T01199(13, "Codes", "Codes", "/transaction/code", 1, "003", null);
+		T01199 menuLink14 = new T01199(14, "Message log", "Message log", "/query/messagelog", 2, "003", null);
 		repo.save(menuLink);
 		repo.save(menuLink2);
 		repo.save(menuLink3);
@@ -88,9 +92,16 @@ public class CommandLineAppStartupRunner implements CommandLineRunner{
 		repo.save(menuLink6);
 		repo.save(menuLink7);repo.save(menuLink8);repo.save(menuLink9);repo.save(menuLink10);repo.save(menuLink11);repo.save(menuLink12);
 		repo.save(menuLink13);
+		repo.save(menuLink14);
 		
-		
-		
+		//######################
+		Code code = new Code(null, "cl-01", "Report", "1.2.3.4.5.6.7.8");
+		Code code1 = new Code(null, "cl-02", "Summary", "1.2.3.4.5.6.7.9");
+		Code code2 = new Code(null, "cl-03", "Note", "1.2.3.4.5.6.7.10"); // classCode
+		Code code3 = new Code(null, "fr-01", "Anatomi pathology report", "1.2.3.44.25.6.7.10");// format code
+		Code code4 = new Code(null, "he-01", "Nursing home", "1.22.3.44.25.6.7.10");// health
+		Code code5 = new Code(null, "pr-01", "Family practice", "1.22.3.4.925.6.7.10");// Family
+		codeRepo.save(code);codeRepo.save(code1);codeRepo.save(code2);codeRepo.save(code3);codeRepo.save(code4);codeRepo.save(code5);
 		
 	}
 

@@ -1,0 +1,37 @@
+<section style="padding-top: 12px;padding-left: 120px;padding-right: 120px;" xmlns:th="http://www.thymeleaf.org">
+	<div id="formsection" class="col-md-12" style="padding-top: 8px;border: 1.5px solid #e17d7d; -ms-border-radius: 5px; border-radius: 5px;">
+		<table id="logTable" width="100%" class="grid">
+			<thead style="font-size: 12px;">
+				<tr>
+					<th>Date</th>
+					<th>Transaction</th>
+					<th style="text-align: center;">In bound/Out bound</th>
+					<th style="text-align: center;">Download</th>
+				</tr>
+			</thead>
+			<tbody id="dataTable">
+				<tr th:unless="${#lists.isEmpty(messages)}"  th:each="li : ${messages}">
+					<td th:text="${#dates.format(li.date, 'dd-MMM-yyyy h:mm:ss')}"></td>
+					<td th:text="${#strings.defaultString(li.transactionName,'')}"></td>
+					<td style="text-align: center;">
+						<span title="In bound" th:if="${#strings.defaultString(li.type,'') eq 'INCOMMING'}" style="font-size: 14px;">
+							<i class="fa fa-chevron-left" aria-hidden="true" style="color: red;"></i>
+						</span>
+						<span title="Out bound" th:unless="${#strings.defaultString(li.type,'') eq 'INCOMMING'}" style="font-size: 14px;">
+							<i class="fa fa-chevron-right" aria-hidden="true" style="color: green;"></i>
+						</span>
+					</td>
+					<td style="text-align: center;">
+						<a th:href="@{'/document/' + ${#strings.defaultString(li.messageId,'')} + '?mimetype=text/xml'}">
+							<span style="font-size: 14px;">
+								<i class="fa fa-file" aria-hidden="true" style="color: red;"></i>
+							</span>
+						</a>
+					</td>
+					
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script th:src="@{/page/messagelog/messagelog.js}"></script>
+</section>

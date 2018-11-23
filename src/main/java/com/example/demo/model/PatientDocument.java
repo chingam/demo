@@ -30,7 +30,7 @@ public class PatientDocument extends CommonEntity implements Serializable{
 
 	@Id
 	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
 	@Column(name = "t_patient_doc_id")
 	private String patientDocId;
 	

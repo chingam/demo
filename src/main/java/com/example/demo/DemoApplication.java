@@ -1,9 +1,12 @@
 package com.example.demo;
 
+import java.io.File;
+import java.util.Date;
 import java.util.Locale;
 
 import org.apache.cxf.transport.servlet.CXFServlet;
 import org.openehealth.ipf.commons.ihe.ws.cxf.payload.OutPayloadLoggerInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
@@ -16,10 +19,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import com.example.demo.model.ServerLog;
+import com.example.demo.repo.ServerLogRepository;
+
 @SpringBootApplication
 @ImportResource({ "classpath:META-INF/cxf/cxf.xml", "classpath:context.xml" })
 public class DemoApplication {
-
+	@Autowired private ApplicationConfig appConfig;
+	@Autowired private ServerLogRepository serverRepo;
+	
 	@Bean
 	public ServletRegistrationBean<CXFServlet> servletRegistrationBean(ApplicationContext context) {
 		return new ServletRegistrationBean<>(new CXFServlet(), "/medisys/service/*");
@@ -52,7 +60,14 @@ public class DemoApplication {
 	
 	@Bean
 	public OutPayloadLoggerInterceptor serverOutLogger() {
-		String fileNamePattern = "/tmp/test.txt";
-		return new OutPayloadLoggerInterceptor(fileNamePattern );
+		String messageId = DateUtil.format(new Date(), DateUtil.HL7v2_DATE_FORMAT);
+		String path = appConfig.getPath() + File.separator + messageId + ".xml";
+		ServerLog server = new ServerLog();
+		server.setMessageId(messageId);
+		server.setDate(new Date());
+		server.setTransactionName("Registry store query");
+		server.setType("OUTGOING");
+		serverRepo.save(server);	
+		return new OutPayloadLoggerInterceptor(path );
 	}
 }

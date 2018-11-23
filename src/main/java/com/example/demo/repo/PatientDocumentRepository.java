@@ -10,5 +10,8 @@ import com.example.demo.model.PatientDocument;
 @Repository
 public interface PatientDocumentRepository extends CrudRepository<PatientDocument, String>{
 	PatientDocument findByPatientNo(String patientNo);
+	List<PatientDocument> findAllByPatientNo(String patientNo);
 	List<PatientDocument> findByPatientNoContaining(String patientNo);
+	List<PatientDocument> findAllByEntryUuid(String entryUuid);// user entry id
+	
 }

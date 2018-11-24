@@ -24,7 +24,7 @@
 				<div class="col-sm-12 col-md-5" style="padding-left: 3px">
 					<select class="form-control" id="messageType">
 						<option value="98">FindDocuments</option>
-						<option value="99">FindDocumentsByReferenceId</option>
+						<!-- <option value="99">FindDocumentsByReferenceId</option> -->
 						<option value="100">FindFolders</option>
 						<option value="101">FindSubmissionSets</option>
 						<option value="102">GetAll</option>
@@ -44,6 +44,12 @@
 				<label for="formCode" id="searchLabel" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.registryquery.label.patientid}">Patient no</label>
 				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
 					<input type="text" id="searchData" class="form-control" data-rule-required="true" th:placeholder="#{query.registryquery.label.patientid}" />
+				</div>
+			</div>
+			<div id="otherOption" class="form-group" style="padding-botton: 1px; display: none">
+				<label for="orData" id="orDataLabel" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" >Uuids</label>
+				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+					<input type="text" id="orData" class="form-control" data-rule-required="true" placeholder="Uuid" />
 				</div>
 			</div>
 		</div>

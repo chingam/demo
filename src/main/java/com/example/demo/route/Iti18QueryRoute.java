@@ -48,8 +48,10 @@ public class Iti18QueryRoute extends FatJarRouter {
 					public void process(Exchange exchange) throws Exception {
 						String recipients = "";
 						QueryType quretType = exchange.getIn().getBody(QueryRegistry.class).getQuery().getType();
-						if (quretType == QueryType.FIND_DOCUMENTS || quretType == QueryType.FIND_DOCUMENTS_BY_REFERENCE_ID) {
+						if (quretType == QueryType.FIND_DOCUMENTS) {
 							recipients = "direct:findDocs";
+						}else if (quretType == QueryType.FIND_DOCUMENTS_BY_REFERENCE_ID) {
+							recipients = "direct:findDocsByRef";
 						} else if (quretType == QueryType.FIND_SUBMISSION_SETS) {
 							recipients = "direct:findSets";
 						} else if (quretType == QueryType.FIND_FOLDERS) {
@@ -72,6 +74,8 @@ public class Iti18QueryRoute extends FatJarRouter {
 							recipients = "direct:getFoldersForDoc";
 						} else if (quretType == QueryType.GET_RELATED_DOCUMENTS) {
 							recipients = "direct:getRelatedDocs";
+						} else if (quretType == QueryType.GET_ALL) {
+							recipients = "direct:getAll";
 						} else {
 							recipients = "direct:fail";
 						}

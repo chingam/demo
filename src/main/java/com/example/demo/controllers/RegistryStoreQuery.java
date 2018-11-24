@@ -82,8 +82,8 @@ URI:
 	}
 	
 	@GetMapping(path = "/all")
-	public String findAll(@RequestParam("search") String search, @RequestParam("returntype") String returntype, @RequestParam("messagetype") String messagetype, @RequestParam("patnerid") String patnerid, final ModelMap model) {
-		model.addAttribute("list", queryService.getPatientMetaData(search, returntype, messagetype, patnerid));
+	public String findAll(@RequestParam("search") String search, @RequestParam("returntype") String returntype, @RequestParam("messagetype") String messagetype, @RequestParam("patnerid") String patnerid, @RequestParam("other") String other, final ModelMap model) {
+		model.addAttribute("list", queryService.getPatientMetaData(search, returntype, messagetype, patnerid, other));
 		return "registryquery/table";
 	}
 }

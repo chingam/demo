@@ -6,6 +6,24 @@ rgistry find doc =http://ehealthsuisse.ihe-europe.net:8481/xdstools4/sim/csim__r
 
 
 
+<ns3:AdhocQueryResponse status="urn:oasis:names:tc:ebxml-regrep:ResponseStatusType:Failure" xmlns:ns6="urn:ihe:rad:xdsi-b:2009" xmlns:ns5="urn:oasis:names:tc:ebxml-regrep:xsd:lcm:3.0" xmlns:ns8="urn:oasis:names:tc:ebxml-regrep:registry:xsd:2.1" xmlns:ns7="urn:oasis:names:tc:ebxml-regrep:rim:xsd:2.1" xmlns:ns9="urn:oasis:names:tc:ebxml-regrep:xsd:rim:3.0" xmlns:ns10="urn:oasis:names:tc:ebxml-regrep:query:xsd:2.1" xmlns:ns2="urn:oasis:names:tc:ebxml-regrep:xsd:rs:3.0" xmlns:ns4="urn:ihe:iti:xds-b:2007" xmlns:ns3="urn:oasis:names:tc:ebxml-regrep:xsd:query:3.0">
+    <ns2:RegistryErrorList>
+        <ns2:RegistryError codeContext="Unknown Stored Query query id = urn:uuid:12941a89-e02e-4be5-967c-ce4bfc8fe492" errorCode="XDSRegistryError" severity="urn:oasis:names:tc:ebxml-regrep:ErrorSeverityType:Error" location="AdhocQueryRequest.java"></ns2:RegistryError>
+        <ns2:RegistryError codeContext="Do not understand query [urn:uuid:12941a89-e02e-4be5-967c-ce4bfc8fe492]" errorCode="XDSRegistryError" severity="urn:oasis:names:tc:ebxml-regrep:ErrorSeverityType:Error" location="QueryRequestMessageValidator"></ns2:RegistryError>
+    </ns2:RegistryErrorList>
+    <ns9:RegistryObjectList/>
+</ns3:AdhocQueryResponse>
+
+<ns2:RegistryErrorList>
+        <ns2:RegistryError codeContext="One of these parameters must be present in the query: [$XDSDocumentEntryUniqueId $XDSDocumentEntryEntryUUID $XDSDocumentEntryLogicalID]" errorCode="XDSRegistryError" severity="urn:oasis:names:tc:ebxml-regrep:ErrorSeverityType:Error" location="StoredQuery.java"></ns2:RegistryError>
+        <ns2:RegistryError codeContext="Query aborted, errors found parsing parameters" errorCode="XDSRegistryError" severity="urn:oasis:names:tc:ebxml-regrep:ErrorSeverityType:Error" location="QueryRequestMessageValidator"></ns2:RegistryError>
+    </ns2:RegistryErrorList>
+    <ns9:RegistryObjectList/>
+
+
+
+
+
 {
    "total":25,
    "data":[

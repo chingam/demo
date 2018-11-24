@@ -40,6 +40,7 @@ import org.openehealth.ipf.commons.ihe.xds.core.requests.query.FindDocumentsQuer
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.FindFoldersQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.FindSubmissionSetsQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetAllQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetDocumentsAndAssociationsQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetDocumentsQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.QueryResponse;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.Status;
@@ -70,6 +71,34 @@ public class CreateQueryResponseService {
 	@Autowired private CodeRepository codeRepository;
 	@Autowired private SubmissionSetDocumentRepository submissionSetRepository;
 
+	public QueryResponse createResponse(GetDocumentsAndAssociationsQuery getDocumentsQuery) {
+		if (getDocumentsQuery == null || (getDocumentsQuery.getUniqueIds() == null && getDocumentsQuery.getUuids() == null)) {
+			return sendErrorResponse();
+		}
+		List<DocumentEntry> docs = new ArrayList<>();
+		List<PatientDocument> docments = new ArrayList<>();
+		
+		if (getDocumentsQuery.getUniqueIds() != null && !getDocumentsQuery.getUniqueIds().isEmpty()) {
+			getDocumentsQuery.getUniqueIds().stream().forEach(a -> {
+				docments.addAll(patientDocumentRepository.findAllByEntryUuid(a));
+			});
+		}
+		docs.addAll(docments.stream().map(this::getDocumentEntry).collect(Collectors.toList()));
+		
+		if (getDocumentsQuery.getUuids() != null && !getDocumentsQuery.getUuids().isEmpty()) {
+			docs.addAll(getDocumentsQuery.getUuids().stream().map(a -> {
+				Optional<PatientDocument> patientOption = patientDocumentRepository.findById(a);
+				if (patientOption.isPresent()) return patientOption.get();
+				return new PatientDocument();
+			}).map(this::getDocumentEntry).collect(Collectors.toList()));
+		}
+		
+		QueryResponse response = new QueryResponse();
+		response.setStatus(Status.SUCCESS);
+		response.setDocumentEntries(docs);
+		return response;
+	}
+	
 	public QueryResponse createResponse(FindDocumentsQuery findDocumentsQuery) {
 		if (findDocumentsQuery.getPatientId() == null || StringUtils.isBlank(findDocumentsQuery.getPatientId().getId())) {
 			return sendErrorResponse();
@@ -92,32 +121,34 @@ public class CreateQueryResponseService {
 	}
 	
 	public QueryResponse createResponse(GetDocumentsQuery getDocumentQuery) {
-		if (getDocumentQuery == null || getDocumentQuery.getUniqueIds() == null || getDocumentQuery.getUniqueIds().isEmpty() || getDocumentQuery.getUuids() == null || getDocumentQuery.getUuids().isEmpty()) {
+		if (getDocumentQuery == null) {
 			return sendErrorResponse();
 		}
-		List<DocumentEntry> docEntryList = new ArrayList<>();
+		List<DocumentEntry> docs = new ArrayList<>();
 		List<PatientDocument> docments = new ArrayList<>();
-		getDocumentQuery.getUniqueIds().stream().forEach(a -> {
-			docments.addAll(patientDocumentRepository.findAllByEntryUuid(a));
-		});
 		
-		List<DocumentEntry> docsByUnique = docments.stream().map(this::getDocumentEntry).collect(Collectors.toList());
-		List<DocumentEntry> docs = getDocumentQuery.getUuids().stream().map(a -> {
-			Optional<PatientDocument> patientOption = patientDocumentRepository.findById(a);
-			if (patientOption.isPresent()) return patientOption.get();
-			return new PatientDocument();
-		}).map(this::getDocumentEntry).collect(Collectors.toList());
+		if (getDocumentQuery.getUniqueIds() != null && !getDocumentQuery.getUniqueIds().isEmpty()) {
+			getDocumentQuery.getUniqueIds().stream().forEach(a -> {
+				docments.addAll(patientDocumentRepository.findAllByEntryUuid(a));
+			});
+		}
+		docs.addAll(docments.stream().map(this::getDocumentEntry).collect(Collectors.toList()));
 		
-		docEntryList.addAll(docsByUnique);
-		docEntryList.addAll(docs);
+		if (getDocumentQuery.getUuids() != null && !getDocumentQuery.getUuids().isEmpty()) {
+			docs.addAll(getDocumentQuery.getUuids().stream().map(a -> {
+				Optional<PatientDocument> patientOption = patientDocumentRepository.findById(a);
+				if (patientOption.isPresent()) return patientOption.get();
+				return new PatientDocument();
+			}).map(this::getDocumentEntry).collect(Collectors.toList()));
+		}
 		QueryResponse response = new QueryResponse();
 		response.setStatus(Status.SUCCESS);
-		response.setDocumentEntries(docEntryList);
+		response.setDocumentEntries(docs);
 		return response;
 	}
 	
 	public QueryResponse createResponse(FindSubmissionSetsQuery findSubmission) {
-		if (findSubmission == null || findSubmission.getPatientId() == null || StringUtils.isBlank(findSubmission.getPatientId().getId())) {
+		if (findSubmission == null) {
 			return sendErrorResponse();
 		}
 		String patientId = findSubmission.getPatientId().getId();
@@ -133,7 +164,7 @@ public class CreateQueryResponseService {
 		
 	}
 	public QueryResponse createResponse(GetAllQuery getAllQuery) {
-		if (getAllQuery == null || getAllQuery.getPatientId() == null || StringUtils.isBlank(getAllQuery.getPatientId().getId())) {
+		if (getAllQuery == null || getAllQuery.getPatientId() == null) {
 			return sendErrorResponse();
 		}
 		String patientId = getAllQuery.getPatientId().getId();
@@ -142,16 +173,17 @@ public class CreateQueryResponseService {
 		try {
 			response.setDocumentEntries(crateDocumentEntries(patientId));
 			response.setSubmissionSets(creatieSubmissionSets(patientId));
+			response.setAssociations(createAssociation(patientId));
 			response.setFolders(createFolders(patientId));
 		} catch (Exception e) {
 			log.error("Could not create response GetAllQuery {}", e);
 			return sendErrorResponse();
 		}
-		return null;
+		return response;
 	}
 	
 	public QueryResponse createResponse(FindFoldersQuery findFoldersQuery) {
-		if (findFoldersQuery == null || findFoldersQuery.getPatientId() == null || StringUtils.isBlank(findFoldersQuery.getPatientId().getId())) {
+		if (findFoldersQuery == null) {
 			return sendErrorResponse();
 		}
 		String patientId = findFoldersQuery.getPatientId().getId();
@@ -238,7 +270,6 @@ public class CreateQueryResponseService {
 	private Name createAuthorName(String patientId) {
 		// TODO Implementation
 		Name name = new XpnName();
-		name.setDegree("MBBS, BMBS, MBChB, MBBCh)");
 		name.setFamilyName("GM Salam");
 		name.setGivenName("Hossain");
 		name.setPrefix("Dr");
@@ -248,7 +279,6 @@ public class CreateQueryResponseService {
 
 	private Identifiable createIdentifiable(String patientId) {
 		Identifiable identifi= new Identifiable();
-		identifi.setAssigningAuthority(new AssigningAuthority(appConfig.getAssigningauthority()));
 		identifi.setId(patientId);
 		return identifi;
 	}
@@ -425,7 +455,7 @@ public class CreateQueryResponseService {
 		}
 		
 		// A globally unique identifier for a community.
-//		doc.setHomeCommunityId(appConfig.getHomeCommunityId());
+		doc.setHomeCommunityId(appConfig.getHomeCommunityId());
 		
 		Identifiable sourcePatientId = new Identifiable(formObj.getPatientNo(), new AssigningAuthority(appConfig.getAssigningauthority()));
 		doc.setSourcePatientId(sourcePatientId);
@@ -535,24 +565,73 @@ public class CreateQueryResponseService {
 	}
 
 	public QueryResponse createResponseWithObjRef(GetDocumentsQuery getDocumentsQuery) {
-		if (getDocumentsQuery == null || getDocumentsQuery.getUniqueIds() == null || getDocumentsQuery.getUniqueIds().isEmpty() || getDocumentsQuery.getUuids() == null || getDocumentsQuery.getUuids().isEmpty()) {
+		if (getDocumentsQuery == null || (getDocumentsQuery.getUniqueIds() == null && getDocumentsQuery.getUuids() == null)) {
+			return sendErrorResponse();
+		}
+		
+		QueryResponse response = new QueryResponse();
+		List<ObjectReference> docRef = new ArrayList<>();
+		List<PatientDocument> docments = new ArrayList<>();
+		if (getDocumentsQuery.getUniqueIds() != null && !getDocumentsQuery.getUniqueIds().isEmpty()) {
+			getDocumentsQuery.getUniqueIds().stream().forEach(a -> {
+				docments.addAll(patientDocumentRepository.findAllByEntryUuid(a));
+			});
+		}
+		
+		docRef.addAll(docments.stream().map(this::getReferences).collect(Collectors.toList()));
+		if (getDocumentsQuery.getUuids() != null && !getDocumentsQuery.getUuids().isEmpty()) {
+			List<ObjectReference> docRefer = getDocumentsQuery.getUuids().stream().map(a -> {
+				Optional<PatientDocument> patientOption = patientDocumentRepository.findById(a);
+				if (patientOption.isPresent()) return patientOption.get();
+				return new PatientDocument();
+			}).map(this::getReferences).collect(Collectors.toList());
+			docRef.addAll(docRefer);
+		}
+		response.setReferences(docRef);
+		response.setStatus(Status.SUCCESS);
+		return response;
+	}
+	
+	public QueryResponse createResponseWithObjRef(GetAllQuery getAll) {
+		if (getAll == null || getAll.getPatientId() == null) {
+			return sendErrorResponse();
+		}
+		String patientId = getAll.getPatientId().getId();
+		
+		QueryResponse response = new QueryResponse();
+//		response.setAssociations(createAssociation(patientId));
+//		response.setDocumentEntries(crateDocumentEntries(patientId));
+//		response.setFolders(createFolders(patientId));
+//		response.setSubmissionSets(creatieSubmissionSets(patientId));
+		response.setStatus(Status.SUCCESS);
+		return response;
+	}
+	
+	public QueryResponse createResponseWithObjRef(GetDocumentsAndAssociationsQuery getDocumentsQuery) {
+		if (getDocumentsQuery == null || (getDocumentsQuery.getUniqueIds() == null && getDocumentsQuery.getUuids() == null)) {
 			return sendErrorResponse();
 		}
 		
 		QueryResponse response = new QueryResponse();
 		List<PatientDocument> docments = new ArrayList<>();
-		getDocumentsQuery.getUniqueIds().stream().forEach(a -> {
-			docments.addAll(patientDocumentRepository.findAllByEntryUuid(a));
-		});
+		List<ObjectReference> docRef = new ArrayList<>();
+		if (getDocumentsQuery.getUniqueIds() != null && !getDocumentsQuery.getUniqueIds().isEmpty()) {
+			getDocumentsQuery.getUniqueIds().stream().forEach(a -> {
+				docments.addAll(patientDocumentRepository.findAllByEntryUuid(a));
+			});
+		}
 		
-		List<ObjectReference> docRef = docments.stream().map(this::getReferences).collect(Collectors.toList());
-		List<ObjectReference> docRefer = getDocumentsQuery.getUuids().stream().map(a -> {
-			Optional<PatientDocument> patientOption = patientDocumentRepository.findById(a);
-			if (patientOption.isPresent()) return patientOption.get();
-			return new PatientDocument();
-		}).map(this::getReferences).collect(Collectors.toList());
-		docRefer.addAll(docRef);
+		docRef.addAll(docments.stream().map(this::getReferences).collect(Collectors.toList()));
+		if (getDocumentsQuery.getUuids() != null && !getDocumentsQuery.getUuids().isEmpty()) {
+			List<ObjectReference> docRefer = getDocumentsQuery.getUuids().stream().map(a -> {
+				Optional<PatientDocument> patientOption = patientDocumentRepository.findById(a);
+				if (patientOption.isPresent()) return patientOption.get();
+				return new PatientDocument();
+			}).map(this::getReferences).collect(Collectors.toList());
+			docRef.addAll(docRefer);
+		}
 		response.setReferences(docRef);
+		response.setStatus(Status.SUCCESS);
 		return response;
 	}
 	

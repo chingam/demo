@@ -1,6 +1,6 @@
 <div id="tablesec" xmlns:th="http://www.thymeleaf.org">
-	<div th:if="${list.status ne null and #lists.isEmpty(list.documentEntries) and #lists.isEmpty(list.errors) and #lists.isEmpty(list.references)}" class="col-md-12 alert alert-success" style="border:1px solid">
-		<p th:text="${'Status : '+ list.status}"></p>
+	<div th:if="${list.status ne null and list.status.name() ne 'FAILURE' and #lists.isEmpty(list.documentEntries) and #lists.isEmpty(list.errors) and #lists.isEmpty(list.references) and #lists.isEmpty(list.submissionSets) and #lists.isEmpty(list.folders) and #lists.isEmpty(list.associations)}" class="col-md-12 alert alert-success" style="border:1px solid">
+		<p th:text="${'Status : '+ list.status.name()}"></p>
 		<p>No related documents were found</p>
 	</div>
 	<div th:unless="${#lists.isEmpty(list.errors)}" class="col-md-12 alert alert-success" style="border:1px solid">
@@ -44,7 +44,7 @@
 		</table>
 	</div>
 	<div th:unless="${#lists.isEmpty(list.documentEntries)}" th:each="li : ${list.documentEntries}" class="col-md-12 alert alert-success" style="border:1px solid">
-		<div class="col-md-6" th:with="df='dd-MMM-yyyy'">
+		<div class="col-md-6" th:with="df='dd-MMM-yyyy h:mm:ss'">
 			<div class="form-group" style="padding-botton: 1px">
 				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Patient no:</label>
 				<div class="col-md-6">
@@ -133,6 +133,12 @@
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
+				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Entry Uuid:</label>
+				<div class="col-md-8">
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(li.entryUuid,'')}"></label>
+				</div>
+			</div>
+			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Mime type:</label>
 				<div class="col-md-8">
 					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(li.mimeType,'application/pdf')}"></label>
@@ -183,25 +189,33 @@
 			
 		</div>
 		
-		<div th:unless="${#lists.isEmpty(li.authors)}"  th:each="au : ${li.authors}">
-			<table th:unless="${#lists.isEmpty(au.authorPerson)}" width="100%" class="grid">
+			<table th:unless="${#lists.isEmpty(li.authors)}" width="100%" class="grid">
 				<thead style="font-size: 12px;">
 					<tr>
-						<th colspan="2" style="text-align: center;padding: 0px;">Author person</th>
+						<th colspan="3" style="text-align: center;padding: 0px;">Author person</th>
 					</tr>
 					<tr>
 						<th>Id</th>
 						<th>Name</th>
+						<th>OrganizationName</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="auPerson : ${au.authorPerson}">
-						<td th:text="${auPerson.id}"></td>
-						<td th:text="${auPerson.name}"></td>
+					<tr th:each="at : ${li.authors}">
+						<td th:text="${at.authorPerson ne null and at.authorPerson.id ne null ? #strings.defaultString(at.authorPerson.id.id, '') : ''}"></td>
+						<td th:text="${at.authorPerson ne null and at.authorPerson.name ne null ? #strings.defaultString(at.authorPerson.name.familyName, '') + ' ' + #strings.defaultString(at.authorPerson.name.givenName, '') : ''}"></td>
+						<td>
+							<span th:unless="${#lists.isEmpty(at.authorInstitution)}" th:each="institution : ${at.authorInstitution}" th:text="${#strings.defaultString(institution.organizationName + ' ,', '')}"></span>
+						</td>
+						<!-- <td th:text="${at.authorPerson ne null and at.authorPerson.id ne null ? #strings.defaultString(at.authorPerson.id.id, '') : ''}"></td>
+						<td th:text="${at.authorPerson ne null and at.name ne null ? #strings.defaultString(at.authorPerson.name.prefix, '') + ' ' + #strings.defaultString(at.authorPerson.name.familyName, '') +' '+ #strings.defaultString(at.authorPerson.name.givenName, '') : ''}"></td>
+						<td>
+							<span th:unless="${#lists.isEmpty(auPerson.authorInstitution)}" th:each="institution : ${auPerson.authorInstitution}" th:text="${#strings.defaultString(institution.organizationName + ' ,', '')}"></span>
+						</td> -->
 					</tr>
 				</tbody>
 			</table>
-			<table th:unless="${#lists.isEmpty(au.authorInstitution)}" width="100%" class="grid">
+			<!-- <table th:unless="${#lists.isEmpty(au.authorInstitution)}" width="100%" class="grid">
 				<thead style="font-size: 12px;">
 					<tr>
 						<th colspan="2" style="text-align: center;padding: 0px;">AuthorInstitution</th>
@@ -213,13 +227,12 @@
 				</thead>
 				<tbody>
 					<tr th:each="institution : ${au.authorInstitution}">
-						<td th:text="${institution.idNumber}"></td>
-						<td th:text="${institution.organizationName}"></td>
+						<td th:text="${#strings.defaultString(institution.idNumber, '')}"></td>
+						<td th:text="${#strings.defaultString(institution.organizationName, '')}"></td>
 					</tr>
 				</tbody>
-			</table>
+			</table> -->
 			
-		</div>
 		<div th:unless="${#lists.isEmpty(li.confidentialityCodes)}">
 			<table width="100%" class="grid">
 				<thead style="font-size: 12px;">
@@ -233,8 +246,8 @@
 				</thead>
 				<tbody>
 					<tr th:unless="${#lists.isEmpty(li.confidentialityCodes)}"  th:each="confidential : ${li.confidentialityCodes}">
-						<td th:text="${confidential.schemeName}"></td>
-						<td><span th:text="${confidential.displayName ne null ? confidential.displayName.value : ''}"></span></td>
+						<td th:text="${#strings.defaultString(confidential.schemeName, '')}"></td>
+						<td><span th:text="${confidential.displayName ne null ? #strings.defaultString(confidential.displayName.value, '') : ''}"></span></td>
 					</tr>
 				</tbody>
 			</table>
@@ -243,6 +256,9 @@
 			<table width="100%" class="grid">
 				<thead style="font-size: 12px;">
 					<tr>
+						<th colspan="3" style="text-align: center;padding: 0px;">Event codes</th>
+					</tr>
+					<tr>
 						<th>Code</th>
 						<th>Scheme name</th>
 						<th>Display name</th>
@@ -250,9 +266,9 @@
 				</thead>
 				<tbody>
 					<tr th:unless="${#lists.isEmpty(li.eventCodeList)}"  th:each="eventList : ${li.eventCodeList}">
-						<td th:text="${eventList.code}"></td>
-						<td th:text="${eventList.schemeName}"></td>
-						<td><span th:text="${eventList.displayName ne null ? eventList.displayName.lang : ''}"></span><span th:text="${eventList.displayName ne null ? confidential.displayName.value : ''}"></span></td>
+						<td th:text="${#strings.defaultString(eventList.code, '')}"></td>
+						<td th:text="${#strings.defaultString(eventList.schemeName, '')}"></td>
+						<td><span th:text="${eventList.displayName ne null ? #strings.defaultString(eventList.displayName.value, '') : ''}"></span></td>
 					</tr>
 				</tbody>
 			</table>
@@ -261,14 +277,17 @@
 			<table width="100%" class="grid">
 				<thead style="font-size: 12px;">
 					<tr>
+						<th colspan="2" style="text-align: center;padding: 0px;">Reference list</th>
+					</tr>
+					<tr>
 						<th>id</th>
 						<th>Type code</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:unless="${#lists.isEmpty(li.referenceIdList)}"  th:each="reference : ${li.referenceIdList}">
-						<td th:text="${reference.id}"></td>
-						<td th:text="${reference.idTypeCode}"></td>
+						<td th:text="${#strings.defaultString(reference.id, '')}"></td>
+						<td th:text="${#strings.defaultString(reference.idTypeCode, '')}"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -374,49 +393,35 @@
 			</div>
 		</div>
 	</div>
-	<div th:unless="${#lists.isEmpty(list.associations)}" th:each="ass : ${list.associations}" class="col-md-12 alert alert-warn" style="border:1px solid">
-		<div class="col-md-6" th:with="df='dd-MMM-yyyy'">
-			<div class="form-group" style="padding-botton: 1px">
-				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Status:</label>
-				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(ass.availabilityStatus.name(),'')}"></label>
-				</div>
-			</div>
-			<div class="form-group" style="padding-botton: 1px">
-				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Label:</label>
-				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(ass.Label,'')}"></label>
-				</div>
-			</div>
-			<div class="form-group" style="padding-botton: 1px">
-				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">New status:</label>
-				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(ass.newStatus.name(),'')}"></label>
-				</div>
-			</div>
-			
-		</div>
-		<div class="col-md-6">
-			<div class="form-group" style="padding-botton: 1px">
-				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Entry uuid:</label>
-				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${ass.entryUuid}"></label>
-				</div>
-			</div>
-			<div class="form-group" style="padding-botton: 1px">
-				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Source Uuid:</label>
-				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${ass.sourceUuid}"></label>
-				</div>
-			</div>
-			<div class="form-group" style="padding-botton: 1px">
-				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Target Uuid:</label>
-				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${ass.targetUuid}"></label>
-				</div>
-			</div>
-		</div>
+	
+	<div th:unless="${#lists.isEmpty(list.associations)}">
+		<table width="100%" class="grid">
+			<thead style="font-size: 12px;">
+				<tr>
+					<th colspan="6" style="text-align: center;padding: 0px;">Associations</th>
+				</tr>
+				<tr>
+					<th>Satus</th>
+					<th>Label</th>
+					<th>Entry Uuid</th>
+					<th>Source Uuid</th>
+					<th>Target Uuid</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:unless="${#lists.isEmpty(list.associations)}"  th:each="ass : ${list.associations}">
+					<td th:text="${#strings.defaultString(ass.availabilityStatus.name(),'')}"></td>
+					<td th:text="${#strings.defaultString(ass.Label,'')}"></td>
+					<td th:text="${#strings.defaultString(ass.entryUuid, '')}"></td>
+					<td th:text="${#strings.defaultString(ass.sourceUuid, '')}"></td>
+					<td th:text="${#strings.defaultString(ass.targetUuid, '')}"></td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
+		
+	
+	
 	<!-- <table id="metaDataList" width="100%" class="grid">
 		<thead style="font-size: 12px;">
 			<tr>

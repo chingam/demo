@@ -22,6 +22,12 @@ rgistry find doc =http://ehealthsuisse.ihe-europe.net:8481/xdstools4/sim/csim__r
 
 
 
+http://rdp.wbc.co.in:7474/xdstoolsxdstools/sim/ihetest__ihe_drg/reg/sq
+'Manojkumar^^^&1.3.6.1.4.1.21367.13.20.1000&ISO'
+ 'IHEBLUE-2737^^^&1.3.6.1.4.1.21367.13.20.3000&ISO'
+ E201808290301^^^eTransX&1.2.840.114350.1.13.0.1.7.1.1&ISO
+
+
 
 
 {

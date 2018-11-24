@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -29,7 +28,6 @@ import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetFoldersQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetRelatedDocumentsQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetSubmissionSetAndContentsQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetSubmissionSetsQuery;
-import org.openehealth.ipf.commons.ihe.xds.core.requests.query.Query;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.QueryList;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.QueryReturnType;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.QueryResponse;
@@ -97,7 +95,7 @@ public class RegistryQueryService {
 		} else if ("111".equals(messageType)) {
 			queryRegistry = new QueryRegistry(createGetSubmissionSetsQuery(patientId, patner.getHomeCommunityId()));
 		}
-
+		
 		try {
 			QueryReturnType queryType = QueryReturnType.valueOfCode(returnType);
 			queryRegistry.setReturnType(queryType);

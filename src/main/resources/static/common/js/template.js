@@ -143,6 +143,12 @@ d4.eo.employee.load = function(url) {
 		$("#tbl tbody tr").remove();
 		$("#formsection").append("<div id='datalistBody'></div>")
 		$("#datalistBody").load(url, function(responseTxt, statusTxt, xhr) {
+			if (responseTxt.startsWith('{"message"')) {
+				$("#datalistBody").remove();
+				var obj = JSON.parse(responseTxt);
+				showScreenMessage("alert-danger", obj.message, "");
+			}
+			
 			dataTB = $('#tbl').DataTable(
 					{
 						"bFilter" : false,

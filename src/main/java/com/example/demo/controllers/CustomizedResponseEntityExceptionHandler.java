@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.context.request.WebRequest;
 
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @ControllerAdvice
 public class CustomizedResponseEntityExceptionHandler {
 
@@ -26,6 +28,7 @@ public class CustomizedResponseEntityExceptionHandler {
 		Map<String, Object> response = new HashMap<>();
 		response.put("status", "error");
 		response.put("message", ex.getBindingResult().getFieldErrors().stream().map(a -> a.getField().toLowerCase() +" "+ a.getDefaultMessage()).collect(Collectors.joining(" and ")));
+		log.error("Error is : ", ex.getFieldError().getDefaultMessage());
 		return ResponseEntity.ok(response);
 	}
 
@@ -34,6 +37,7 @@ public class CustomizedResponseEntityExceptionHandler {
 		Map<String, Object> response = new HashMap<>();
 		response.put("status", "error");
 		response.put("message", "error : " + ex.getMessage());
+		log.error("Exception is ", ex);
 		return ResponseEntity.ok(response);
 	}
 	

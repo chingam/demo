@@ -30,7 +30,7 @@ public class DemoApplication {
 	
 	@Bean
 	public ServletRegistrationBean<CXFServlet> servletRegistrationBean(ApplicationContext context) {
-		return new ServletRegistrationBean<>(new CXFServlet(), "/medisys/service/*");
+		return new ServletRegistrationBean<>(new CXFServlet(), "/xds/service/*");
 	}
 
 	@Bean

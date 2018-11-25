@@ -47,7 +47,7 @@ d4.eo.regitryquery.load = function(url) {
 		$("#formsection").append("<div id='datalistBody'></div>")
 		$("#datalistBody").load(url, function(responseTxt, statusTxt, xhr) {
 			$("#loadingmask2").hide();
-			console.log(responseTxt);
+			//console.log(responseTxt);
 			if (responseTxt.startsWith('{"message"')) {
 				$("#datalistBody").remove();
 				var obj = JSON.parse(responseTxt);

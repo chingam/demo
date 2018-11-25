@@ -78,11 +78,13 @@ public class CreateQueryResponseService {
 		List<DocumentEntry> docs = new ArrayList<>();
 		List<PatientDocument> docments = new ArrayList<>();
 		
+		
 		if (getDocumentsQuery.getUniqueIds() != null && !getDocumentsQuery.getUniqueIds().isEmpty()) {
 			getDocumentsQuery.getUniqueIds().stream().forEach(a -> {
-				docments.addAll(patientDocumentRepository.findAllByEntryUuid(a));
+				getPatientDocuments(docments, a);
 			});
 		}
+		
 		docs.addAll(docments.stream().map(this::getDocumentEntry).collect(Collectors.toList()));
 		
 		if (getDocumentsQuery.getUuids() != null && !getDocumentsQuery.getUuids().isEmpty()) {
@@ -98,13 +100,17 @@ public class CreateQueryResponseService {
 		response.setDocumentEntries(docs);
 		return response;
 	}
+
+	private void getPatientDocuments(List<PatientDocument> docments, String a) {
+		docments.addAll(patientDocumentRepository.findAllByEntryUuid(a));
+	}
 	
 	public QueryResponse createResponse(FindDocumentsQuery findDocumentsQuery) {
-		if (findDocumentsQuery.getPatientId() == null || StringUtils.isBlank(findDocumentsQuery.getPatientId().getId())) {
+		if (findDocumentsQuery == null || findDocumentsQuery.getPatientId() == null) {
 			return sendErrorResponse();
 		}
-		String patientId = findDocumentsQuery.getPatientId().getId();
 		
+		String patientId = findDocumentsQuery.getPatientId().getId();
 		QueryResponse response = new QueryResponse();
 		response.setStatus(Status.SUCCESS);
 		try {
@@ -121,7 +127,7 @@ public class CreateQueryResponseService {
 	}
 	
 	public QueryResponse createResponse(GetDocumentsQuery getDocumentQuery) {
-		if (getDocumentQuery == null) {
+		if (getDocumentQuery == null || (getDocumentQuery.getUniqueIds() == null && getDocumentQuery.getUuids() == null)) {
 			return sendErrorResponse();
 		}
 		List<DocumentEntry> docs = new ArrayList<>();
@@ -129,17 +135,19 @@ public class CreateQueryResponseService {
 		
 		if (getDocumentQuery.getUniqueIds() != null && !getDocumentQuery.getUniqueIds().isEmpty()) {
 			getDocumentQuery.getUniqueIds().stream().forEach(a -> {
-				docments.addAll(patientDocumentRepository.findAllByEntryUuid(a));
+				getPatientDocuments(docments, a);
 			});
 		}
 		docs.addAll(docments.stream().map(this::getDocumentEntry).collect(Collectors.toList()));
 		
 		if (getDocumentQuery.getUuids() != null && !getDocumentQuery.getUuids().isEmpty()) {
-			docs.addAll(getDocumentQuery.getUuids().stream().map(a -> {
+			List<DocumentEntry> docsEntry = getDocumentQuery.getUuids().stream().map(a -> {
 				Optional<PatientDocument> patientOption = patientDocumentRepository.findById(a);
 				if (patientOption.isPresent()) return patientOption.get();
 				return new PatientDocument();
-			}).map(this::getDocumentEntry).collect(Collectors.toList()));
+			}).map(this::getDocumentEntry).collect(Collectors.toList());
+			
+			docs.addAll(docsEntry);
 		}
 		QueryResponse response = new QueryResponse();
 		response.setStatus(Status.SUCCESS);
@@ -148,7 +156,7 @@ public class CreateQueryResponseService {
 	}
 	
 	public QueryResponse createResponse(FindSubmissionSetsQuery findSubmission) {
-		if (findSubmission == null) {
+		if (findSubmission == null || findSubmission.getPatientId() == null) {
 			return sendErrorResponse();
 		}
 		String patientId = findSubmission.getPatientId().getId();
@@ -211,12 +219,18 @@ public class CreateQueryResponseService {
 	}
 
 	private List<SubmissionSet> creatieSubmissionSets(String patientId) {
-		List<SubmissionSet> sets = new ArrayList<>();
+		if (StringUtils.isBlank(patientId)) {
+			return Collections.emptyList();
+		}
+		
 		SubmissionSetDocument submissionSetObj = submissionSetRepository.findByPatientNo(patientId);
 		if (submissionSetObj == null) {
 			return Collections.emptyList();
 		}
+		
+		List<SubmissionSet> sets = new ArrayList<>();
 		SubmissionSet submissionSet = new SubmissionSet();
+		
 		submissionSet.setAuthor(createAuthor(patientId));
 		submissionSet.setAvailabilityStatus(AvailabilityStatus.APPROVED);
 		
@@ -229,6 +243,7 @@ public class CreateQueryResponseService {
 		}
 		submissionSet.setHomeCommunityId(appConfig.getHomeCommunityId());
 		submissionSet.setPatientId(getPatientId(patientId));
+		
 		if (StringUtils.isNotBlank(submissionSetObj.getSourceId())) {
 			submissionSet.setSourceId(submissionSetObj.getSourceId());
 		}
@@ -267,9 +282,9 @@ public class CreateQueryResponseService {
 		return person;
 	}
 
-	private Name createAuthorName(String patientId) {
+	private Name<?> createAuthorName(String patientId) {
 		// TODO Implementation
-		Name name = new XpnName();
+		Name<?> name = new XpnName();
 		name.setFamilyName("GM Salam");
 		name.setGivenName("Hossain");
 		name.setPrefix("Dr");
@@ -285,7 +300,6 @@ public class CreateQueryResponseService {
 
 	private List<Folder> createFolders(String patientId) {
 		List<Folder> list = new ArrayList<>();
-		
 		Folder folder = new Folder();
 		folder.setAvailabilityStatus(AvailabilityStatus.APPROVED);
 		folder.setComments(new LocalizedString("folder"));
@@ -300,14 +314,34 @@ public class CreateQueryResponseService {
 	}
 
 	private List<DocumentEntry> crateDocumentEntries(String patientId) {
+		if (StringUtils.isBlank(patientId)) {
+			Collections.emptyList();
+		}
+		
 		List<PatientDocument> patientList = patientDocumentRepository.findAllByPatientNo(patientId);
 		return patientList.stream().map(this::getDocumentEntry).collect(Collectors.toList());
 	}
 
 	private Long generateSize(String patientId, String mimeType) {
+		/*
+		 * multipart/form-data
+application/xml
+application/zip
+application/pdf
+text/css
+text/html
+text/xml
+text/csv
+text/plain
+image/png
+image/jpeg
+image/gif
+		 */
 		String fileExtension = "pdf";
-		if (StringUtils.isNotEmpty(mimeType) && "text/xml".equals(mimeType)) {
+		if ("text/xml".equals(mimeType) || "application/xml".equals(mimeType)) {
 			fileExtension = "xml";
+		} else if ("application/zip".equals(mimeType)) {
+			fileExtension = "zip";
 		}
 		File file = new File(appConfig.getPath() + File.separator + patientId + "." + fileExtension);
 		if (file.exists()) {
@@ -341,16 +375,12 @@ public class CreateQueryResponseService {
 
 	}
 
-	private Code createClassCode(String patientId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	private List<Association> createAssociation(String patientId) {
 		List<Association> assList = new ArrayList<>();
 		com.example.demo.model.Association assObj = associationRepository.findByPatientNo(patientId);
-		if (assObj == null)
+		if (assObj == null) {
 			return null;
+		}
 
 		Association association = new Association();
 		association.setAssociationPropagation(assObj.getAssociationPropagation());
@@ -574,7 +604,7 @@ public class CreateQueryResponseService {
 		List<PatientDocument> docments = new ArrayList<>();
 		if (getDocumentsQuery.getUniqueIds() != null && !getDocumentsQuery.getUniqueIds().isEmpty()) {
 			getDocumentsQuery.getUniqueIds().stream().forEach(a -> {
-				docments.addAll(patientDocumentRepository.findAllByEntryUuid(a));
+				getPatientDocuments(docments, a);
 			});
 		}
 		
@@ -617,7 +647,7 @@ public class CreateQueryResponseService {
 		List<ObjectReference> docRef = new ArrayList<>();
 		if (getDocumentsQuery.getUniqueIds() != null && !getDocumentsQuery.getUniqueIds().isEmpty()) {
 			getDocumentsQuery.getUniqueIds().stream().forEach(a -> {
-				docments.addAll(patientDocumentRepository.findAllByEntryUuid(a));
+				getPatientDocuments(docments, a);
 			});
 		}
 		

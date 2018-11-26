@@ -2,7 +2,9 @@
 	<table id="tbl" width="100%" class="grid">
 		<thead style="font-size: 12px;">
 			<tr>
+				<th>Entry uuid</th>
 				<th>Patient no</th>
+				<th>Document unique id</th>
 				<th>Class</th>
 				<th>Format</th>
 				<th>Health care facility</th>
@@ -11,7 +13,9 @@
 		</thead>
 		<tbody id="dataTable">
 			<tr th:unless="${#lists.isEmpty(zones)}"  th:each="li : ${zones}">
-				<td th:attr="data-code=${li.patientDocId}" th:text="${li.patientNo}"></td>
+				<td th:attr="data-code=${li.patientDocId}" th:text="${li.patientDocId}"></td>
+				<td th:text="${li.patientNo}"></td>
+				<td th:text="${li.entryUuid}"></td>
 				<td th:text="${li.classCode}"></td>
 				<td th:text="${li.formatCode}"></td>
 				<td th:text="${li.healthcareFacilityTypeCode}"></td>

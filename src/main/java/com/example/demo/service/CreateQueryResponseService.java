@@ -149,8 +149,8 @@ public class CreateQueryResponseService {
 		
 		if (getDocumentQuery.getUniqueIds() != null && !getDocumentQuery.getUniqueIds().isEmpty()) {
 			getDocumentQuery.getUniqueIds().stream().forEach(a -> getPatientDocuments(docments, a));
+			docs.addAll(docments.stream().map(this::getDocumentEntry).collect(Collectors.toList()));
 		}
-		docs.addAll(docments.stream().map(this::getDocumentEntry).collect(Collectors.toList()));
 		
 		if (getDocumentQuery.getUuids() != null && !getDocumentQuery.getUuids().isEmpty()) {
 			List<DocumentEntry> docsEntry = getDocumentQuery.getUuids().stream().map(this::getObjectRef).map(this::getDocumentEntry).collect(Collectors.toList());

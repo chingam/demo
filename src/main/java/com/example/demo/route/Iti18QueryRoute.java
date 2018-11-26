@@ -21,6 +21,7 @@ import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetRelatedDocumen
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetSubmissionSetsQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.QueryReturnType;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.QueryType;
+import org.openehealth.ipf.commons.ihe.xds.core.responses.ErrorCode;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.ErrorInfo;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.QueryResponse;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.Severity;
@@ -145,14 +146,15 @@ public class Iti18QueryRoute extends FatJarRouter {
 				QueryRegistry request = exchange.getIn().getBody(QueryRegistry.class);
 				GetFoldersForDocumentQuery getFolderQuery = (GetFoldersForDocumentQuery) request.getQuery();
 				QueryResponse resp = new QueryResponse();
-				if (getFolderQuery == null || StringUtils.isBlank(getFolderQuery.getUniqueId())
-						|| StringUtils.isBlank(getFolderQuery.getUuid())) {
+				if (getFolderQuery == null || (StringUtils.isBlank(getFolderQuery.getUniqueId()) && StringUtils.isBlank(getFolderQuery.getUuid()))) {
 					resp.setStatus(Status.FAILURE);
 					List<ErrorInfo> errors = new ArrayList<>();
 					ErrorInfo error = new ErrorInfo();
+					error.setErrorCode(ErrorCode.STORED_QUERY_MISSING_PARAM);
 					error.setSeverity(Severity.ERROR);
 					errors.add(error);
-					error.setCodeContext("error : query is empty !");
+					error.setCodeContext("Unknown Stored Query query id");
+					error.setLocation("Unknown Stored Query query id");
 					resp.setErrors(errors);
 					exchange.getIn().setBody(resp);
 				} else {
@@ -169,14 +171,15 @@ public class Iti18QueryRoute extends FatJarRouter {
 				QueryRegistry request = exchange.getIn().getBody(QueryRegistry.class);
 				GetRelatedDocumentsQuery getFolderQuery = (GetRelatedDocumentsQuery) request.getQuery();
 				QueryResponse resp = new QueryResponse();
-				if (getFolderQuery == null || StringUtils.isBlank(getFolderQuery.getUniqueId())
-						|| StringUtils.isBlank(getFolderQuery.getUuid())) {
+				if (getFolderQuery == null || (StringUtils.isBlank(getFolderQuery.getUniqueId()) && StringUtils.isBlank(getFolderQuery.getUuid()))) {
 					resp.setStatus(Status.FAILURE);
 					List<ErrorInfo> errors = new ArrayList<>();
 					ErrorInfo error = new ErrorInfo();
+					error.setErrorCode(ErrorCode.STORED_QUERY_MISSING_PARAM);
 					error.setSeverity(Severity.ERROR);
 					errors.add(error);
-					error.setCodeContext("error : query is empty !");
+					error.setCodeContext("Unknown Stored Query query id");
+					error.setLocation("Unknown Stored Query query id");
 					resp.setErrors(errors);
 					exchange.getIn().setBody(resp);
 				} else {

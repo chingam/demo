@@ -19,6 +19,7 @@ import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetFoldersForDocu
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetFoldersQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetRelatedDocumentsQuery;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.GetSubmissionSetsQuery;
+import org.openehealth.ipf.commons.ihe.xds.core.requests.query.QueryReturnType;
 import org.openehealth.ipf.commons.ihe.xds.core.requests.query.QueryType;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.ErrorInfo;
 import org.openehealth.ipf.commons.ihe.xds.core.responses.QueryResponse;
@@ -91,6 +92,12 @@ public class Iti18QueryRoute extends FatJarRouter {
 			public void process(Exchange exchange) throws Exception {
 				QueryRegistry request = exchange.getIn().getBody(QueryRegistry.class);
 				FindSubmissionSetsQuery findSubmissionsetsQuery = (FindSubmissionSetsQuery) request.getQuery();
+				if (QueryReturnType.OBJECT_REF.name().equals(request.getReturnType().name())) {
+					QueryResponse response = service.createResponseWithObjRef(findSubmissionsetsQuery);
+					exchange.getIn().setBody(response);
+					return;
+				}
+				
 				QueryResponse resp = service.createResponse(findSubmissionsetsQuery);
 				exchange.getIn().setBody(resp);
 			}
@@ -102,6 +109,11 @@ public class Iti18QueryRoute extends FatJarRouter {
 			public void process(Exchange exchange) throws Exception {
 				QueryRegistry request = exchange.getIn().getBody(QueryRegistry.class);
 				FindFoldersQuery findFoldersQuery = (FindFoldersQuery) request.getQuery();
+				if (QueryReturnType.OBJECT_REF.name().equals(request.getReturnType().name())) {
+					QueryResponse response = service.createResponseWithObjRef(findFoldersQuery);
+					exchange.getIn().setBody(response);
+					return;
+				}
 				QueryResponse resp = service.createResponse(findFoldersQuery);
 				exchange.getIn().setBody(resp);
 			}
@@ -113,15 +125,14 @@ public class Iti18QueryRoute extends FatJarRouter {
 			public void process(Exchange exchange) throws Exception {
 				QueryRegistry request = exchange.getIn().getBody(QueryRegistry.class);
 				GetFoldersQuery getFolderQuery = (GetFoldersQuery) request.getQuery();
-				QueryResponse resp = new QueryResponse();
-				if (getFolderQuery == null || getFolderQuery.getUuids().isEmpty()
-						|| getFolderQuery.getUniqueIds().isEmpty()) {
-					resp.setStatus(Status.FAILURE);
-					exchange.getIn().setBody(resp);
-				} else {
-					resp.setStatus(Status.SUCCESS);
-					exchange.getIn().setBody(resp);
+				if (QueryReturnType.OBJECT_REF.name().equals(request.getReturnType().name())) {
+					QueryResponse response = service.createResponseWithObjRef(getFolderQuery);
+					exchange.getIn().setBody(response);
+					return;
 				}
+				
+				QueryResponse resp = service.createResponse(getFolderQuery);
+				exchange.getIn().setBody(resp);
 			}
 		}).log(LoggingLevel.DEBUG, "GetFoldersQuery logic").end();
 

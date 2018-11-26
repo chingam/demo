@@ -84,13 +84,13 @@
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Status:</label>
 				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(li.availabilityStatus.name(),'')}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.availabilityStatus ne null ? #strings.defaultString(li.availabilityStatus.name(),'') : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Title:</label>
 				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(li.title.value,'')}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${li.title ne null ? #strings.defaultString(li.title.value,'') : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">

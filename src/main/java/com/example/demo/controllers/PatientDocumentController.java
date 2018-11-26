@@ -66,11 +66,6 @@ public class PatientDocumentController implements AbstractController{
 	@ResponseBody
 	public ResponseEntity<Object> save(@Valid PatientDocument patientDocument, final ModelMap model){
 		Map<String, Object> response = new HashMap<>();
-		if(StringUtils.isEmpty(patientDocument.getPatientDocId()) && repository.findByPatientNo(patientDocument.getPatientNo()) != null) {
-			response.put("status", "error");
-			response.put("message", patientDocument.getPatientNo() + " already exist");
-			return ResponseEntity.ok(response);
-		}
 		
 		PatientDocument zone = repository.save(patientDocument);
 		if (zone == null) throw new BadRequestException("Document could not save");

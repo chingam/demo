@@ -52,7 +52,7 @@ public class Iti43Route extends FatJarRouter {
 	@Override
 	public void configure() throws Exception {
 
-		from("xds-iti43:xds-iti43-medisys").convertBodyTo(RetrieveDocumentSet.class).process(new Processor() {
+		from("xds-iti43:xds-iti43-retrieve").convertBodyTo(RetrieveDocumentSet.class).process(new Processor() {
 
 			@Override
 			public void process(Exchange exchange) throws Exception {

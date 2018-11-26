@@ -30,6 +30,7 @@ public class DocRoute extends FatJarRouter {
 			public void process(Exchange exchange) throws Exception {
 				QueryRegistry request = exchange.getIn().getBody(QueryRegistry.class);
 				FindDocumentsQuery findDocumentsQuery = (FindDocumentsQuery) request.getQuery();
+				
 				if (QueryReturnType.OBJECT_REF.name().equals(request.getReturnType().name())) {
 					QueryResponse response = service.createResponseWithObjRef(findDocumentsQuery);
 					exchange.getIn().setBody(response);
@@ -46,13 +47,15 @@ public class DocRoute extends FatJarRouter {
 			public void process(Exchange exchange) throws Exception {
 				QueryRegistry request = exchange.getIn().getBody(QueryRegistry.class);
 				GetDocumentsAndAssociationsQuery getDocumentsQuery = (GetDocumentsAndAssociationsQuery) request.getQuery();
+				
 				if (QueryReturnType.OBJECT_REF.name().equals(request.getReturnType().name())) {
 					QueryResponse response = service.createResponseWithObjRef(getDocumentsQuery);
 					exchange.getIn().setBody(response);
-				} else {
-					QueryResponse resp = service.createResponse(getDocumentsQuery);
-					exchange.getIn().setBody(resp);
-				}
+					return;
+				} 
+				QueryResponse resp = service.createResponse(getDocumentsQuery);
+				exchange.getIn().setBody(resp);
+			
 			}
 		}).log(LoggingLevel.DEBUG, "GetDocumentsAndAssociationsQuery logic").end();
 
@@ -63,13 +66,14 @@ public class DocRoute extends FatJarRouter {
 			public void process(Exchange exchange) throws Exception {
 				QueryRegistry request = exchange.getIn().getBody(QueryRegistry.class);
 				GetDocumentsQuery getDocumentsQuery = (GetDocumentsQuery) request.getQuery();
+				
 				if (QueryReturnType.OBJECT_REF.name().equals(request.getReturnType().name())) {
 					QueryResponse response = service.createResponseWithObjRef(getDocumentsQuery);
 					exchange.getIn().setBody(response);
-				} else {
-					QueryResponse resp = service.createResponse(getDocumentsQuery);
-					exchange.getIn().setBody(resp);
+					return;
 				}
+				QueryResponse resp = service.createResponse(getDocumentsQuery);
+				exchange.getIn().setBody(resp);
 			}
 		}).log(LoggingLevel.DEBUG, "GetDocumentsQuery logic").end();
 		
@@ -79,13 +83,14 @@ public class DocRoute extends FatJarRouter {
 			public void process(Exchange exchange) throws Exception {
 				QueryRegistry request = exchange.getIn().getBody(QueryRegistry.class);
 				FindDocumentsByReferenceIdQuery getDocumentsQuery = (FindDocumentsByReferenceIdQuery) request.getQuery();
+				
 				if (QueryReturnType.OBJECT_REF.name().equals(request.getReturnType().name())) {
 					QueryResponse response = service.createResponseWithObjRef(getDocumentsQuery);
 					exchange.getIn().setBody(response);
-				} else {
-					QueryResponse resp = service.createResponse(getDocumentsQuery);
-					exchange.getIn().setBody(resp);
+					return;
 				}
+				QueryResponse resp = service.createResponse(getDocumentsQuery);
+				exchange.getIn().setBody(resp);
 			}
 		}).log(LoggingLevel.DEBUG, "FindDocumentByReference logic").end();
 		
@@ -95,13 +100,14 @@ public class DocRoute extends FatJarRouter {
 			public void process(Exchange exchange) throws Exception {
 				QueryRegistry request = exchange.getIn().getBody(QueryRegistry.class);
 				GetAllQuery getAll = (GetAllQuery) request.getQuery();
+				
 				if (QueryReturnType.OBJECT_REF.name().equals(request.getReturnType().name())) {
 					QueryResponse response = service.createResponseWithObjRef(getAll);
 					exchange.getIn().setBody(response);
-				} else {
-					QueryResponse resp = service.createResponse(getAll);
-					exchange.getIn().setBody(resp);
+					return;
 				}
+				QueryResponse resp = service.createResponse(getAll);
+				exchange.getIn().setBody(resp);
 			}
 		}).log(LoggingLevel.DEBUG, "FindDocumentByReference logic").end();
 

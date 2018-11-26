@@ -11,4 +11,5 @@ import com.example.demo.model.SubmissionSetDocument;
 public interface SubmissionSetDocumentRepository extends CrudRepository<SubmissionSetDocument, String>{
 	SubmissionSetDocument findByPatientNo(String patientNo);
 	List<SubmissionSetDocument> findByPatientNoContaining(String patientNo);
+	List<SubmissionSetDocument> findAllByPatientNo(String patientNo);
 }

@@ -32,7 +32,7 @@ public class Iti18Route extends FatJarRouter {
 	@Override
 	public void configure() throws Exception {
 
-		from("xds-iti18:xds-iti18-medisys").process(new Processor() {
+		from("xds-iti18:xds-iti18-query").process(new Processor() {
 			
 			@Override
 			public void process(Exchange exchange) throws Exception {/*

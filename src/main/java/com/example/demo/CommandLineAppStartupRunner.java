@@ -64,7 +64,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner{
 		T130961 patner8 = new T130961();
 		patner8.setPatnerName("RDP Query (IHE-TEST)");
 		patner8.setAssigningAuthority("1.3.6.1.4.1.21367.13.20.1000");
-		patner8.setUrl("rdp.wbc.co.in:7474/xdstoolsxdstools/sim/ihetest__ihe_drg/reg/sq");
+		patner8.setUrl("rdp.wbc.co.in:7474/xdstools/sim/ihetest__ihe_drg/reg/sq");
 		patner8.setHomeCommunityId("1.3.6.1.4.1.21367.2012.2.1.1");
 		patner8.setRepositoryUniqueId("1.1.4567332.1.4");
 		

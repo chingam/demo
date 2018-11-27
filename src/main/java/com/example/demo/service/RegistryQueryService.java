@@ -1,10 +1,21 @@
 package com.example.demo.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
+import java.util.UUID;
 
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.AssigningAuthority;
 import org.openehealth.ipf.commons.ihe.xds.core.metadata.AssociationType;
@@ -38,9 +49,12 @@ import org.openehealth.ipf.platform.camel.ihe.xds.core.converters.XdsRenderingUt
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.ApplicationConfig;
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.RecordNotFoundException;
+import com.example.demo.model.ServerLog;
 import com.example.demo.model.T130961;
+import com.example.demo.repo.ServerLogRepository;
 import com.example.demo.repo.T130961Repository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +63,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RegistryQueryService {
 
+	@Autowired
+	private ApplicationConfig appConfig;
+	
+	@Autowired private ServerLogRepository serverRepo;
+	
 	@Autowired
 	private T130961Repository patnerConfig;
 
@@ -105,10 +124,14 @@ public class RegistryQueryService {
 		}
 
 		AdhocQueryRequest ebXML = EbXML30Converters.convert(queryRegistry);
-		System.out.println(XdsRenderingUtils.renderEbxml(ebXML));
+		String msg = XdsRenderingUtils.renderEbxml(ebXML);
+		final String uuid = UUID.randomUUID().toString().replace("-", "");
+		log(msg, uuid,"OUTGOING");
 
 		AdhocQueryResponse response = (AdhocQueryResponse) producerTemplate.requestBody("xds-iti18://" + patner.getUrl() + "?outInterceptors=#serverOutLogger", queryRegistry);
-		System.out.println(XdsRenderingUtils.renderEbxml(response));
+		String msgResponse = XdsRenderingUtils.renderEbxml(response);
+		final String uuide = UUID.randomUUID().toString().replace("-", "");
+		log(msgResponse, uuide,"INCOMMING");
 		QueryResponse queryResponse = EbXML30Converters.convertToQueryResponse(response);
 		return queryResponse;
 	}
@@ -129,14 +152,13 @@ public class RegistryQueryService {
 	}
 	
 	public FindDocumentsQuery createFindFindDocumentsByReferenceQuery(String patientId, String other, String assigningAuthority, String homeCommunityId) {
-		
-		 FindDocumentsByReferenceIdQuery query = new FindDocumentsByReferenceIdQuery();
-	        query.setPatientId(new Identifiable(patientId, new AssigningAuthority(assigningAuthority)));
-	        query.setStatus(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
-	        query.setDocumentEntryTypes(Collections.singletonList(DocumentEntryType.STABLE));
+		FindDocumentsByReferenceIdQuery query = new FindDocumentsByReferenceIdQuery();
+		query.setPatientId(new Identifiable(patientId, new AssigningAuthority(assigningAuthority)));
+		query.setStatus(Arrays.asList(AvailabilityStatus.APPROVED, AvailabilityStatus.SUBMITTED));
+		query.setDocumentEntryTypes(Collections.singletonList(DocumentEntryType.STABLE));
 
-	        QueryList<ReferenceId> referenceIds = new QueryList<>();
-	        referenceIds.getOuterList().add(Arrays.asList(new ReferenceId("ref-id-12", null, ReferenceId.ID_TYPE_CODE_UNIQUE_ID, null)));
+		QueryList<ReferenceId> referenceIds = new QueryList<>();
+		referenceIds.getOuterList().add(Arrays.asList(new ReferenceId("ref-id-12", null, ReferenceId.ID_TYPE_CODE_UNIQUE_ID, null)));
 //	        query.setReferenceIds(referenceIds);
 		
 		
@@ -323,5 +345,26 @@ public class RegistryQueryService {
 			query.setUuids(Arrays.asList(uuids.split(",")));
 		}
 		return query;
+	}
+	
+	private void log(String msg, String messageId, String type) {
+		String path = appConfig.getPath() + File.separator + messageId + ".xml";
+		InputStream in = new ByteArrayInputStream(msg.getBytes(StandardCharsets.UTF_8));
+		try (OutputStream os = new FileOutputStream(new File(path))){
+			IOUtils.copy(in, os);
+			IOUtils.closeQuietly(os);
+			IOUtils.closeQuietly(in);
+			
+			ServerLog server = new ServerLog();
+			server.setMessageId(messageId);
+			server.setDate(new Date());
+			server.setTransactionName("Registry store query");
+			server.setType(type);
+			serverRepo.save(server);
+		} catch (FileNotFoundException e) {
+			log.error("File found ", e);
+		} catch (IOException e) {
+			log.error("File could not write ", e);
+		}
 	}
 }

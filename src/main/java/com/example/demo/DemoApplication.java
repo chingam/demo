@@ -62,12 +62,12 @@ public class DemoApplication {
 	public OutPayloadLoggerInterceptor serverOutLogger() {
 		String messageId = DateUtil.format(new Date(), DateUtil.HL7v2_DATE_FORMAT);
 		String path = appConfig.getPath() + File.separator + messageId + ".xml";
-		ServerLog server = new ServerLog();
-		server.setMessageId(messageId);
-		server.setDate(new Date());
-		server.setTransactionName("Registry store query");
-		server.setType("OUTGOING");
-		serverRepo.save(server);	
+//		ServerLog server = new ServerLog();
+//		server.setMessageId(messageId);
+//		server.setDate(new Date());
+//		server.setTransactionName("Registry store query");
+//		server.setType("OUTGOING");
+//		serverRepo.save(server);	
 		return new OutPayloadLoggerInterceptor(path );
 	}
 }

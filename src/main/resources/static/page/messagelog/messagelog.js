@@ -34,7 +34,7 @@ d4.eo.messagelog.init = function() {
 				"bLengthChange": false,
 				"bSort" : false
 			});
-	d4.eo.messagelog.load("http://localhost:8080/xds/service");
+	d4.eo.messagelog.load("/xds/service");
 }
 
 d4.eo.messagelog.load = function(url) {

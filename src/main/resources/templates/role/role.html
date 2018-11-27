@@ -3,21 +3,21 @@
 		<div id="formdiv" th:fragment="fdiv">
 		<div class="col-md-offset-3 col-md-6">
 			<div class="form-group" style="padding-botton: 1px">
-				<label for="roleCode" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.role.label.rolecode}">Role code :</label>
-				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+				<label for="roleCode" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.role.label.rolecode}">Role code :</label>
+				<div class="col-md-6" style="padding-left: 3px">
 					<input type="hidden" th:field="*{bean.roleId}"/>
 					<input type="text" th:field="*{bean.roleCode}" class="form-control" data-rule-required="true" th:placeholder="#{setup.role.label.rolecode}" />
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
-				<label for="langName1" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.arabicname}">Arabic name :</label>
-				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+				<label for="langName1" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.arabicname}">Arabic name :</label>
+				<div class="col-md-6" style="padding-left: 3px">
 					<input type="text" th:field="*{bean.langName1}" class="form-control" data-rule-required="true" th:placeholder="#{setup.zone.label.arabicname}" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="langName2" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.englishname}">English name :</label>
-				<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+				<label for="langName2" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.englishname}">English name :</label>
+				<div class="col-md-6" style="padding-left: 3px">
 					<input type="text" th:field="*{bean.langName2}" class="form-control" data-rule-required="true" th:placeholder="#{setup.zone.label.englishname}" />
 				</div>
 			</div>

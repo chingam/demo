@@ -3,28 +3,28 @@
 		<div id="formdiv" th:fragment="fdiv">
 		<div class="col-md-offset-3 col-md-6">
 			<div class="form-group">
-				<label for="zoneCode" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.registryquery.label.configuration}">Configuration</label>
-				<div class="col-sm-12 col-md-5" style="padding-left: 3px">
+				<label for="zoneCode" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.registryquery.label.configuration}">Configuration</label>
+				<div class="col-md-5" style="padding-left: 3px">
 					<select class="form-control" id="patnerId">
 						 <option th:if="${not #lists.isEmpty(configs)}" th:each="it : ${configs}" th:attr="data-repositoryUniqueId=${it.repositoryUniqueId}, data-homeCommunityId=${it.homeCommunityId}" th:value="${it.patnerId}" th:text="${it.patnerName}">Select...</option>
 					</select>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
-				<label for="repositoryUniqueId" id="searchLabel" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.retrieve.label.repositoryuniqueid}">Repository id</label>
-				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+				<label for="repositoryUniqueId" id="searchLabel" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.retrieve.label.repositoryuniqueid}">Repository id</label>
+				<div class="col-md-6" style="padding-left: 3px">
 					<input type="text" id="repositoryUniqueId" class="form-control" data-rule-required="true" th:placeholder="#{query.retrieve.label.repositoryuniqueid}" />
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
-				<label for="documentUniqueId" id="searchLabel" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.retrieve.label.documentuniqueid}">Document id</label>
-				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+				<label for="documentUniqueId" id="searchLabel" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.retrieve.label.documentuniqueid}">Document id</label>
+				<div class="col-md-6" style="padding-left: 3px">
 					<input type="text" id="documentUniqueId" class="form-control" data-rule-required="true" th:placeholder="#{query.retrieve.label.documentuniqueid}" />
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
-				<label for="homeCommunityId" id="searchLabel" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.retrieve.label.homecommunityid}">HomeCommunity id</label>
-				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+				<label for="homeCommunityId" id="searchLabel" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{query.retrieve.label.homecommunityid}">HomeCommunity id</label>
+				<div class="col-md-6" style="padding-left: 3px">
 					<input type="text" id="homeCommunityId" class="form-control" data-rule-required="true" th:placeholder="#{query.retrieve.label.homecommunityid}" />
 				</div>
 			</div>

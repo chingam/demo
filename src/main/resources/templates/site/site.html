@@ -3,75 +3,75 @@
 		<div id="formdiv" th:fragment="fdiv">
 			<div class="col-md-6">
 				<div class="form-group">
-					<label for="zoneCode" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.zone}">Zone</label>
-					<div class="col-sm-12 col-md-4" style="padding-left: 3px">
+					<label for="zoneCode" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.zone}">Zone</label>
+					<div class="col-md-4" style="padding-left: 3px">
 						<select class="form-control" th:field="*{bean.zoneCode}">
 							 <option th:if="${not #lists.isEmpty(zones)}" th:each="it : ${zones}" th:value="${it.zoneCode}" th:text="${it.langName1}">Select...</option>
 						</select>
 					</div>
 				</div>
 				<div class="form-group" style="padding-botton: 1px">
-					<label for="siteCode" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.site}">Site code :</label>
-					<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+					<label for="siteCode" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.site}">Site code :</label>
+					<div class="col-md-6" style="padding-left: 3px">
 						<input type="hidden" th:field="*{bean.siteId}"/>
 						<input data-query="Y" type="text" th:field="*{bean.siteCode}" class="form-control" data-rule-required="true" th:placeholder="#{setup.zone.label.site.site}" />
 					</div>
 				</div>
 				<div class="form-group" style="padding-botton: 1px">
-					<label for="langName1" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.arabicname}">Arabic name :</label>
-					<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+					<label for="langName1" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.arabicname}">Arabic name :</label>
+					<div class="col-md-6" style="padding-left: 3px">
 						<input type="text" th:field="*{bean.langName1}" class="form-control" data-rule-required="true" th:placeholder="#{setup.zone.label.arabicname}" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="langName2" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.englishname}">English name :</label>
-					<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+					<label for="langName2" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.englishname}">English name :</label>
+					<div class="col-md-6" style="padding-left: 3px">
 						<input type="text" th:field="*{bean.langName2}" class="form-control" data-rule-required="true" th:placeholder="#{setup.zone.label.englishname}" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="contactName" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.contactname}">Contact name :</label>
-					<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+					<label for="contactName" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.contactname}">Contact name :</label>
+					<div class="col-md-6" style="padding-left: 3px">
 						<input type="text" th:field="*{bean.contactName}" class="form-control" th:placeholder="#{setup.zone.label.site.contactname}" />
 					</div>
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="form-group">
-					<label for="siteStatus" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.status}">Zone</label>
-					<div class="col-sm-12 col-md-4" style="padding-left: 3px">
+					<label for="siteStatus" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.status}">Zone</label>
+					<div class="col-md-4" style="padding-left: 3px">
 						<select class="form-control" th:field="*{bean.siteStatus}">
 							<option th:if="${not #lists.isEmpty(status)}" th:each="it : ${status}" th:value="${it.statusCode}" th:text="${it.langName1}">Select...</option>
 						</select>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="contactMobile" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.contactmobile}">Contact name :</label>
-					<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+					<label for="contactMobile" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.contactmobile}">Contact name :</label>
+					<div class="col-md-6" style="padding-left: 3px">
 						<input type="text" th:field="*{bean.contactMobile}" class="form-control" th:placeholder="#{setup.zone.label.site.contactmobile}" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="latitude" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.latitude}">Latitude :</label>
-					<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+					<label for="latitude" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.latitude}">Latitude :</label>
+					<div class="col-md-6" style="padding-left: 3px">
 						<input type="text" th:field="*{bean.latitude}" class="form-control" th:placeholder="#{setup.zone.label.site.latitude}" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="longitude" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.longitude}">Longitude</label>
-					<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+					<label for="longitude" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.longitude}">Longitude</label>
+					<div class="col-md-6" style="padding-left: 3px">
 						<input type="text" th:field="*{bean.longitude}" class="form-control" th:placeholder="#{setup.zone.label.site.longitude}" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="siteUrl" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.siteurl}">Longitude</label>
-					<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+					<label for="siteUrl" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.siteurl}">Longitude</label>
+					<div class="col-md-6" style="padding-left: 3px">
 						<input type="text" th:field="*{bean.siteUrl}" class="form-control" th:placeholder="#{setup.zone.label.site.siteurl}" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="mudiria" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.mudiria}">Mudiria :</label>
-					<div class="col-sm-1 col-md-1" style="padding-left: 3px">
+					<label for="mudiria" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.zone.label.site.mudiria}">Mudiria :</label>
+					<div class="col-md-1" style="padding-left: 3px">
 						<input name="mudiria" id="mudiria" type="checkbox" value="Y" th:field="*{bean.mudiria}" class="form-check-input" />
 					</div>
 				</div>

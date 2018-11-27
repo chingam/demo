@@ -3,15 +3,15 @@
 		<div id="formdiv" th:fragment="fdiv">
 		<div class="col-md-6">
 			<div class="form-group" style="padding-botton: 1px">
-				<label for="patientNo" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.patientcode}">Patient No :</label>
-				<div class="col-sm-4 col-md-6" style="padding-left: 3px">
+				<label for="patientNo" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.patientcode}">Patient No :</label>
+				<div class="col-md-6" style="padding-left: 3px">
 					<input type="hidden" th:field="*{bean.patientDocId}"/>
 					<input type="text" th:field="*{bean.patientNo}" class="form-control" data-rule-required="true" th:placeholder="#{setup.documententry.label.patientcode}" />
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
-				<label for="langName1" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.classcode}">Class code :</label>
-				<div class="col-sm-12 col-md-4" style="padding-left: 3px">
+				<label for="langName1" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.classcode}">Class code :</label>
+				<div class="col-md-4" style="padding-left: 3px">
 					<select class="form-control" th:field="*{bean.classCode}">
 						<option value="">please select ....</option>
 						 <option th:if="${not #lists.isEmpty(codes)}" th:each="it : ${codes}" th:value="${it.code}" th:text="${it.displayName}">Select...</option>
@@ -19,21 +19,21 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="creationTime" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.creationtime}">Creation time :</label>
+				<label for="creationTime" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.creationtime}">Creation time :</label>
 				<div style="padding-left: 3px" class="col-md-4 input-group date" data-provide="datepicker" data-date-today-highlight="true" data-date-format="dd-MM-yyyy">
 					<input type="text" th:field="*{bean.creationTime}" class="form-control" />
 					<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="entryUuid" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.entryuuid}">Document unique id :</label>
-				<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+				<label for="entryUuid" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.entryuuid}">Document unique id :</label>
+				<div class="col-md-6" style="padding-left: 3px">
 					<input type="text" th:field="*{bean.entryUuid}" class="form-control" th:placeholder="#{setup.documententry.label.entryuuid}" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="formatCode" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.formatcode}">Format code</label>
-				<div class="col-sm-12 col-md-4" style="padding-left: 3px">
+				<label for="formatCode" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.formatcode}">Format code</label>
+				<div class="col-md-4" style="padding-left: 3px">
 					<select class="form-control" th:field="*{bean.formatCode}">
 						<option value="">please select ....</option>
 						 <option th:if="${not #lists.isEmpty(codes)}" th:each="it : ${codes}" th:value="${it.code}" th:text="${it.displayName}">Select...</option>
@@ -41,8 +41,8 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="healthcareFacilityTypeCode" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.healthcarefacilitytypecode}">healthcareFacilityTypeCode</label>
-				<div class="col-sm-12 col-md-4" style="padding-left: 3px">
+				<label for="healthcareFacilityTypeCode" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.healthcarefacilitytypecode}">healthcareFacilityTypeCode</label>
+				<div class="col-md-4" style="padding-left: 3px">
 					<select class="form-control" th:field="*{bean.healthcareFacilityTypeCode}">
 						<option value="">please select ....</option>
 						 <option th:if="${not #lists.isEmpty(codes)}" th:each="it : ${codes}" th:value="${it.code}" th:text="${it.displayName}">Select...</option>
@@ -50,8 +50,8 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="practiceSettingCode" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.practicesettingcode}">practiceSettingCode</label>
-				<div class="col-sm-12 col-md-4" style="padding-left: 3px">
+				<label for="practiceSettingCode" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.practicesettingcode}">practiceSettingCode</label>
+				<div class="col-md-4" style="padding-left: 3px">
 					<select class="form-control" th:field="*{bean.practiceSettingCode}">
 						<option value="">please select ....</option>
 						 <option th:if="${not #lists.isEmpty(codes)}" th:each="it : ${codes}" th:value="${it.code}" th:text="${it.displayName}">Select...</option>
@@ -61,14 +61,14 @@
 		</div>
 		<div class="col-md-6">
 			<div class="form-group">
-				<label for="docTitle" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.title}">title :</label>
-				<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+				<label for="docTitle" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.title}">title :</label>
+				<div class="col-md-6" style="padding-left: 3px">
 					<input type="text" th:field="*{bean.docTitle}" class="form-control" th:placeholder="#{setup.documententry.label.title}" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="typeCode" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.typecode}">typeCode</label>
-				<div class="col-sm-12 col-md-4" style="padding-left: 3px">
+				<label for="typeCode" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.typecode}">typeCode</label>
+				<div class="col-md-4" style="padding-left: 3px">
 					<select class="form-control" th:field="*{bean.typeCode}">
 						<option value="">please select ....</option>
 						 <option th:if="${not #lists.isEmpty(codes)}" th:each="it : ${codes}" th:value="${it.code}" th:text="${it.displayName}">Select...</option>
@@ -76,8 +76,8 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="mimeType" class="control-label col-sm-3 col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.mimetype}">mimeType</label>
-				<div class="col-sm-12 col-md-4" style="padding-left: 3px">
+				<label for="mimeType" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.mimetype}">mimeType</label>
+				<div class="col-md-4" style="padding-left: 3px">
 					<select class="form-control" th:field="*{bean.mimeType}">
 						<option value="application/pdf">pdf</option>
 					</select>
@@ -85,26 +85,26 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="uri" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.uri}">uri :</label>
-				<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+				<label for="uri" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.uri}">uri :</label>
+				<div class="col-md-6" style="padding-left: 3px">
 					<input type="text" th:field="*{bean.uri}" class="form-control" th:placeholder="#{setup.documententry.label.uri}" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="logicalUuid" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.logicaluuid}">logicalUuid :</label>
-				<div class="col-sm-3 col-md-6" style="padding-left: 3px">
+				<label for="logicalUuid" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.logicaluuid}">logicalUuid :</label>
+				<div class="col-md-6" style="padding-left: 3px">
 					<input type="text" th:field="*{bean.logicalUuid}" class="form-control" th:placeholder="#{setup.documententry.label.logicaluuid}" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="serviceStartTime" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.servicestarttime}">serviceStartTime :</label>
+				<label for="serviceStartTime" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.servicestarttime}">serviceStartTime :</label>
 				<div style="padding-left: 3px" class="col-md-4 input-group date" data-provide="datepicker" data-date-today-highlight="true" data-date-format="dd-MM-yyyy">
 					<input type="text" th:field="*{bean.serviceStartTime}" class="form-control" />
 					<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="serviceStopTime" class="control-label col-sm-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.servicestoptime}">serviceStopTime :</label>
+				<label for="serviceStopTime" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.servicestoptime}">serviceStopTime :</label>
 				<div style="padding-left: 3px" class="col-md-4 input-group date" data-provide="datepicker" data-date-today-highlight="true" data-date-format="dd-MM-yyyy">
 					<input type="text" th:field="*{bean.serviceStopTime}" class="form-control" />
 					<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>

@@ -26,6 +26,94 @@ http://rdp.wbc.co.in:7474/xdstoolsxdstools/sim/ihetest__ihe_drg/reg/sq
 'Manojkumar^^^&1.3.6.1.4.1.21367.13.20.1000&ISO'
  'IHEBLUE-2737^^^&1.3.6.1.4.1.21367.13.20.3000&ISO'
  E201808290301^^^eTransX&1.2.840.114350.1.13.0.1.7.1.1&ISO
+ IHEGREEN-2643^^^&1.3.6.1.4.1.21367.2005.13.20.1000&ISO
+
+
+http://rdp.wbc.co.in:7474/xdstools/sim/meenal__meenal_drr/reg/sq
+IHEBLUE-9000^^^&1.3.6.1.4.1.21367.13.20.3000&ISO
+IHEGREEN-2736^^^&1.3.6.1.4.1.21367.13.20.2000&ISO
+IHEBLUE-2000^^^&1.3.6.1.4.1.21367.13.20.3000&ISO
+IHEGREEN-9000^^^&1.3.6.1.4.1.21367.13.20.2000&ISO
+ $XDSDocumentEntryPatientId ==> ['IHEGREEN-9898^^^&1.3.6.1.4.1.21367.13.20.2000&ISO'][OK]
+ XDSDocumentEntryPatientId ==> ['IHEGREEN-9393^^^&1.3.6.1.4.1.21367.13.20.2000&ISO'][OK]
+ 
+
+Query Name is GetDocuments
+=============
+XDSDocumentEntryEntryUUID = urn:uuid:78a6f46a-109d-4227-a5d3-f1387110d4a6
+GetSubmissionSets 
+===================
+uuid = urn:uuid:1.3.6.1.4.1.12559.11.1.2.2.1.1.4.133936
+
+GetFolders 
+===================
+XDSFolderUniqueId = 1.3.6.1.4.1.12559.11.1.2.2.1.1.3.133938
+
+GetSubmissionSetAndContents 
+===================
+XDSSubmissionSetEntryUUID = urn:uuid:c2c73a2e-c53c-4960-bac4-6cf9b093f45e
+===========
+XDSDocumentEntryType = urn:uuid:7edca82f-054d-47f2-a032-9b2a5b5186c1
+					, urn:uuid:34268e47-fdf5-41a6-ba33-82133c465248
+$XDSSubmissionSetEntryUUID = urn:uuid:c2c73a2e-c53c-4960-bac4-6cf9b093f45e
+=====
+XDSSubmissionSetUniqueId = 1.3.6.1.4.1.12559.11.1.2.2.1.1.4.133936
+
+GetAll
+==================
+patientId = IHEGREEN-2736^^^&1.3.6.1.4.1.21367.13.20.2000&ISO
+
+
+GetRelatedDocuments
+=================
+
+XDSDocumentEntryEntryUUID = urn:uuid:6d4a2bfc-a5a0-4347-861e-56d63ba1652f
+
+GetDocuments
+===================
+XDSDocumentEntryEntryUUID :
+urn:uuid:96002e3a-cdee-4d58-b3be-c89292e3aea2
+urn:uuid:6cc22d11-734a-457c-bc2f-f08fc3d555c4
+urn:uuid:a08b7fab-d0c7-4a14-8be6-bf854b717b0e
+urn:uuid:d4a187e1-cc04-446f-9ea7-a2e546bfd4ff
+urn:uuid:c1b52972-5b55-49d9-baba-eea6681653e2
+urn:uuid:638ea5b6-4cb8-4f36-8897-e94c2c235a2b
+
+urn:uuid:acada455-8713-4f78-b708-ffb11de71832
+
+urn:uuid:f0b8fcc5-5d68-4b07-a618-e9e2603915ce
+urn:uuid:2b760c79-f2f0-44cd-bb1b-4a351693bb1d
+urn:uuid:99809fb8-e5d2-4fd1-95ae-82a93f35d731
+urn:uuid:4bb27241-6fa0-4720-9fec-9dee304840b8
+urn:uuid:99809fb8-e5d2-4fd1-95ae-82a93f35d731
+urn:uuid:4bb27241-6fa0-4720-9fec-9dee304840b8
+
+urn:uuid:6b05a23c-6e5c-4a5d-85c0-878578c7d8df
+
+XDSDocumentEntryUniqueId = 1.3.6.1.4.1.12559.11.1.2.2.1.1.3.130608
+
+FindSubmissionSets
+====================
+XDSSubmissionSetPatientId = IHEGREEN-9000^^^&1.3.6.1.4.1.21367.13.20.2000&ISO'
+
+FindFolders
+============
+IHEGREEN-9000^^^&1.3.6.1.4.1.21367.13.20.2000&ISO'
+
+
+
+
+Repo
+====
+http://rdp.wbc.co.in:7474/xdstools/sim/meenal__meenal_drr/rep/ret
+Doc id = 1.3.6.1.4.1.12559.11.1.2.2.1.1.3.135166
+Doc id = 1.2.42.20180913113513.116
+Doc id = 1.3.6.1.4.1.12559.11.1.2.2.1.1.3.133860
+Doc id = 1.2.42.20180913113513.119
+Doc id = 1.3.6.1.4.1.12559.11.1.2.2.1.1.3.131214
+Doc id = 1.2.42.20181001102546.81
+Repo id = 1.1.4567332.1.4
+
 
 
 

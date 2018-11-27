@@ -34,7 +34,7 @@
 					<th>Type</th>
 					<th>New document</th>
 					<th>New repository</th>
-					<th>Download</th>
+					<th style="text-align: center;">Download</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -50,8 +50,11 @@
 							<span th:if="${document.mimeType eq 'text/plain'}" style="font-size: 14px;">
 								<i class="fa fa-file" aria-hidden="true" style="color: red;"></i>
 							</span>
-							<span th:unless="${document.mimeType eq 'text/plain'}" style="font-size: 14px;">
+							<span th:if="${document.mimeType eq 'application/pdf'}" style="font-size: 14px;">
 								<i class="fa fa-file-pdf-o" aria-hidden="true" style="color: red;"></i>
+							</span>
+							<span th:if="${document.mimeType eq 'image/jpeg'}" style="font-size: 14px;">
+								<i class="fa fa-file-image-o" aria-hidden="true" style="color: red;"></i>
 							</span>
 						</a>
 					</td>

@@ -361,7 +361,7 @@
 			<div class="form-group" style="padding-botton: 1px">
 				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Title:</label>
 				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(folder.title,'')}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${folder.title ne null ? #strings.defaultString(folder.title.value,'') : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">

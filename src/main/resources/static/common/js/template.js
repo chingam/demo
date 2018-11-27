@@ -46,6 +46,8 @@ d4.eo.employee.query = function() {
 	$("#btnSave").hide();
 	$("#btnDelete").hide();
 	$("#btnNew").hide();
+	$("#btnClear").hide();
+	$("#btnEnterQuery").hide();
 	$("#btnExecuteQuery").show();
 	$("#btnCancelQuery").show();
 }
@@ -54,6 +56,7 @@ d4.eo.employee.exequery = function() {
 	var fm = $('form#mainform');
 	var url = fm.attr("action") + '/find/' + $("input[type=text]").first().val();
 	d4.eo.employee.load(url);
+	$("#btnExecuteQuery").hide();
 }
 d4.eo.employee.cancelquery = function() {
 	$("input[type=text]").first().focus();
@@ -63,6 +66,7 @@ d4.eo.employee.cancelquery = function() {
 	$("#btnEnterQuery").show();
 	$("#btnExecuteQuery").hide();
 	$("#btnCancelQuery").hide();
+	$("#btnClear").show();
 }
 
 d4.eo.employee.save = function() {
@@ -155,7 +159,7 @@ d4.eo.employee.load = function(url) {
 						"bLengthChange": false,
 						"bSort" : false
 					});
-			$('#tbl tbody tr').bind('click', d4.eo.employee.findById);
+			$('#tbl').bind('click', 'tbody tr', d4.eo.employee.findById);
 			$("#loadingmask2").hide();
 		});
 	}

@@ -19,14 +19,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import com.example.demo.model.ServerLog;
-import com.example.demo.repo.ServerLogRepository;
-
 @SpringBootApplication
 @ImportResource({ "classpath:META-INF/cxf/cxf.xml", "classpath:context.xml" })
 public class DemoApplication {
 	@Autowired private ApplicationConfig appConfig;
-	@Autowired private ServerLogRepository serverRepo;
 	
 	@Bean
 	public ServletRegistrationBean<CXFServlet> servletRegistrationBean(ApplicationContext context) {

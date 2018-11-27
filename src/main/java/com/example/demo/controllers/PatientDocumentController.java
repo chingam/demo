@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -56,7 +55,7 @@ public class PatientDocumentController implements AbstractController{
 	@GetMapping
 	public String getScreen(final ModelMap model, final Locale locale) {
 		model.addAttribute("formCode", "T91005");
-		model.addAttribute("formName", "Document Entry");
+		model.addAttribute("formName", "Publish Document");
 		model.addAttribute("controller", "documententry");
 		model.addAttribute("bean", new PatientDocument());
 		return "transaction/template";

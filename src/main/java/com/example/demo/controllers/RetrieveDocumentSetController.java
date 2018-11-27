@@ -51,7 +51,7 @@ public class RetrieveDocumentSetController {
 	@GetMapping
 	public String getScreen(final ModelMap model, final Locale locale) {
 		model.addAttribute("formCode", "T130960");
-		model.addAttribute("formName", "Retrieve Document Set");
+		model.addAttribute("formName", "Download Report (RDS)");
 		model.addAttribute("controller", "retrieve");
 		model.addAttribute("bean", null);
 		return "query/template";

@@ -215,7 +215,7 @@ background-color: #c12d2d;
 
 #title{
 float: right;
-    position: fixed;
+    position: absolute;
     top: 50px;
     right: 0;
     display: inline-block;
@@ -233,9 +233,9 @@ span.gray {
 
 .userbox{
 	float: left;
-	position: fixed;
-	top: 46px;
-    margin: 0px 0 0 190px;
+	position: absolute;
+	top: 40px;
+    margin: 0px 0 0 210px;
     height: 46px;
     width: 46px;
     border: 2px solid #a21217;
@@ -245,18 +245,20 @@ span.gray {
 }
 .username{
 	float: left;
-    position: fixed;
-    top: 53px;
-    margin-left: 248px;
-    color: #c12d2d;
-    font-weight: bold;
-    font-size: 18px;
+	position: absolute;
+	top: 50px;
+	margin-left: 268px;
+	color: #c12d2d;
+	font-weight: bold;
+	font-size: 18px;
 }
 	</style>
 </head>
 <body>
 	<span th:substituteby="commons :: common-html"></span>
-	<div class="topbar-css">
+	
+	<div class="content-body">
+		<div class="topbar-css">
 		<img th:src="@{/images/topbarbg.png}" class="topbar-css" style="opacity: .8;"/>
 		<div class="date-panel">
 			<img th:src="@{/images/calender.png}" />
@@ -264,10 +266,7 @@ span.gray {
 			
 			&nbsp;&nbsp;&nbsp;&nbsp;&brvbar;&nbsp;&nbsp;&nbsp;
 			<span id="engdate">٢١/١١/٢٠١٨</span>
-			<!-- <script th:src="@{/vendor/js/date/ar-sa.js}"></script>
-			<script type="text/javascript">
-				document.writeln(moment().format('iYYYY/iMM/iDD'));
-			</script> -->
+			
 			<img th:src="@{/images/topbarseparator.png}" class="separator"/>
 		</div>
 		<div class="form-name">
@@ -278,7 +277,6 @@ span.gray {
 			<img th:src="@{/images/whitelogo.png}"/>
 		</div>
 	</div>
-	<div class="content-body">
 		<div class="left-col">
 			<img th:src="@{/images/pageleftpanelbg.png}" class="left-panel"/>
 			<div class="action-panel" style="margin:-54px auto;">
@@ -294,13 +292,11 @@ span.gray {
 					<button id="btnLogout" type="submit" title="Logout" Class="Button Logout"></button>
 				</form>
 			</div>
-			
-			
 		</div>
-		<div class="right-col">
+		<div class="row right-col">
 			<div id="banner"></div>
 			<img th:src="@{/images/headerbg.png}" class="header-white"/>
-			<div id="logo" style="float: left;position: fixed;top: 46px;padding-left:10px">
+			<div id="logo" style="float: left;position: absolute;top: 40px;padding-left:10px">
 				<img th:src="@{/images/m-medisys-logo.png}" alt="logo" class="img-responsive" />
 			</div>
 			<div class="userbox">
@@ -310,19 +306,19 @@ span.gray {
 				<span>[[${#httpServletRequest.remoteUser}]]</span>
 			</div>
 			<div id="title">
-				<span class='red'>Hospital</span>&nbsp;<span class='gray'>Management Information System</span>
+				<span class='red'>Hospital</span>&nbsp;<span class='gray'>Information System</span>
 			</div>
-			<div class="form-panel">
+			<div id="container1">
 				<span th:substituteby="commons :: common-js"></span>
 				<form id="mainform"  class="form-horizontal" method="POST" autocomplete="off" th:action="@{'/setup/' + ${controller}}">
 					<div th:replace="${controller + '/' + controller}">
 						<h3>Specified view '<span th:text="${controller + '/' + controller}"></span>' not found. Please contact with Medisys Administrator</h3>
 					</div>
 				</form>
-			
 			</div>
 		</div>
 	</div>
+
 </body>
 
 

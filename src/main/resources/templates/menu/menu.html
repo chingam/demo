@@ -4,6 +4,8 @@
 	<title th:text="${formName}">form title </title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+	<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1">
 	<span th:substituteby="commons :: common-css"></span>
 	<style>
 	#loadingmask2 {
@@ -215,7 +217,7 @@ tr:hover {
 
 #title{
 float: right;
-    position: fixed;
+    position: absolute;
     top: 50px;
     right: 0;
     display: inline-block;
@@ -306,29 +308,30 @@ span.gray {
 </head>
 <body>
 	<span th:substituteby="commons :: common-html"></span>
-	<div class="topbar-css">
-		<img th:src="@{/images/topbarbg.png}" class="topbar-css" style="opacity: .8;"/>
-		<div class="date-panel">
-			<img th:src="@{/images/calender.png}" />
-			<span id="engdate"></span>
-			
-			&nbsp;&nbsp;&nbsp;&nbsp;&brvbar;&nbsp;&nbsp;&nbsp;
-			<span id="engdate">٢١/١١/٢٠١٨</span>
-			<!-- <script th:src="@{/vendor/js/date/ar-sa.js}"></script>
-			<script type="text/javascript">
-				document.writeln(moment().format('iYYYY/iMM/iDD'));
-			</script> -->
-			<img th:src="@{/images/topbarseparator.png}" class="separator" style="left: 239px;"/>
-		</div>
-		<div style="left: 238px;" class="form-name">
-			<span id="formcode" th:text="${formCode}">T01009</span>
-			<span id="lblFormInfo" style="width: auto;padding-left: 26px;font-weight: bold;" th:text="${formName}">User Registration</span>
-		</div>
-		<div class="white-logo">
-			<img th:src="@{/images/whitelogo.png}"/>
-		</div>
-	</div>
+	
 	<div class="content-body">
+		<div class="topbar-css">
+			<img th:src="@{/images/topbarbg.png}" class="topbar-css" style="opacity: .8;"/>
+			<div class="date-panel">
+				<img th:src="@{/images/calender.png}" />
+				<span id="engdate"></span>
+				
+				&nbsp;&nbsp;&nbsp;&nbsp;&brvbar;&nbsp;&nbsp;&nbsp;
+				<span id="engdate">٢١/١١/٢٠١٨</span>
+				<!-- <script th:src="@{/vendor/js/date/ar-sa.js}"></script>
+				<script type="text/javascript">
+					document.writeln(moment().format('iYYYY/iMM/iDD'));
+				</script> -->
+				<img th:src="@{/images/topbarseparator.png}" class="separator" style="left: 239px;"/>
+			</div>
+			<div style="left: 238px;" class="form-name">
+				<span id="formcode" th:text="${formCode}">T01009</span>
+				<span id="lblFormInfo" style="width: auto;padding-left: 26px;font-weight: bold;" th:text="${formName}">User Registration</span>
+			</div>
+			<div class="white-logo">
+				<img th:src="@{/images/whitelogo.png}"/>
+			</div>
+		</div>
 		<div class="left-col" style="width: 19%;min-width: 19%;">
 			<img th:src="@{/images/leftpanelbg.png}" class="left-panel" style="width: 283px;"/>
 			<div class="action-panel" style="margin-left: 3px;">
@@ -355,18 +358,18 @@ span.gray {
 			</div>
 			
 		</div>
-		<div class="right-col" style="width: 81%;min-width: 81%;">
+		<div class="row" style="margin-left: 240px;margin-right: auto;">
 			<div id="banner"></div>
-			<img th:src="@{/images/headerbg.png}" class="header-white" />
-			<div id="logo" style="float: right; position: fixed;top: 45px;">
+			<img th:src="@{/images/headerbg.png}" class="header-white1" />
+			<div class="menulogo" id="logo" style="float: right; position: absolute;top: 45px;">
 				<img th:src="@{/images/m-medisys-logo.png}" />
 			</div>
-			<div id="title">
+			<div id="title" class="menutitle">
 				<span class='red'>Hospital</span>&nbsp;<span class='gray'>Information Management System</span>
 			</div>
 			<div id="header">
-		</div>
-			<div class="form-panel">
+			</div>
+			<div id="container">
 				<div style="padding: 15px;">
 					<span id="headerText" style="color: #c12d2d;font-size: 1.2em;font-weight: bold;" th:text="${headerText}">Transaction</span>
 					<img th:src="@{/images/navdir.png}" style="padding-left: 6px;"/>
@@ -376,7 +379,10 @@ span.gray {
 						<a style="color:#5b5b5b" th:href="@{${li.linkText}}" th:text="${li.langName1}"></a>
 					</div>
 				</div>
+				
 			</div>
+			<!-- <div class="form-panel" >
+			</div> -->
 		</div>
 	</div>
 				<span th:substituteby="commons :: common-js"></span>

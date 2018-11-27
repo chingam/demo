@@ -75,7 +75,7 @@ URI:
 	@GetMapping
 	public String getScreen(final ModelMap model, final Locale locale) {
 		model.addAttribute("formCode", "T130960");
-		model.addAttribute("formName", "Registry Store Query");
+		model.addAttribute("formName", "Search Medical Record (RSQ)");
 		model.addAttribute("controller", "registryquery");
 		model.addAttribute("bean", new RegistryQuery());
 		return "query/template";

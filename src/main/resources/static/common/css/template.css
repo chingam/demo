@@ -1,3 +1,30 @@
+#container{position: fixed;
+    top: 120px;
+    bottom: 15px;
+    left: 255px;
+    right: 15px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid rgb(217, 220, 220);
+    background-color: #fff;
+    background-color: rgba(250, 250, 250, .8);
+}
+
+#container1 {
+    position: fixed;
+    top: 120px;
+    bottom: 15px;
+    left: 52px;
+    right: 15px;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid rgb(217, 220, 220);
+    background-color: #fff;
+    background-color: rgba(250, 250, 250, .8);
+    overflow-y: auto;
+}
+
+
 .topbar-css {
 	width: 100%;
 	min-width: 100%;
@@ -12,20 +39,20 @@
 	/* padding: 6px 0 0 28px;
 		width: 18.5%; */
 	padding: 1px 0 0 14px;
-	width: 18.5%;
-	position: fixed;
+	width: 25%;
+	position: absolute;
 	top: 10px;
 	float: left;
 }
 
 .separator {
-	position: fixed;
-	top: 0;
+	position: absolute;
+	top: -10px;
 	left: 206px;
 }
 
 .form-name {
-	position: fixed;
+	position: absolute;
 	color: #fafafa !important;
 	padding: 9px 0 0 14px;
 	top: 0;
@@ -33,26 +60,24 @@
 }
 
 .white-logo {
-	position: fixed;
+	position: absolute;
 	right: 10px;
 	top: 6px;
 }
 
 .content-body {
-	height: 93vh;
-	min-height: 93vh;
-	min-width: 100%;
-	max-width: 100%;
-	height: 90px;
+	width: 100%;
+	height: 100vh;
 }
 
 .left-panel {
-	height: 768px;
+	height: 100%;
     bottom: 0;
     left: 0;
     width: 70px;
-    top: 36px;
-    position: fixed;
+    z-index: -998;
+    top: 0px;
+    position: absolute;
 }
 
 .left-col {
@@ -62,18 +87,36 @@
 }
 
 .right-col {
-	width: 97%;
+	margin-right: 0px!important;
+    margin-left: 38px !important;
+    height: 85%;
+	/* width: 97%;
 	min-width: 97%;
 	float: right;
 	height: 93vh;
 	min-height: 93vh;
-	max-height: 93vh;
+	max-height: 93vh; */
 }
 
+.header-white1 {
+	position: fixed;
+    top: 36px;
+    left: 240px;
+    height: 68px;
+    width: 100%;
+    -ms-opacity: 0.9;
+    opacity: 0.9;
+    z-index: -996;
+}
 .header-white {
-	opacity: .9;
-	width: 100%;
-	height: 11%;
+	position: fixed;
+    top: 36px;
+    left: 38px;
+    height: 68px;
+    width: 100%;
+    -ms-opacity: 0.9;
+    opacity: 0.9;
+    z-index: -996;
 }
 
 .form-panel {
@@ -83,13 +126,13 @@
 	background-color: rgba(250, 250, 250, .8);
 	overflow-y: auto;
 	margin: 10px;
-	height: 80.5vh;
-	min-height: 80.5vh;
-	max-height: 88.5vh;
+	height: 81.2vh;
+	min-height: 81.2vh;
+	max-height: 85vh;
 }
 
 .loggout {
-	position: Fixed;
+	position: absolute;
 	/* width: 223px; */
 	bottom: 1%;
 }
@@ -97,7 +140,7 @@
 .action-panel {
 	top: 95px;
 	margin-left: -7px;
-	position: fixed;
+	position: absolute;
 	margin-top: -60px;
 }
 
@@ -216,3 +259,55 @@ label {
 .alert-danger{
 	border-color: #f1cccc!important;
 }
+
+@media screen and (min-width: 401px){
+	
+}
+
+@media (min-width: 768px)  {
+
+     /* .container{width:100%} *{color:pink  } -Desktop */
+
+    }
+    @media (min-width: 768px) and (orientation:portrait)  {
+
+       #logo{
+		width: 79px;
+	}
+	.username {
+		top: 46px !important;
+	}
+	.userbox {
+		top: 37px !important;
+	}
+	#title {
+		top: 42px !important;
+	}
+	.left-panel {
+		    min-height: 96vh;
+	}
+	.form-panel{
+		min-height: 87.8vh !important;
+	}
+	.menutitle{
+		font-size: 1.7em !important;
+	}
+	.menulogo{
+		display: none;
+	}
+	.menuform {
+	
+	}
+
+    }
+    @media (min-width: 1024px)  {
+	}
+    @media (min-width: 1200px)  {
+		/* .left-panel {
+				min-height: 95.5vh;
+		}
+		.form-panel{
+			min-height: 86.5vh !important;
+		} */
+
+    }

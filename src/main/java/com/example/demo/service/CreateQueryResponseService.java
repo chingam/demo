@@ -321,9 +321,10 @@ public class CreateQueryResponseService {
 		
 		Code eventCode = new Code("456", new LocalizedString("Colonoscopy", EN_US, UTF_8), "1.2.3.4.5.6.7.88");
 		folder.getCodeList().add(eventCode);
-		folder.setUniqueId(patientDoc.getPatientDocId());
+		folder.setUniqueId("1.3.6.1.4.1.21367.2005.3.7.3670984664");
 		folder.setTitle(new LocalizedString("Document"));
 		folder.setVersion(new Version("1.0.0"));
+		
 		return folder;
 	}
 

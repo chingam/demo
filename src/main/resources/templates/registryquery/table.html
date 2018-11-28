@@ -305,7 +305,7 @@
 			<div class="form-group" style="padding-botton: 1px">
 				<label for="txta" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px">Title:</label>
 				<div class="col-md-6">
-					<label style="padding-right: 0px; padding-top: 2px" th:text="${#strings.defaultString(sub.title,'')}"></label>
+					<label style="padding-right: 0px; padding-top: 2px" th:text="${sub.title ne null ? #strings.defaultString(sub.title.value,'') : ''}"></label>
 				</div>
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
@@ -348,6 +348,63 @@
 				</div>
 			</div>
 		</div>
+		<table th:if="${sub.author ne null}"  width="100%">
+			<thead style="font-size: 12px;">
+				<tr>
+					<th colspan="3" style="text-align: center;padding: 0px;">Author person</th>
+				</tr>
+				<tr>
+					<th>Name</th>
+					<th>Organization name</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td th:text="${sub.author ne null and sub.author.authorPerson ne null ? #strings.defaultString(sub.author.authorPerson.name, '')}"></td>
+					<td>
+						<span th:unless="${#lists.isEmpty(sub.author.authorInstitution)}" th:each="orgn : ${sub.author.authorInstitution}" th:text="${#strings.defaultString(orgn.organizationName + '  ', '')}"></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<table th:unless="${#lists.isEmpty(sub.authors)}"  width="100%">
+			<thead style="font-size: 12px;">
+				<tr>
+					<th colspan="3" style="text-align: center;padding: 0px;">Author person</th>
+				</tr>
+				<tr>
+					<th>Name</th>
+					<th>Organization name</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="author : ${sub.authors}">
+					<td th:text="${author.authorPerson ne null ? #strings.defaultString(author.authorPerson.name, '')}"></td>
+					<td>
+						<span th:unless="${#lists.isEmpty(author.authorInstitution)}" th:each="orgn : ${author.authorInstitution}" th:text="${#strings.defaultString(orgn.organizationName + '  ', '')}"></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<table th:unless="${#lists.isEmpty(sub.intendedRecipients)}"  width="100%">
+			<thead style="font-size: 12px;">
+				<tr>
+					<th colspan="3" style="text-align: center;padding: 0px;">Intended recipients</th>
+				</tr>
+				<tr>
+					<th>Name</th>
+					<th>Organization name</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="author : ${sub.intendedRecipients}">
+					<td th:text="${author.person ne null ? #strings.defaultString(author.person.name, '')}"></td>
+					<td th:text="${author.organization ne null ? #strings.defaultString(author.organization.organizationName, '')}"></td>
+				</tr>
+			</tbody>
+		</table>
+		
 	</div>
 	
 	<div th:unless="${#lists.isEmpty(list.folders)}" th:each="folder : ${list.folders}" class="col-md-12 alert alert-info" style="border:1px solid">

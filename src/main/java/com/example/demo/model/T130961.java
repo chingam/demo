@@ -32,6 +32,9 @@ public class T130961 extends CommonEntity {
 
 	@Column(name = "t_patner_name")
 	private String patnerName;
+	
+	@Column(name = "t_type")
+	private String type;
 
 	@Column(name = "t_url")
 	private String url;

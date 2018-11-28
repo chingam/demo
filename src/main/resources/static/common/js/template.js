@@ -153,13 +153,13 @@ d4.eo.employee.load = function(url) {
 				showScreenMessage("alert-danger", obj.message, "");
 			}
 			
+			$('#tbl tbody tr').bind('click', d4.eo.employee.findById);
 			dataTB = $('#tbl').DataTable(
 					{
 						"bFilter" : false,
 						"bLengthChange": false,
 						"bSort" : false
 					});
-			$('#tbl').bind('click', 'tbody tr', d4.eo.employee.findById);
 			$("#loadingmask2").hide();
 		});
 	}

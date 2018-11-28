@@ -86,6 +86,16 @@ public class PatientRegistrationController implements AbstractController{
 	
 	@RequestMapping(value = "/find/{code}", method = RequestMethod.GET)
 	public String findByCode(@PathVariable String code, final ModelMap model) {
+		if ("all".equals(code)) {
+			List<T03001> list = new ArrayList<>();
+			repository.findAll().forEach(a -> {
+				if (a.getArchive() == 0 ) {
+					list.add(a);
+				}
+			});
+			model.addAttribute("zones", list);
+			return "patientregistration/table";
+		}
 		model.addAttribute("zones", repository.findByFirstNameNativeContaining(code).stream().filter(a -> a.getArchive() == 0).collect(Collectors.toList()));
 		return "patientregistration/table";
 	}

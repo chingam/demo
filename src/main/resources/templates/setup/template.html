@@ -278,7 +278,7 @@ span.gray {
 		</div>
 	</div>
 		<div class="left-col">
-			<img th:src="@{/images/pageleftpanelbg.png}" class="left-panel"/>
+			<img th:src="@{/images/pageleftpanelbg.png}" class="left-panel left-panel-form"/>
 			<div class="action-panel" style="margin:-54px auto;">
 				<button th:unless="${#lists.isEmpty(events)}"  th:each="li : ${events}" th:id="${#bools.isTrue(li.custEvent) ? 'cust' + li.buttonName.id : li.buttonName.id}" th:if="${li.hasAccess}" th:class="${li.buttonName.cssClass}"></button>
 				<button style="display: none" id="btnExecuteQuery" title="Execute Query" class="Button Execute"></button>

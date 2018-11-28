@@ -260,15 +260,8 @@ label {
 	border-color: #f1cccc!important;
 }
 
-@media screen and (min-width: 401px){
-	
-}
 
-@media (min-width: 768px)  {
 
-     /* .container{width:100%} *{color:pink  } -Desktop */
-
-    }
     @media (min-width: 768px) and (orientation:portrait)  {
 
        #logo{
@@ -300,14 +293,66 @@ label {
 	}
 
     }
-    @media (min-width: 1024px)  {
-	}
-    @media (min-width: 1200px)  {
-		/* .left-panel {
-				min-height: 95.5vh;
+    @media (min-width: 268px) and (orientation:portrait)  {
+		#title{
+			display: none !important;
 		}
-		.form-panel{
-			min-height: 86.5vh !important;
-		} */
-
-    }
+		.header-white1 {
+			display: none !important;
+		}
+		.header-white {
+			display: none !important;
+		}
+		.menulogo {
+			display: none !important;
+		}
+		#logo {
+			display: none !important;
+		}
+		.user {
+			display: none !important;
+		}
+		.userbox {
+			display: none !important;
+		}
+		#userName {
+			display: none !important;
+		}
+		.date-panel {
+			display: none !important;
+		}
+		.form-name {
+			display: none !important;
+		}
+		.left-panel {
+			width: 57px !important;
+		}
+		.Button {
+			width: 0px !important;
+			padding: 0 0 0 40px !important;
+			text-indent: -9999em !important;
+			text-transform: uppercase !important;
+		}
+		.action-panel {
+			margin-left: 3px !important;
+			    margin-top: -56px !important;
+		}
+		#container {
+			position: absolute;
+			top: 42px;
+			left: 53px;
+		}
+		.left-panel-form{
+			width: 90px !important;
+		}
+		.username{
+			position: absolute !important;
+			top: 7px !important;
+			margin-left: 32px !important;
+			color: #f9f7f7 !important;
+		}
+		#container1 {
+			position: absolute;
+			top: 42px;
+		}
+	}

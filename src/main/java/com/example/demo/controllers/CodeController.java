@@ -78,6 +78,17 @@ public class CodeController implements AbstractController{
 	
 	@GetMapping(path = "/find/{code}")
 	public String findByCode(@PathVariable String code, final ModelMap model) {
+		if ("all".equals(code)) {
+			List<Code> list = new ArrayList<>();
+			repository.findAll().forEach(a -> {
+				if (a.getArchive() == 0 ) {
+					list.add(a);
+				}
+			});
+			model.addAttribute("codes", list);
+			return "code/table";
+			
+		}
 		model.addAttribute("codes", repository.findByCodeContaining(code).stream().filter(a -> a.getArchive() == 0).collect(Collectors.toList()));
 		return "code/table";
 	}

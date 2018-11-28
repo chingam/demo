@@ -24,14 +24,17 @@ public class CommandLineAppStartupRunner implements CommandLineRunner{
 		patner.setPatnerName("SpiritEHR Query (Tiani)");
 		patner.setAssigningAuthority("1.3.6.1.4.1.21367.2005.13.20.1000");
 		patner.setUrl("217.175.200.182:8081/SpiritXDSRegistry/Reg1");
+		patner.setType("query");
 		T130961 patner2 = new T130961();
 		patner2.setPatnerName("My server");
 		patner2.setAssigningAuthority("1.3.6.1.4.1.21367.2005.13.20.1000");
 		patner2.setUrl("localhost:8080/xdstools/sim/default__reg/reg/sq");
+		patner2.setType("query");
 		T130961 patner3 = new T130961();
 		patner3.setPatnerName("Ehealthsuisse Query (ihe-europe)");
 		patner3.setAssigningAuthority("1.3.6.1.4.1.21367.2005.13.20.1000");
 		patner3.setUrl("ehealthsuisse.ihe-europe.net:8481/xdstools4/sim/default__rep_test_support/reg/sq");
+		patner3.setType("query");
 		
 		T130961 patner4 = new T130961();
 		patner4.setPatnerName("SpiritEHR Repository (Tiani)");
@@ -39,6 +42,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner{
 		patner4.setUrl("217.175.200.182:8081/SpiritXDSRepository/Rep1");
 		patner4.setHomeCommunityId("1.3.6.1.4.1.12559.11.1.2.2.1.1.3.123788");
 		patner4.setRepositoryUniqueId("1.3.6.1.4.1.21367.2011.2.3.248");
+		patner4.setType("repository");
 		
 		T130961 patner5 = new T130961();
 		patner5.setPatnerName("Ehealthsuisse Repository (ihe-europe)");
@@ -46,6 +50,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner{
 		patner5.setUrl("ehealthsuisse.ihe-europe.net:8481/xdstools4/sim/default__rr/rep/ret");
 		patner5.setHomeCommunityId("1.3.6.1.4.1.12559.11.1.2.2.1.1.3.123788");
 		patner5.setRepositoryUniqueId("1.3.6.1.4.1.21367.13.71.101.1");
+		patner5.setType("repository");
 		
 		T130961 patner6 = new T130961();//1.2.42.20180913113513.116
 		patner6.setPatnerName("RDP Repository");
@@ -53,6 +58,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner{
 		patner6.setUrl("rdp.wbc.co.in:7474/xdstools/sim/meenal__meenal_drr/rep/ret");
 		patner6.setHomeCommunityId("1.3.6.1.4.1.21367.2012.2.1.1");
 		patner6.setRepositoryUniqueId("1.1.4567332.1.4");
+		patner6.setType("repository");
 		
 		T130961 patner7 = new T130961();
 		patner7.setPatnerName("RDP Query");
@@ -60,6 +66,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner{
 		patner7.setUrl("rdp.wbc.co.in:7474/xdstools/sim/meenal__meenal_drr/reg/sq");
 		patner7.setHomeCommunityId("1.3.6.1.4.1.21367.2012.2.1.1");
 		patner7.setRepositoryUniqueId("1.1.4567332.1.4");
+		patner7.setType("query");
 		
 		T130961 patner8 = new T130961();
 		patner8.setPatnerName("RDP Query (IHE-TEST)");
@@ -67,6 +74,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner{
 		patner8.setUrl("rdp.wbc.co.in:7474/xdstools/sim/ihetest__ihe_drg/reg/sq");
 		patner8.setHomeCommunityId("1.3.6.1.4.1.21367.2012.2.1.1");
 		patner8.setRepositoryUniqueId("1.1.4567332.1.4");
+		patner8.setType("query");
 		
 		T130961 patner9 = new T130961();
 		patner9.setPatnerName("RDP Repository (IHE-TEST)");
@@ -74,6 +82,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner{
 		patner9.setUrl("rdp.wbc.co.in:7474/xdstools/sim/ihetest__ihe_drg/rep/ret");
 		patner9.setHomeCommunityId("1.3.6.1.4.1.21367.2012.2.1.1");
 		patner9.setRepositoryUniqueId("1.1.4567332.1.4");
+		patner9.setType("repository");
 		
 		repository.save(patner);
 		repository.save(patner2);

@@ -77,6 +77,16 @@ public class PatnerConfigurationController implements AbstractController{
 	
 	@RequestMapping(value = "/find/{code}", method = RequestMethod.GET)
 	public String findByCode(@PathVariable String code, final ModelMap model) {
+		if ("all".equals(code)) {
+			List<T130961> list = new ArrayList<>();
+			repository.findAll().forEach(a -> {
+				if (a.getArchive() == 0 ) {
+					list.add(a);
+				}
+			});
+			model.addAttribute("jobs", list);
+			return "patnerconfig/table";
+		}
 		model.addAttribute("jobs", repository.findByPatnerNameContaining(code).stream().filter(a -> a.getArchive() == 0).collect(Collectors.toList()));
 		return "patnerconfig/table";
 	}

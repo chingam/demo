@@ -87,6 +87,16 @@ public class PatientDocumentController implements AbstractController{
 	
 	@GetMapping(path = "/find/{code}")
 	public String findByCode(@PathVariable String code, final ModelMap model) {
+		if ("all".equals(code)) {
+			List<PatientDocument> list = new ArrayList<>();
+			repository.findAll().forEach(a -> {
+				if (a.getArchive() == 0 ) {
+					list.add(a);
+				}
+			});
+			model.addAttribute("zones", list);
+			return "documententry/table";
+		}
 		model.addAttribute("zones", repository.findByPatientNoContaining(code).stream().filter(a -> a.getArchive() == 0).collect(Collectors.toList()));
 		return "documententry/table";
 	}

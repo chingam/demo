@@ -41,7 +41,7 @@ public class RetrieveDocumentSetController {
 	public List<T130961> getConfiguration() {
 		List<T130961> list = new ArrayList<>();
 		repository.findAll().forEach(a -> {
-			if (a.getArchive() == 0 ) {
+			if (a.getArchive() == 0 && "repository".equals(a.getType())) {
 				list.add(a);
 			}
 		});

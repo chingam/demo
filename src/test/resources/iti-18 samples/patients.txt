@@ -123,6 +123,10 @@ FindDoc and FindSubmmitionSet
 MMER^^^&amp;1.3.6.1.4.1.21367.13.20.3000&amp;ISO
 
 
+http://217.175.200.182:8081/SpiritXDSRegistry/Reg1
+9fe89bd266ef460^^^&amp;amp;1.3.6.1.4.1.21367.2005.13.20.1000&amp;amp;ISO
+
+
 
 
 {

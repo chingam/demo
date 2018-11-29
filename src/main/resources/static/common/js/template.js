@@ -166,7 +166,7 @@ d4.eo.employee.load = function(url) {
 }
 
 d4.eo.employee.back = function() {
-	window.location.href = "/menu?linkid=" + $("#separateMenu").val();
+	window.location.href = "/menu?linkid=" + $(this).data("menu");
 }
 
 

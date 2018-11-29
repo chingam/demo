@@ -285,8 +285,7 @@ span.gray {
 				<button style="display: none" id="btnCancelQuery" title="Cancel Query" class="Button Cancel"></button>
 			</div>
 			<div class="loggout">
-				<input id="separateMenu" type="hidden" value="4"/>
-				<button id="btnBack" title="Back" Class="Button Back"></button>
+				<button data-menu="4"  id="btnBack" title="Back" Class="Button Back"></button>
 				<form th:action="@{/logout}" method="post">
 					<input type="hidden" value="Sign Out"/>
 					<button id="btnLogout" type="submit" title="Logout" Class="Button Logout"></button>

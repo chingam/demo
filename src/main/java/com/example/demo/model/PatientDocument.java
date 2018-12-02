@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -29,14 +31,16 @@ public class PatientDocument extends CommonEntity implements Serializable{
 	private static final long serialVersionUID = -5694160439761127637L;
 
 	@Id
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
+//	@GeneratedValue(generator = "system-uuid")
+//	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
 	@Column(name = "t_patient_doc_id")
 	private String patientDocId;
 	
 	@Column(name = "t_patientno")
 	private String patientNo;
 	
+	@Column(name = "t_fileName")
+	private String fileName;
 	
 	@Column(name = "t_classcode")
 	private String classCode; // from Code
@@ -69,7 +73,8 @@ public class PatientDocument extends CommonEntity implements Serializable{
 	private String logicalUuid;
 	
 	@Column(name = "t_mimetype")
-	private String mimeType;
+	@Enumerated(EnumType.STRING)
+	private MimiTypes mimeType;
 	
 	@Column(name = "t_tile")
 	private String docTitle;
@@ -80,4 +85,24 @@ public class PatientDocument extends CommonEntity implements Serializable{
 	@Column(name = "t_servicestoptime")
 	private Date serviceStopTime;
 	
+	public enum MimiTypes{
+		XML("application/xml"),
+		ZIP("application/zip"),
+		PDF("application/pdf"),
+		HTML("text/html"),
+		XML_TEXT("text/xml"),
+		CSV("text/csv"),
+		TEXT("text/plain"),
+		PNG("image/png"),
+		JPEG("image/jpeg"),
+		GIF("image/gif");
+		
+		private String description;
+		private MimiTypes(String description) {
+			this.description = description;
+		}
+		public String getDescription() {
+			return description;
+		}
+	}
 }

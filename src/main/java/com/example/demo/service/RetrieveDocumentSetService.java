@@ -79,15 +79,7 @@ public class RetrieveDocumentSetService {
 				String contentType = dataHandler.getDataSource().getContentType();
 				log.warn("content Type >>" + contentType);
 				try {
-					String extension = ".pdf";
-					if ("text/xml".equals(contentType)) {
-						extension = ".xml";
-					} else if("image/jpeg".equals(contentType)) {
-						extension = ".jpeg";
-					} else if ("text/plain".equals(contentType)) {
-						extension = ".text";
-					}
-					String path = appConfig.getPath() + File.separator + a.getDocumentUniqueId() + extension;
+					String path = appConfig.getPath() + File.separator + a.getDocumentUniqueId() + "." + StringUtils.substringAfterLast(contentType, "/");
 					InputStream in = dataHandler.getDataSource().getInputStream();
 					OutputStream os = new FileOutputStream(new File(path));
 					IOUtils.copy(in, os);

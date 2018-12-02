@@ -18,6 +18,8 @@ d4.eo.employee.init = function() {
 	$("#btnEnterQuery").on("click", d4.eo.employee.query);
 	$("#btnExecuteQuery").on("click", d4.eo.employee.exequery);
 	$("#btnCancelQuery").on("click", d4.eo.employee.cancelquery);
+	d4.eo.employee.search();
+//	$.each($('#mainform .typeahead'), d4.eo.employee.fillDescription);
 }
 
 d4.eo.employee.findById = function() {
@@ -26,6 +28,7 @@ d4.eo.employee.findById = function() {
 	var url = fm.attr("action") + "/find?code=" + $(this).find("td").eq(0).data("code");
 	$('#formdiv').load(url, function(responseTxt, statusTxt, xhr) {
 		$("#loadingmask2").hide();
+		d4.eo.employee.fillDescription();
 	});
 }
 
@@ -170,42 +173,62 @@ d4.eo.employee.back = function() {
 }
 
 
-function showScreenMessage(alertClass, message, triggerelement) {
-    $('.headeralert').remove();
-    var div = "<div class='headeralert alert "+alertClass+" role='alert' style='padding:10px;font-size: 15px;border: 1px solid;width: 40%; position:fixed;z-index: 1000;float: right;right: 0px;'>"
-    + message
-    + "<button type='button' class='close preventmessages' data-dismiss='alert' aria-label='Close'>"
-    + "<span aria-hidden='true'>&times;</span>"
-    + "</button>"
-    + "</div>";
-    
-    $("div#banner").append(div);
-//    headeralertfix();
-    $('.headeralert').find('.preventmessages').on('click', function () {
-        if (triggerelement) {
-            triggerelement.data('preventalert', 'Y');
-        }
-    });
-    $('.headeralert').show(500);
-    alertremoval($('.headeralert'));
-    // Set timer to remove banner
-    alertMessageCloseTimeout($('.headeralert'));
-}
+d4.eo.employee.fillDescription = function() {
+	var ob = $(".multicolumn-search");
+	var obval = ob.val();
+	var desc = $(".multicolumn-desc").val();
+	var val = $(".multicolumn-val").val();
+	//, obval = ob.val(), val = ob.siblings(".multicolumn-val").val(), desc = ob.siblings(".multicolumn-desc").val(); multicolumn-val
+	if (ob.length > 0) {
+		console.log(ob.data('search-url'));
+		
+		$.ajax({
+			url : ob.data('search-url') + val + "?exactMatch=true",
+			type : "GET",
+			delay : 500,
+			success : function(responseData) {
+				console.log(responseData);
+				ob.val(responseData.firstNameNative);
+			},
+			error: function (errormessage) {
+				console.log(errormessage);
+			}
+		});
+		
+		
+		
+//		var dependentfields = ob.attr("data-search-dependentfields");
+//		var urival = val;
+//		for (var item in m4uiEscapingArr) {
+//			urival = String(urival).replace(new RegExp(item, 'g'), m4uiEscapingArr[item]);
+//		}
+		var others = "?exactMatch=true";
+//		if (dependentfields != undefined) {
+//			var paramArr = dependentfields.split(",");
+//			var paramname = paramArr[0]; 
+//			var paramval = $("#"+ paramArr[1]).val();
+//			others += "&" + paramname +"="+paramval;
+//		}
+//		$.get(ob.data('search-url') + urival + others, function(rs) {
+//			$(rs).each(function(i, dt){
+//				if (dt.patientNo === val) {
+//					val = dt.patientNo;
+//					return false;
+//				}
+//			});
+//			ob.val(val);
+//			ob.siblings(".multicolumn-desc").val(val);
+//		});
+			ob.siblings(".multicolumn-search").val("Test");
+			
+	}
+};
 
-function alertMessageCloseTimeout(element) {
-    window.setTimeout(function () {
-        element.remove();
-    }, 20000);
-}
 
-function alertremoval(target) {
-    $('.alertremoval', target).on('click', function() {
-        $(this).parents('div.alert').remove();
-    });
-}
 
 
 d4.eo.employee.search = function() {
+
 	var searchField = $( ".multicolumn-search" );
 	searchField.autocomplete({
 		source: function(responseData1, response) {
@@ -241,10 +264,11 @@ d4.eo.employee.search = function() {
 						resultsList.push(record);
 					}
 					
+					response(resultsList);
+					
 					setTimeout(function() {
-						response(resultsList);
 						$(".multicolumn-search").parents('.input-group').find('span.input-group-addon i.fa').removeClass('fa-repeat autocompletesearching').addClass('fa-search');
-					}, 1000);
+					}, 100);
 				}
 			});
 		},
@@ -288,10 +312,10 @@ d4.eo.employee.search = function() {
 		},
 		select: function(event, ui){
 			setTimeout(function() {
-				$( ".multicolumn-search" ).val(ui.item.key);
-				$( ".multicolumn-val" ).val(ui.item.data[0]);
-				$( ".multicolumn-desc" ).val(ui.item.key);
-			}, 10);
+//				$( ".multicolumn-search" ).val(ui.item.data[0]);
+				$( ".multicolumn-val" ).val(ui.item.key);
+				$( ".multicolumn-desc" ).val(ui.item.data[0]);
+			}, 1000);
 			console.log(ui.item.value[0]);
 },
 		search: function(event, ui) {
@@ -300,4 +324,42 @@ d4.eo.employee.search = function() {
 		});
 
 
+
 }
+
+
+function showScreenMessage(alertClass, message, triggerelement) {
+    $('.headeralert').remove();
+    var div = "<div class='headeralert alert "+alertClass+" role='alert' style='padding:10px;font-size: 15px;border: 1px solid;width: 40%; position:fixed;z-index: 1000;float: right;right: 0px;'>"
+    + message
+    + "<button type='button' class='close preventmessages' data-dismiss='alert' aria-label='Close'>"
+    + "<span aria-hidden='true'>&times;</span>"
+    + "</button>"
+    + "</div>";
+    
+    $("div#banner").append(div);
+//    headeralertfix();
+    $('.headeralert').find('.preventmessages').on('click', function () {
+        if (triggerelement) {
+            triggerelement.data('preventalert', 'Y');
+        }
+    });
+    $('.headeralert').show(500);
+    alertremoval($('.headeralert'));
+    // Set timer to remove banner
+    alertMessageCloseTimeout($('.headeralert'));
+}
+
+function alertMessageCloseTimeout(element) {
+    window.setTimeout(function () {
+        element.remove();
+    }, 20000);
+}
+
+function alertremoval(target) {
+    $('.alertremoval', target).on('click', function() {
+        $(this).parents('div.alert').remove();
+    });
+}
+
+

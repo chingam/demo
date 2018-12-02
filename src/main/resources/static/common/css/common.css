@@ -175,7 +175,7 @@ a:focus, a:hover {
 	a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover
 	{
 	border: 1px solid #003eff;
-	background: #3a95d6 !important;
+	background: #e17d7d !important;
 	font-weight: normal;
 	color: #ffffff;
 }

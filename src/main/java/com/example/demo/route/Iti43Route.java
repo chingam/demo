@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.activation.DataHandler;
@@ -36,7 +37,9 @@ import org.springframework.stereotype.Component;
 
 import com.example.demo.ApplicationConfig;
 import com.example.demo.DateUtil;
+import com.example.demo.model.PatientDocument;
 import com.example.demo.model.ServerLog;
+import com.example.demo.repo.PatientDocumentRepository;
 import com.example.demo.repo.ServerLogRepository;
 import com.sun.istack.ByteArrayDataSource;
 
@@ -48,6 +51,7 @@ public class Iti43Route extends FatJarRouter {
 
 	@Autowired private ApplicationConfig appConfig;
 	@Autowired private ServerLogRepository serverRepo;
+	@Autowired private PatientDocumentRepository repository;
 	
 	@Override
 	public void configure() throws Exception {
@@ -84,15 +88,20 @@ public class Iti43Route extends FatJarRouter {
 				List<RetrievedDocument> retrievedDocuments = retrive.getDocuments().stream().map(a -> {
 					RetrievedDocument retrievedDocument = new RetrievedDocument();
 					retrievedDocument.setRequestData(a);
-					Path path = Paths.get(appConfig.getPath() + File.separator + a.getDocumentUniqueId() + ".pdf");
-					if (path.toFile().exists()) {
-						try {
-							DataSource dataSrc = new ByteArrayDataSource(Files.readAllBytes(path), "application/pdf");
-							DataHandler dataHandler1 = new DataHandler(dataSrc);
-							retrievedDocument.setDataHandler(dataHandler1);
-							retrievedDocument.setMimeType("application/pdf");
-						} catch (IOException e) {
-							log.error("Could not read the file {}", e);
+					Optional<PatientDocument> patientDoc = repository.findAllByEntryUuid(a.getDocumentUniqueId()).stream().findFirst();
+					PatientDocument document = null;
+					if (patientDoc.isPresent()) {
+						document = patientDoc.get();
+						Path path = Paths.get(appConfig.getPath() + File.separator + document.getFileName());
+						if (path.toFile().exists()) {
+							try {
+								DataSource dataSrc = new ByteArrayDataSource(Files.readAllBytes(path), document.getMimeType().getDescription());
+								DataHandler dataHandler1 = new DataHandler(dataSrc);
+								retrievedDocument.setDataHandler(dataHandler1);
+								retrievedDocument.setMimeType(document.getMimeType().getDescription());
+							} catch (IOException e) {
+								log.error("Could not read the file {}", e);
+							}
 						}
 					}
 					

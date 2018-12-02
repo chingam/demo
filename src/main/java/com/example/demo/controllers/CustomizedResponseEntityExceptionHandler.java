@@ -36,7 +36,7 @@ public class CustomizedResponseEntityExceptionHandler {
 	public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
 		Map<String, Object> response = new HashMap<>();
 		response.put("status", "error");
-		response.put("message", "error : " + ex.getMessage());
+		response.put("message", ex.getMessage());
 		log.error("Exception is ", ex);
 		return ResponseEntity.ok(response);
 	}

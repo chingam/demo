@@ -1,14 +1,18 @@
 package com.example.demo.controllers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,18 +25,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.DateUtil;
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.model.Button;
 import com.example.demo.model.Code;
 import com.example.demo.model.PatientDocument;
+import com.example.demo.model.T03001;
 import com.example.demo.repo.CodeRepository;
 import com.example.demo.repo.PatientDocumentRepository;
+import com.example.demo.repo.T03001Repository;
 
 @Controller
 @RequestMapping("/transaction/documententry")
 public class PatientDocumentController implements AbstractController{
 
 	@Autowired private PatientDocumentRepository repository;
+	@Autowired private T03001Repository patientRepository;
 	@Autowired private CodeRepository codeRepository;
 	
 	@ModelAttribute("events")
@@ -66,6 +74,23 @@ public class PatientDocumentController implements AbstractController{
 	public ResponseEntity<Object> save(@Valid PatientDocument patientDocument, final ModelMap model){
 		Map<String, Object> response = new HashMap<>();
 		
+		if(patientDocument != null && StringUtils.isEmpty(patientDocument.getFileName())) {
+			throw new BadRequestException("Upload document is required");
+		}
+		if (patientDocument != null && StringUtils.isEmpty(patientDocument.getPatientDocId())) {
+			String uuid = "urn:uuid:" + UUID.randomUUID().toString();
+			patientDocument.setPatientDocId(uuid);
+		}
+		
+		if (patientDocument != null && StringUtils.isEmpty(patientDocument.getEntryUuid())) {
+			String d = DateUtil.format(new Date(), DateUtil.HL7v2_DATE_FORMAT);
+			StringBuilder builder = new StringBuilder();
+			char[] uniqueIds = d.toCharArray();
+			for (int i = 0; i < uniqueIds.length; i++) {
+				builder.append(uniqueIds[i]).append(".");
+			}
+			patientDocument.setEntryUuid(builder.toString().substring(0, builder.length() - 1));
+		}
 		PatientDocument zone = repository.save(patientDocument);
 		if (zone == null) throw new BadRequestException("Document could not save");
 		response.put("status", "success");
@@ -97,7 +122,10 @@ public class PatientDocumentController implements AbstractController{
 			model.addAttribute("zones", list);
 			return "documententry/table";
 		}
-		model.addAttribute("zones", repository.findByPatientNoContaining(code).stream().filter(a -> a.getArchive() == 0).collect(Collectors.toList()));
+		code = code.split(",")[0];
+		T03001 t03001 = patientRepository.findByFirstNameNative(code);
+		List<PatientDocument> patientsDoc = repository.findByPatientNoContaining(t03001.getPatientNo()).stream().filter(a -> a.getArchive() == 0).collect(Collectors.toList());
+		model.addAttribute("zones", patientsDoc);
 		return "documententry/table";
 	}
 	

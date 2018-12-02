@@ -10,5 +10,6 @@ import com.example.demo.model.T03001;
 @Repository
 public interface T03001Repository extends CrudRepository<T03001, String>{
 	T03001 findByFirstNameNativeAndFamilyNameNative(String firstName, String lastName);
+	T03001 findByFirstNameNative(String firstName);
 	List<T03001> findByFirstNameNativeContaining(String firstName);
 }

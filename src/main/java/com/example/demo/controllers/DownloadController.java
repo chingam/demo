@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -37,23 +38,12 @@ public class DownloadController {
 	public ResponseEntity<byte[]> downloadDocuemnt(@PathVariable("id") String docId,
 			@RequestParam("mimetype") String mimetype, HttpServletRequest req, HttpServletResponse res,
 			final ModelMap model, Locale locale) {
-		String fileType = "pdf";
-		if ("image/jpeg".equals(mimetype)) {
-			fileType = "jpeg";
-		} else if ("application/pdf".equals(mimetype)) {
-			fileType = "pdf";
-		} else if ("text/plain".equals(mimetype)) {
-			fileType = "text";
-		} else if ("text/xml".equals(mimetype)) {
-			fileType = "xml";
-		} else if ("application/octet-stream".equals(mimetype)) {
-			fileType = "file";
-		}
 		
-		String fileName = docId + "." + fileType;
+		
+		String fileName = docId + "." + StringUtils.substringAfterLast(mimetype, "/");
 		String url = appConfig.getPath() + File.separator + fileName;
 		File file = new File(url);
-		if (file == null || !file.exists()) {
+		if (!file.exists()) {
 			log.warn("File: " + url + " not found");
 			String errorMesg = "File not found";
 			final HttpHeaders headers = new HttpHeaders();
@@ -62,7 +52,7 @@ public class DownloadController {
 		}
 
 		final HttpHeaders headers = new HttpHeaders();
-		if ("pdf".equals(fileType)) {
+		if ("pdf".equals(fileName)) {
 			headers.setContentType(new MediaType("application", "pdf"));
 			headers.add("X-Content-Type-Options", "nosniff");
 		}

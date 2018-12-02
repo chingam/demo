@@ -98,7 +98,8 @@ public class CreateQueryResponseService {
 	}
 
 	private void getPatientDocuments(List<PatientDocument> docments, String a) {
-		docments.addAll(patientDocumentRepository.findAllByEntryUuid(a));
+		List<PatientDocument> docs = patientDocumentRepository.findAllByEntryUuid(a).stream().filter(doc -> doc.getArchive() == 0).collect(Collectors.toList());
+		docments.addAll(docs);
 	}
 	
 	public QueryResponse createResponse(FindDocumentsQuery findDocumentsQuery) {
@@ -300,7 +301,7 @@ public class CreateQueryResponseService {
 	}
 
 	private List<Folder> createFolders(String patientId) {
-		List<PatientDocument> patientDocs = patientDocumentRepository.findAllByPatientNo(patientId);
+		List<PatientDocument> patientDocs = patientDocumentRepository.findAllByPatientNo(patientId).stream().filter(doc -> doc.getArchive() == 0).collect(Collectors.toList());
 		if (patientDocs == null) {
 			return Collections.emptyList();
 		}
@@ -333,17 +334,13 @@ public class CreateQueryResponseService {
 			Collections.emptyList();
 		}
 		
-		List<PatientDocument> patientList = patientDocumentRepository.findAllByPatientNo(patientId);
+		List<PatientDocument> patientList = patientDocumentRepository.findAllByPatientNo(patientId).stream().filter(doc -> doc.getArchive() == 0).collect(Collectors.toList());
 		return patientList.stream().map(this::getDocumentEntry).collect(Collectors.toList());
 	}
 
 	private Long generateSize(String patientId, String mimeType) {
-		String fileExtension = "pdf";
-		if ("text/xml".equals(mimeType) || "application/xml".equals(mimeType)) {
-			fileExtension = "xml";
-		} else if ("application/zip".equals(mimeType)) {
-			fileExtension = "zip";
-		}
+		String fileExtension = StringUtils.substringAfterLast(mimeType, "/");
+		
 		File file = new File(appConfig.getPath() + File.separator + patientId + "." + fileExtension);
 		if (file.exists()) {
 			return file.length();
@@ -479,7 +476,7 @@ public class CreateQueryResponseService {
 		Code formatCode = createCode(formObj.getFormatCode());
 		doc.setFormatCode(formatCode);
 		
-		doc.setHash(genarateHashValue(formObj.getPatientNo(), formObj.getMimeType()));
+		doc.setHash(genarateHashValue(formObj.getPatientNo(), formObj.getMimeType().getDescription()));
 		
 		/*
 		 * This code represents the type of organizational setting of the clinical encounter during which the documented act occurred
@@ -506,7 +503,7 @@ public class CreateQueryResponseService {
 		legalAuthenticator.setId(identifiable);
 		doc.setLegalAuthenticator(legalAuthenticator);
 		doc.setLogicalUuid(formObj.getLogicalUuid());
-		doc.setMimeType(formObj.getMimeType());
+		doc.setMimeType(formObj.getMimeType().getDescription());
 		
 		// The patientId represents the subject of care of the 
 		Identifiable patientObj = new Identifiable(StringUtils.isNotBlank(formObj.getPatientNo()) ? formObj.getPatientNo() : "", new AssigningAuthority(appConfig.getAssigningauthority()));
@@ -530,7 +527,7 @@ public class CreateQueryResponseService {
 		}
 		
 		if (StringUtils.isNotEmpty(formObj.getPatientNo())) {
-			doc.setSize(generateSize(formObj.getPatientNo(), formObj.getMimeType()));
+			doc.setSize(generateSize(formObj.getPatientNo(), formObj.getMimeType().getDescription()));
 		}
 
 		/*
@@ -637,7 +634,7 @@ public class CreateQueryResponseService {
 		
 		QueryResponse response = new QueryResponse();
 		String patientId = findFolder.getPatientId().getId();
-		List<PatientDocument> documents = patientDocumentRepository.findAllByPatientNo(patientId);
+		List<PatientDocument> documents = patientDocumentRepository.findAllByPatientNo(patientId).stream().filter(doc -> doc.getArchive() == 0).collect(Collectors.toList());
 		response.setReferences(documents.stream().map(this::getReferences).collect(Collectors.toList()));
 		response.setStatus(Status.SUCCESS);
 		return response;
@@ -656,8 +653,10 @@ public class CreateQueryResponseService {
 	}
 
 	private PatientDocument getObjectRef(String a) {
-		Optional<PatientDocument> patientOption = patientDocumentRepository.findById(a);
-		if (patientOption.isPresent()) return patientOption.get();
+		Optional<PatientDocument> patientOption = patientDocumentRepository.findById(a).filter(doc -> doc.getArchive() == 0);
+		if (patientOption.isPresent()) {
+			return patientOption.get();
+		}
 		return new PatientDocument();
 	}
 	
@@ -667,7 +666,7 @@ public class CreateQueryResponseService {
 		}
 		QueryResponse response = new QueryResponse();
 		String patientId = getAll.getPatientId().getId();
-		List<PatientDocument> documents = patientDocumentRepository.findAllByPatientNo(patientId);
+		List<PatientDocument> documents = patientDocumentRepository.findAllByPatientNo(patientId).stream().filter(doc -> doc.getArchive() == 0).collect(Collectors.toList());
 		List<ObjectReference> objectList = documents.stream().map(this::getReferences).collect(Collectors.toList());
 		List<SubmissionSetDocument> submission = submissionSetRepository.findAllByPatientNo(patientId);
 		objectList.addAll(submission.stream().map(this::getReferences).collect(Collectors.toList()));
@@ -705,7 +704,7 @@ public class CreateQueryResponseService {
 		QueryResponse response = new QueryResponse();
 		String patientId = findDocumentsQuery.getPatientId().getId();
 		List<PatientDocument> documents = patientDocumentRepository.findAllByPatientNo(patientId);
-		response.setReferences(documents.stream().map(this::getReferences).collect(Collectors.toList()));
+		response.setReferences(documents.stream().filter(doc -> doc.getArchive() == 0).map(this::getReferences).collect(Collectors.toList()));
 		response.setStatus(Status.SUCCESS);
 		return response;
 	}

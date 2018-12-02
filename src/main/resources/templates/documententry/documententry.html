@@ -2,12 +2,17 @@
 	<div id="formsection" class="col-md-12" style="padding-top: 8px;border: 1.5px solid #e17d7d; -ms-border-radius: 5px; border-radius: 5px;">
 		<div id="formdiv" th:fragment="fdiv">
 		<div class="col-md-6">
-			<div class="form-group" style="padding-botton: 1px">
+			<div class="form-group typeahead" style="padding-botton: 1px">
 				<label for="patientNo" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.patientcode}">Patient No :</label>
-				<div class="col-md-6" style="padding-left: 3px">
-					<input type="hidden" th:field="*{bean.patientDocId}"/>
-					<input type="text" th:field="*{bean.patientNo}" class="form-control" data-rule-required="true" th:placeholder="#{setup.documententry.label.patientcode}" />
+				<input type="hidden" th:field="*{bean.patientDocId}" />
+				<input type="hidden" th:field="*{bean.entryUuid}"/>
+				<div class=" col-md-5 input-group" style="padding-left: 2px;">
+					<input type="text" class="form-control multicolumn-search" id="patientNo" data-search-url="/search/patient/" th:attr="data-search-url=@{'/search/patient/'}" placeholder="Search"/>
+					<span class="input-group-addon"><i class="fa fa-search"></i></span>
 				</div>
+				<input class="multicolumn-val" type="hidden" th:field="*{bean.patientNo}" />
+				<input class="multicolumn-desc" type="hidden" value="" />
+				<input class="product-price" type="hidden" value="" />
 			</div>
 			<div class="form-group" style="padding-botton: 1px">
 				<label for="classCode" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.classcode}">Class code :</label>
@@ -23,12 +28,6 @@
 				<div style="padding-left: 3px" class="col-md-4 input-group date" data-provide="datepicker" data-date-today-highlight="true" data-date-format="dd-MM-yyyy">
 					<input type="text" th:field="*{bean.creationTime}" class="form-control" />
 					<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="entryUuid" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.entryuuid}">Document unique id :</label>
-				<div class="col-md-6" style="padding-left: 3px">
-					<input type="text" th:field="*{bean.entryUuid}" class="form-control" th:placeholder="#{setup.documententry.label.entryuuid}" />
 				</div>
 			</div>
 			<div class="form-group">
@@ -77,9 +76,10 @@
 			</div>
 			<div class="form-group">
 				<label for="mimeType" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.mimetype}">mimeType</label>
-				<div class="col-md-4" style="padding-left: 3px">
+				<div class="col-md-4" style="padding-left: 3px" th:with=MIMETYPES=${T(com.example.demo.model.PatientDocument.MimiTypes)}>
 					<select class="form-control" th:field="*{bean.mimeType}">
-						<option value="application/pdf">pdf</option>
+						<option  th:each="item : ${MIMETYPES.values()}" th:value="${item.name()}" mimeType th:text="${item.name()}"></option>
+						<option th:remove="all" th:value="${false}"></option>
 					</select>
 					
 				</div>
@@ -90,12 +90,7 @@
 					<input type="text" th:field="*{bean.uri}" class="form-control" th:placeholder="#{setup.documententry.label.uri}" />
 				</div>
 			</div>
-			<div class="form-group">
-				<label for="logicalUuid" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.logicaluuid}">logicalUuid :</label>
-				<div class="col-md-6" style="padding-left: 3px">
-					<input type="text" th:field="*{bean.logicalUuid}" class="form-control" th:placeholder="#{setup.documententry.label.logicaluuid}" />
-				</div>
-			</div>
+			
 			<div class="form-group">
 				<label for="serviceStartTime" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.servicestarttime}">serviceStartTime :</label>
 				<div style="padding-left: 3px" class="col-md-4 input-group date" data-provide="datepicker" data-date-today-highlight="true" data-date-format="dd-MM-yyyy">
@@ -110,8 +105,18 @@
 					<div class="input-group-addon"><span class="glyphicon glyphicon-th"></span></div>
 				</div>
 			</div>
+			<div class="form-group">
+				<label for="logicalUuid" class="control-label col-md-3" style="padding-right: 1px; padding-top: 2px" th:text="#{setup.documententry.label.uploaddocument}">Upload document:</label>
+				<div class="col-md-6" style="padding-left: 3px">
+					<div class="btn btn-primary">
+						<input type="file" class="form-control-file" id="uploadId">
+						<input type="hidden" th:field="*{bean.fileName}" id="fileNameId">
+						
+					</div>
+				</div>
+			</div>
 		</div>
-	
-		</div>
+		<script src="/page/fileupload/fileupload.js"></script>
+	</div>
 	</div>
 </section>

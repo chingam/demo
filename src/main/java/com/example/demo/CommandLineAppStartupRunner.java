@@ -84,6 +84,22 @@ public class CommandLineAppStartupRunner implements CommandLineRunner{
 		patner9.setRepositoryUniqueId("1.1.4567332.1.4");
 		patner9.setType("repository");
 		
+		T130961 patner10 = new T130961();
+		patner10.setPatnerName("Validation query");
+		patner10.setAssigningAuthority("1.3.6.1.4.1.21367.13.20.2000");
+		patner10.setUrl("validation.sequoiaproject.org:8481/xdstools4/sim/c33ea2__min/reg/sq");
+		patner10.setHomeCommunityId("1.3.6.1.4.1.21367.2012.2.1.1");
+		patner10.setRepositoryUniqueId("1.1.4567332.1.4");
+		patner10.setType("query");
+		
+		T130961 patner11 = new T130961();
+		patner11.setPatnerName("Validation repository");
+		patner11.setAssigningAuthority("1.3.6.1.4.1.21367.13.20.2000");
+		patner11.setUrl("validation.sequoiaproject.org:8481/xdstools4/sim/c33ea2__min/rep/ret");
+		patner11.setHomeCommunityId("1.3.6.1.4.1.21367.2012.2.1.1");
+		patner11.setRepositoryUniqueId("1.1.4567332.1.4");
+		patner11.setType("repository");
+		
 		repository.save(patner);
 		repository.save(patner2);
 		repository.save(patner3);
@@ -93,6 +109,8 @@ public class CommandLineAppStartupRunner implements CommandLineRunner{
 		repository.save(patner7);
 		repository.save(patner8);
 		repository.save(patner9);
+		repository.save(patner10);
+		repository.save(patner11);
 		
 		//###################################
 		T01199 menuLink = new T01199(1, "Search medical record", "Search medical record", "/query/registryquery", 2, "003", null);

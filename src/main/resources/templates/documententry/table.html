@@ -9,8 +9,7 @@
 				<th>Format</th>
 				<th>Health care facility</th>
 				<th>Practice setting</th>
-				<th>File type</th>
-				<th>File name</th>
+				<th>Tile</th>
 			</tr>
 		</thead>
 		<tbody id="dataTable">
@@ -22,8 +21,7 @@
 				<td th:text="${li.formatCode}"></td>
 				<td th:text="${li.healthcareFacilityTypeCode}"></td>
 				<td th:text="${li.practiceSettingCode}"></td>
-				<td th:text="${li.mimeType.name()}"></td>
-				<td th:text="${li.fileName}"></td>
+				<td th:text="${li.docTitle}"></td>
 			</tr>
 		</tbody>
 	</table>

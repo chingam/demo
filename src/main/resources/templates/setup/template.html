@@ -266,7 +266,7 @@ span.gray {
 			<span id="engdate"></span>
 			
 			&nbsp;&nbsp;&nbsp;&nbsp;&brvbar;&nbsp;&nbsp;&nbsp;
-			<span id="engdate">٢١/١١/٢٠١٨</span>
+			<span id="engdate-ar"></span>
 			
 			<img th:src="@{/images/topbarseparator.png}" class="separator"/>
 		</div>
@@ -325,6 +325,9 @@ span.gray {
 
 <script th:inline="javascript">
 	/*<![CDATA[*/
+		moment.locale("ar-sa");
+		$("#engdate-ar").text(moment().format('DD/MM/YYYY'));
+		moment.locale("en");
 		$("#engdate").text(moment().format('DD/MM/YYYY'));
 	
 	/*]]>*/

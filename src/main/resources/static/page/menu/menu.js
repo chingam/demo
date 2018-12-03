@@ -3,6 +3,9 @@ d4.eo = d4.eo || {};
 d4.eo.menu = d4.eo.menu || {};
 
 d4.eo.menu.menuInit = function() {
+	moment.locale("ar-sa");
+	$("#engdate-ar").text(moment().format('DD/MM/YYYY'));
+	moment.locale("en");
 	$("#engdate").text(moment().format('DD/MM/YYYY'));
 	$(".menuButton").on("click", d4.eo.menu.getLink);
 }

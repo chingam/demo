@@ -114,7 +114,7 @@ public class CommandLineAppStartupRunner implements CommandLineRunner{
 		
 		//###################################
 		T01199 menuLink = new T01199(1, "Search medical record", "Search medical record", "/query/registryquery", 2, "003", null);
-		T01199 menuLink2 = new T01199(2, "Download report", "Download report", "/query/retrieve", 3, "003", null);
+		T01199 menuLink2 = new T01199(2, "Download report", "Download report", "/report/retrieve", 3, "003", null);
 		T01199 menuLink3 = new T01199(3, "EHR vendor setup", "EHR vendor setup", "/setup/patnerconfig", 4, "003", null);
 		T01199 menuLink4 = new T01199(4, "Zone registration", "Zone registration", "/setup/zone", 4, "003", null);
 		T01199 menuLink5 = new T01199(5, "Role registration", "Role registration", "/setup/role", 4, "003", null);

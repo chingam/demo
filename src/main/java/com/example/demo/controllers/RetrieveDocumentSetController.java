@@ -21,7 +21,7 @@ import com.example.demo.repo.T130961Repository;
 import com.example.demo.service.RetrieveDocumentSetService;
 
 @Controller
-@RequestMapping("/query/retrieve")
+@RequestMapping("/report/retrieve")
 public class RetrieveDocumentSetController {
 
 	@Autowired
@@ -54,7 +54,7 @@ public class RetrieveDocumentSetController {
 		model.addAttribute("formName", "Download Report (RDS)");
 		model.addAttribute("controller", "retrieve");
 		model.addAttribute("bean", null);
-		return "query/template";
+		return "report/template";
 	}
 	
 	@GetMapping(path = "/all")
